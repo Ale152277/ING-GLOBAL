@@ -1,0 +1,233 @@
+/* ============================================
+   FOOTER - ESTILOS GENERALES
+   ============================================ */
+
+.footer {
+  background-color: #1a2332;
+  color: #ffffff;
+  font-family: inherit;
+}
+
+.footer-content {
+  background-color: #1a2332;
+  padding: 3rem 0 2rem;
+}
+
+.footer-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: #ffffff;
+}
+
+.footer-link {
+  color: #b8b8b8;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+}
+
+.footer-content ul li {
+  margin-bottom: 0.75rem;
+}
+
+/* ============================================
+   MEDIOS DE PAGO
+   ============================================ */
+
+.payment-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.25rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+}
+
+.payment-icon {
+  height: 40px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.payment-icon:hover {
+  transform: scale(1.1);
+}
+
+/* ============================================
+   REDES SOCIALES
+   ============================================ */
+
+.footer-social-section {
+  background-color: #ff0000;
+  padding: 2.5rem 0;
+}
+
+.social-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  color: #ffffff;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-link:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* ============================================
+   FOOTER BOTTOM - COPYRIGHT
+   ============================================ */
+
+.footer-bottom {
+  background-color: #0f1419;
+  padding: 1.5rem 0;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.copyright-text {
+  font-size: 0.9rem;
+  color: #888;
+  margin: 0;
+}
+
+/* ============================================
+   RESPONSIVE - TABLET (992px)
+   ============================================ */
+
+@media (max-width: 992px) {
+  .footer-content {
+    padding: 2rem 0 1.5rem;
+  }
+
+  .footer-title {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-link {
+    font-size: 0.9rem;
+  }
+
+  .footer-content ul li {
+    margin-bottom: 0.6rem;
+  }
+
+  .payment-icon {
+    height: 35px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL (<768px)
+   ============================================ */
+
+@media (max-width: 768px) {
+  .footer-content {
+    padding: 1.5rem 0;
+  }
+
+  .footer-title {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-link {
+    font-size: 0.85rem;
+  }
+
+  .footer-content ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .payment-methods {
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .payment-icon {
+    height: 30px;
+  }
+
+  .footer-social-section {
+    padding: 1.5rem 0;
+  }
+
+  .social-container {
+    gap: 1.5rem;
+  }
+
+  .social-link {
+    width: 45px;
+    height: 45px;
+    font-size: 1.5rem;
+  }
+
+  .copyright-text {
+    font-size: 0.8rem;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL PEQUEÑO (<576px)
+   ============================================ */
+
+@media (max-width: 576px) {
+  .footer-content {
+    padding: 1rem 0;
+  }
+
+  .footer-title {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  .footer-link {
+    font-size: 0.8rem;
+  }
+
+  .footer-content ul li {
+    margin-bottom: 0.4rem;
+  }
+
+  .payment-methods {
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .payment-icon {
+    height: 25px;
+  }
+
+  .social-link {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+  }
+
+  .copyright-text {
+    font-size: 0.75rem;
+  }
+}

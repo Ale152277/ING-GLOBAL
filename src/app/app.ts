@@ -5,6 +5,7 @@ import { Header } from './shared/components/header/header';
 import { Navbar } from './shared/components/navbar/navbar';
 import { Footer } from './shared/components/footer/footer';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, CommonModule, Header, Navbar, Footer],
