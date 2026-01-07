@@ -1,68 +1,50 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-hero-banner',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './hero-banner.html',
   styleUrl: './hero-banner.css'
 })
-export class HeroBanner implements OnInit, OnDestroy {
-  currentSlide= 0;
-  autoPlayInterval: any;
+export class HeroBanner {
+  currentSlide = 0;
 
   slides = [
-     {
+    {
       id: 1,
-      image: 'assets/images/banners/hero-1.jpg',
+      image: 'assets/Banners/banner-1.png',
       title: 'Instalaciones Profesionales',
       description: 'Servicios de ingeniería de calidad'
     },
     {
       id: 2,
-      image: 'assets/images/banners/hero-2.jpg',
+      image: 'assets/Banners/banner-2.png',
       title: 'Expertos en el Sector',
       description: 'Con experiencia y dedicación'
     },
     {
       id: 3,
-      image: 'assets/images/banners/hero-3.jpg',
+      image: 'assets/Banners/banner-3.png',
       title: 'Tecnología Avanzada',
       description: 'Soluciones innovadoras'
     },
     {
       id: 4,
-      image: 'assets/images/banners/hero-4.jpg',
+      image: 'assets/Banners/banner-1.png',
       title: 'Seguridad Garantizada',
       description: 'Cumplimiento de normativas'
     },
     {
       id: 5,
-      image: 'assets/images/banners/hero-5.jpg',
+      image: 'assets/Banners/banner-2.png',
       title: 'Trabajos de Precisión',
       description: 'Instalaciones confiables'
     }
-  ]
+  ];
 
-  ngOnInit(): void {
-    this.startAutoPlay();
-  }
-
-  ngOnDestroy(): void {
-      this.stopAutoPlay();
-  }
-
-  startAutoPlay(): void {
-    this.autoPlayInterval = setInterval(() => {
-      this.nextSlide();
-    }, 5000);
-  }
-
-  stopAutoPlay(): void {
-    if (this.autoPlayInterval) {
-      clearInterval(this.autoPlayInterval);
-    }
-  }
-    nextSlide(): void {
+  nextSlide(): void {
     this.currentSlide = (this.currentSlide + 1) % this.slides.length;
   }
 
@@ -72,23 +54,13 @@ export class HeroBanner implements OnInit, OnDestroy {
 
   goToSlide(index: number): void {
     this.currentSlide = index;
-    this.restartAutoPlay();
-  }
-
-  restartAutoPlay(): void {
-    this.stopAutoPlay();
-    this.startAutoPlay();
   }
 
   onMouseEnter(): void {
-    this.stopAutoPlay();
+    // Pausa autoplay (cuando lo agreguemos)
   }
 
   onMouseLeave(): void {
-    this.startAutoPlay();
+    // Reanuda autoplay (cuando lo agreguemos
   }
-
-    
-
-
 }
