@@ -34,13 +34,17 @@
   </button>
 
   <!-- Indicadores (Dots) -->
-  <div class="carousel-indicators">
+  <div class="d-flex justify-content-center gap-3" style="position: absolute; bottom: 30px; left: 0; right: 0; z-index: 10;">
     @for (slide of slides; let i = $index; track slide.id) {
       <button 
-        class="indicator" 
-        [class.active]="i === currentSlide"
+        class="rounded-circle border"
+        [class.bg-danger]="i === currentSlide"
+        [class.bg-transparent]="i !== currentSlide"
+        [style.width.px]="12"
+        [style.height.px]="12"
         (click)="goToSlide(i)"
         [attr.aria-label]="'Slide ' + (i + 1)"
+        style="cursor: pointer; border-color: rgba(255,255,255,0.5);"
       ></button>
     }
   </div>
