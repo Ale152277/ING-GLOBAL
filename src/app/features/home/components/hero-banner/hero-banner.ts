@@ -14,7 +14,7 @@ export class HeroBanner {
   slides = [
     {
       id: 1,
-      image: 'assets/Banners/banner-1.png',
+      image: 'assets/Banners/banner-4.png',
       title: 'Instalaciones Profesionales',
       description: 'Servicios de ingeniería de calidad'
     },
@@ -32,13 +32,13 @@ export class HeroBanner {
     },
     {
       id: 4,
-      image: 'assets/Banners/banner-1.png',
+      image: 'assets/Banners/banner-6.jpg',
       title: 'Seguridad Garantizada',
       description: 'Cumplimiento de normativas'
     },
     {
       id: 5,
-      image: 'assets/Banners/banner-2.png',
+      image: 'assets/Banners/banner-5.jpg',
       title: 'Trabajos de Precisión',
       description: 'Instalaciones confiables'
     }

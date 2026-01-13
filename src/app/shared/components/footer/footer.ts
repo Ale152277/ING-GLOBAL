@@ -30,11 +30,11 @@ export class Footer {
   ]
 
   redesSociales = [
-  { name: 'Facebook', icon: 'fab fa-facebook-f', href: '#' },
-  { name: 'Instagram', icon: 'fab fa-instagram', href: '#' },
-  { name: 'LinkedIn', icon: 'fab fa-linkedin-in', href: '#' },
-  { name: 'Twitter', icon: 'fab fa-x-twitter', href: '#' },
-  { name: 'YouTube', icon: 'fab fa-youtube', href: '#' }
+  { name: 'Facebook', icon: 'fab fa-facebook-f', href: 'https://www.facebook.com/ingenieriaglobalperu/' },
+  { name: 'Instagram', icon: 'fab fa-instagram', href: 'https://www.instagram.com/ingenieriaglobal_grupoig/?hl=es-la' },
+  { name: 'LinkedIn', icon: 'fab fa-linkedin-in', href: 'https://www.linkedin.com/company/ingenieria-global-grupo-ig?originalSubdomain=pe' },
+  { name: 'Twitter', icon: 'fab fa-x-twitter', href: '' },
+  { name: 'YouTube', icon: 'fab fa-youtube', href: '' }
   ];
 
 }

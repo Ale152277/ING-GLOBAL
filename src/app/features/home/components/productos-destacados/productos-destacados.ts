@@ -16,7 +16,7 @@ export class ProductosDestacados {
       id: 1,
       nombre: 'H8C PRO 3MP - CAM IP PT EXT',
       precio: 299.99,
-      imagen: 'assets/images/productos/h8c-pro.jpg',
+      imagen: 'assets/productos/CAM IP PT EXT 3MP.jpg',
       sku: 'CS-H8C-R200-1K3WKFL',
       categoria: 'Seguridad Electrónica',
       descuento: 15,
@@ -26,42 +26,34 @@ export class ProductosDestacados {
       id: 2,
       nombre: 'DISCO DURO PURPLE WD 4TB',
       precio: 149.99,
-      imagen: 'assets/images/productos/disco-duro.jpg',
+      imagen: 'assets/productos/DISCO DURO.jpg',
       sku: 'SE-HDD4TB',
       categoria: 'Almacenamiento',
       descuento: 10
     },
+    
     {
       id: 3,
-      nombre: 'H8C PRO 3MP - CAM IP INT',
-      precio: 249.99,
-      imagen: 'assets/images/productos/h8c-interior.jpg',
-      sku: 'CS-H8C-R100-IK3WKFL',
-      categoria: 'Seguridad Electrónica',
-      etiqueta: 'NUEVO'
-    },
-    {
-      id: 4,
       nombre: 'DVR TURBO HD 8 CANALES',
       precio: 399.99,
-      imagen: 'assets/images/productos/dvr-8ch.jpg',
+      imagen: 'assets/productos/dvr-8ch.jpg',
       sku: 'SE-DVR-8CH',
       categoria: 'Grabadores',
       descuento: 5
     },
     {
-      id: 5,
+      id: 4,
       nombre: 'CABLE COAXIAL RG6 305M',
       precio: 45.99,
-      imagen: 'assets/images/productos/cable-coaxial.jpg',
+      imagen: 'assets/productos/cable-coaxial.png',
       sku: 'AC-RG6-305M',
       categoria: 'Accesorios'
     },
     {
-      id: 6,
+      id: 5,
       nombre: 'FUENTE 12V 5A PROFESIONAL',
       precio: 79.99,
-      imagen: 'assets/images/productos/fuente-12v.jpg',
+      imagen: 'assets/productos/fuente-12v.jpg',
       sku: 'AC-FUENTE-12V5A',
       categoria: 'Accesorios',
       etiqueta: 'STOCK'

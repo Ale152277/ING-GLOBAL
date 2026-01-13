@@ -1,1 +1,70 @@
-<p>banner-promocional works!</p>
+<section class="banner-promocional">
+  <div class="banner-container position-relative overflow-hidden">
+    
+    <!-- Imagen de Fondo -->
+    <img 
+      src="assets/Banners/promo-banner.png"
+      alt="Banner Promocional"
+      class="banner-image w-100 h-100"
+    >
+
+    <!-- Overlay Oscuro -->
+    <div class="banner-overlay position-absolute top-0 start-0 w-100 h-100"></div>
+
+    <!-- Contenido -->
+    <div class="container position-relative h-100 d-flex align-items-center">
+      <div class="row w-100">
+        <div class="col-lg-6 col-md-8">
+          
+          <!-- Badge de Promoción -->
+          <span class="badge bg-danger mt-2">
+            <i class="fas fa-bolt me-2"></i>OFERTA ESPECIAL
+          </span>
+
+          <!-- Título -->
+          <h2 class="banner-title mb-3">
+            Sistemas de Seguridad<br>
+            <span class="text-danger">Hasta 20% Descuento</span>
+          </h2>
+
+          <!-- Descripción -->
+          <p class="banner-description mb-4">
+            Aprovecha nuestras mejores ofertas en sistemas de vigilancia, 
+            cámaras IP profesionales y equipos de grabación de última generación. 
+            Válido solo por tiempo limitado.
+          </p>
+
+          <!-- Información de Validez -->
+          <div class="banner-info mb-4">
+            <p class="mb-2">
+              <i class="fas fa-calendar-alt text-danger me-2"></i>
+              <strong>Válido hasta:</strong> 31 de Enero 2026
+            </p>
+            <p class="mb-0">
+              <i class="fas fa-gift text-danger me-2"></i>
+              <strong>Envío Gratis</strong> en compras mayores a S/ 500
+            </p>
+          </div>
+
+          <!-- Botones -->
+          <div class="banner-actions d-flex gap-4 flex-wrap">
+            <button 
+              class="btn btn-danger btn-lg fw-bold"
+              (click)="irAProductos()"
+            >
+              <i class="fas fa-shopping-bag me-2"></i>COMPRAR AHORA
+            </button>
+            <button 
+              class="btn btn-outline-light btn-lg fw-bold"
+              (click)="verMasInfo()"
+            >
+              <i class="fas fa-info-circle me-2"></i>MÁS INFORMACIÓN
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
