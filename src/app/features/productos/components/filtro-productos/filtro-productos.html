@@ -1,1 +1,55 @@
-<p>filtro-productos works!</p>
+<div class="sidebar bg-white p-4 rounded">
+  
+  <!-- Buscador -->
+  <div class="mb-4">
+    <h6 class="fw-bold mb-3">
+      <i class="fas fa-search me-2"></i>Buscar
+    </h6>
+    <input 
+      type="text" 
+      class="form-control form-control-sm"
+      placeholder="Nombre o SKU"
+      [(ngModel)]="searchTerm"
+      (change)="onSearchChange()"
+    >
+  </div>
+
+  <!-- Categorías -->
+  <div class="mb-4">
+    <h6 class="fw-bold mb-3">
+      <i class="fas fa-list me-2"></i>Categorías
+    </h6>
+    <ul class="list-unstyled">
+      @for (cat of categorias; track cat.id) {
+        <li class="mb-2">
+          <div class="form-check">
+            <input 
+              type="radio" 
+              class="form-check-input" 
+              [id]="'cat-' + cat.id"
+              name="categoria"
+              [value]="cat.id"
+              [(ngModel)]="selectedCategoria"
+              (change)="onCategoriaChange()"
+            >
+            <label class="form-check-label" [for]="'cat-' + cat.id">
+              {{ cat.nombre }}
+              <span class="badge bg-secondary ms-2">{{ cat.count }}</span>
+            </label>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <!-- Botón Limpiar Filtros -->
+  <div>
+    <button 
+      class="btn btn-outline-secondary btn-sm w-100"
+      (click)="limpiarFiltros()"
+    >
+      <i class="fas fa-redo me-1"></i>Limpiar Filtros
+    </button>
+  </div>
+
+</div>

@@ -7,4 +7,5 @@ export interface Producto {
   categoria: string;
   descuento?: number;
   etiqueta?: string;
+  rating?: number;
 }

@@ -1,0 +1,78 @@
+/* ============================================
+   PRODUCTO CARD - COMPONENTE REUTILIZABLE
+   ============================================ */
+
+.producto-card {
+  border: none;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-white);
+}
+
+.producto-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ============================================
+   IMAGEN
+   ============================================ */
+
+.producto-imagen-container {
+  aspect-ratio: 1;
+}
+
+.producto-imagen {
+  transition: transform var(--transition-base);
+}
+
+.producto-card:hover .producto-imagen {
+  transform: scale(1.1);
+}
+
+/* ============================================
+   BADGES
+   ============================================ */
+
+.etiqueta {
+  font-size: 0.7rem;
+  border-radius: var(--border-radius-sm);
+  z-index: 5;
+  background-color: var(--color-primary);
+}
+
+.etiqueta-nuevo {
+  background-color: #4CAF50 !important;
+}
+
+.etiqueta-hot {
+  background-color: var(--color-primary) !important;
+  animation: pulse 2s infinite;
+}
+
+.etiqueta-stock {
+  background-color: #2196F3 !important;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ============================================
+   OVERLAY
+   ============================================ */
+
+.producto-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  z-index: 10;
+}
+
+.producto-card:hover .producto-overlay {
+  opacity: 1;
+}

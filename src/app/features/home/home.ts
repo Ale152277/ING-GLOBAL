@@ -6,7 +6,7 @@ import { BannerPromocional } from './components/banner-promocional/banner-promoc
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HeroBanner, ProductosDestacados, BannerPromocional],
+  imports: [CommonModule, HeroBanner, ProductosDestacados, BannerPromocional ],
   template: `
     <div>
       <app-hero-banner></app-hero-banner>
@@ -14,6 +14,7 @@ import { BannerPromocional } from './components/banner-promocional/banner-promoc
       <app-productos-destacados></app-productos-destacados>
 
       <app-banner-promocional></app-banner-promocional>
+
 
     </div>
   `

@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home';
+import { Productos } from './features/productos/pages/productos/productos';
+import { Nosotros } from './features/nosotros/nosotros/nosotros';
 // import { AuthComponent } from './features/auth/auth';
 // import { ProductosComponent } from './features/productos/productos';
 // import { CarritoComponent } from './features/carrito/carrito';
@@ -11,6 +13,16 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent
+  },
+
+  {
+    path: 'productos',
+    component: Productos 
+  },
+
+  {
+    path: 'nosotros',
+    component: Nosotros
   },
   
   // {
