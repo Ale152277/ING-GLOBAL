@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { trigger, transition, style, animate } from '@angular/animations';
+
 
 interface ImagenEquipo{
   id: number;
@@ -14,6 +16,32 @@ interface ImagenEquipo{
   imports: [CommonModule],
   templateUrl: './nosotros.html',
   styleUrl: './nosotros.css',
+  animations: [
+    trigger('imagenSlider', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateX(30px) scale(0.98)'
+        }),
+        animate(
+          '400ms cubic-bezier(0.4, 0, 0.2, 1)',
+          style({
+            opacity: 1,
+            transform: 'translateX(0) scale(1)'
+          })
+        )
+      ]),
+      transition(':leave', [
+        animate(
+          '300ms cubic-bezier(0.4, 0, 1, 1)',
+          style({
+            opacity: 0,
+            transform: 'translateX(-30px) scale(0.98)'
+          })
+        )
+      ])
+    ])
+  ]
 })
 export class Nosotros {
 
@@ -24,19 +52,19 @@ export class Nosotros {
   imagenesEquipo: ImagenEquipo[]=[
     {
       id: 1,
-      src: 'assets/images/nosotros/equipo-1.jpg',
+      src: 'assets/Nosotros/equipo-1.jpeg',
       alt: 'Equipo Ingeniería Global 1',
       titulo: 'Equipo de Profesionales'
     },
     {
       id: 2,
-      src: 'assets/images/nosotros/equipo-2.jpg',
+      src: 'assets/Nosotros/equipo-2.jpeg',
       alt: 'Equipo Ingeniería Global 2',
       titulo: 'Instalación en Campo'
     },
     {
       id: 3,
-      src: 'assets/images/nosotros/equipo-3.jpg',
+      src: 'assets/Nosotros/equipo-3.jpeg',
       alt: 'Equipo Ingeniería Global 3',
       titulo: 'Centro de Operaciones'
     }

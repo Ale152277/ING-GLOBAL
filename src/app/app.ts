@@ -2,13 +2,12 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { Header } from './shared/components/header/header';
-import { Navbar } from './shared/components/navbar/navbar';
 import { Footer } from './shared/components/footer/footer';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, Header, Navbar, Footer],
+  imports: [RouterOutlet, CommonModule, Header, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
