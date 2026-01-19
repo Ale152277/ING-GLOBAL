@@ -126,9 +126,11 @@
    RESPONSIVE
    ============================================ */
 
-@media (max-width: 768px) {
+@media (max-width: 758px) {
   .hero-banner {
+    aspect-ratio: auto;   /* 👈 CLAVE */
     height: 300px;
+    width: 100%;
   }
 
   .slide-content {
@@ -143,8 +145,10 @@
 
 @media (max-width: 576px) {
   .hero-banner {
+    aspect-ratio: auto;
     height: 250px;
-  }
+    width: 100%;
+}
 
   .slide-content {
     padding: var(--padding-sm);

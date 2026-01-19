@@ -50,7 +50,7 @@
   font-weight: var(--font-weight-bold);
   color: var(--color-white);
   margin-bottom: var(--spacing-lg);
-  line-height: 1.2;
+  line-height: 1.2ng ;
   text-shadow: var(--shadow-md);
 }
 
@@ -140,12 +140,7 @@
     padding: var(--spacing-sm) var(--spacing-lg);
     font-size: 0.9rem;
   }
-}
 
-@media (max-width: 768px) {
-  .banner-container {
-    height: clamp(250px, 40vh, 350px);
-  }
 
   .banner-title {
     font-size: 1.5rem;
@@ -171,7 +166,8 @@
   }
 
   .banner-container {
-    height: 250px;
+     min-height: 350px;
+    height: auto;     
   }
 
   .banner-title {
