@@ -2,47 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { ApiResponse } from '../../models/api-response.model';
+import { LoginRequest, RegistroRequest, TokenResponse } from '../../models/auth.model';
 
 //request = payload que envia el frontend (el contenido debe coincidir)
 //response = estructura/wrapper que devuelve el backend como respuesta
 //tokenresponse = data real de login
-export interface LoginRequest {
-  email: string;
-  contraseña: string;
-}
-
-export interface RegistroRequest {
-  nombreCompleto: string;
-  email: string;
-  contraseña: string;
-  telefono: string;
-  direccion: string;
-}
-
-
-//devuelve la identidad del usuario
-export interface TokenResponse {
-  token: string;
-  tipo: string;
-  expiresIn: number;
-  usuario: {
-    id: number;
-    nombreCompleto: string;
-    email: string;
-    telefono: string;
-    direccion: string;
-    rol: string;
-    estado: string;
-  };
-}
-
-//respuesta para cualquier endpoint
-export interface ApiResponse<T> {
-  success: boolean;
-  message: string;
-  data: T;
-  timestamp: string;
-}
 
 //este servicio es global y unico, vive mientras exista la app
 @Injectable({
@@ -55,7 +20,7 @@ export class AuthService {
   //crear una variable tokensubject que almacenará un valor inicial (en este casonull)
 
   private tokenSubject = new BehaviorSubject<string | null>(this.obtenerToken());
-  
+
   //tokens es solo un valor observable que solo servirá para lectura
   public token$ = this.tokenSubject.asObservable();
 
@@ -84,63 +49,53 @@ export class AuthService {
     );
   }
 
-  registro(data:RegistroRequest): Observable<ApiResponse<string>>{
-    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/registro`, data)
+  registro(data: RegistroRequest): Observable<ApiResponse<string>> {
+    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/registro`, data);
   }
 
-
-  logout():void{
+  logout(): void {
     this.limpiarLocalStorage();
     this.tokenSubject.next(null);
     this.usuarioSubject.next(null);
     this.router.navigate(['/login']);
   }
 
-
-  obtenerToken(): string |null{
-    if(typeof window !== 'undefined'){
-      return sessionStorage.getItem('token')
+  obtenerToken(): string | null {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('token');
     }
     return null;
   }
 
-  obtenerUsuario():any{
-    if(typeof window !== undefined){
+  obtenerUsuario(): any {
+    if (typeof window !== undefined) {
       const usuario = sessionStorage.getItem('usuario');
-      return usuario ? JSON.parse(usuario): null;
-
+      return usuario ? JSON.parse(usuario) : null;
     }
     return null;
   }
 
-  estaAutenticado(): boolean{
+  estaAutenticado(): boolean {
     const token = this.obtenerToken();
     return token != null && token.length > 0;
   }
 
-
-  private guardarToken(token:string): void{
-    if(typeof window !== 'undefined'){
-      sessionStorage.setItem('token', token)
+  private guardarToken(token: string): void {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('token', token);
     }
   }
 
-  private guardarUsuario(usuario:any):void{
-    if(typeof window!=='undefined'){
+  private guardarUsuario(usuario: any): void {
+    if (typeof window !== 'undefined') {
       sessionStorage.setItem('usuario', JSON.stringify(usuario));
     }
   }
 
-
-  private limpiarLocalStorage():void{
-    if(typeof window !== 'undefined'){
+  private limpiarLocalStorage(): void {
+    if (typeof window !== 'undefined') {
       sessionStorage.removeItem('token');
-      sessionStorage.removeItem('usuario')
-
-      
+      sessionStorage.removeItem('usuario');
     }
   }
-
-
-
 }

@@ -1,10 +1,14 @@
 export interface Categoria {
-  id: string;
+  id: number;
   nombre: string;
-  count: number;
+  slug: string;
+  count?: number;
 }
 
 export interface FiltrosProductos {
-  categoria: string;
-  searchTerm: string;
+  categoria?: string;
+  searchTerm?: string;
+  precioMin?: number;
+  precioMax?: number;
+  ordenar?: string;
 }

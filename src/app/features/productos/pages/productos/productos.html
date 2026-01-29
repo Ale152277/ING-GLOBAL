@@ -18,12 +18,23 @@
           <!-- Buscador -->
           <div class="mb-4">
             <h6 class="fw-bold mb-3">Buscar</h6>
-            <input 
+            <div class="input-group">
+               <input 
               type="text" 
               class="form-control"
               placeholder="Nombre o SKU"
               [(ngModel)]="searchTerm"
+              (keyup.enter)="onBuscar()"
             >
+            <button class="btn btn-outline-secondary" type="button" (click)="onBuscar()">
+              <i class="fas fa-search"></i>
+
+            </button>
+
+            </div>
+           
+
+
           </div>
 
           <!-- Categorías -->
@@ -38,12 +49,12 @@
                       class="form-check-input" 
                       [id]="'cat-' + cat.id"
                       name="categoria"
-                      [value]="cat.id"
+                      [value]="cat.id ===0 ? null:cat.id"
                       [(ngModel)]="selectedCategoria"
+                      (change)="onCategoriaChange()"
                     >
                     <label class="form-check-label" [for]="'cat-' + cat.id">
                       {{ cat.nombre }}
-                      <span class="badge bg-secondary ms-2">{{ cat.count }}</span>
                     </label>
                   </div>
                 </li>
@@ -61,7 +72,7 @@
         <div class="productos-header d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
           <div>
             <h4 class="mb-0">Productos</h4>
-            <small class="text-muted">{{ productosFiltrados.length }} artículos</small>
+            <small class="text-muted">{{ totalProductos }} artículos</small>
           </div>
           
           <div class="d-flex gap-2 align-items-center">
@@ -106,7 +117,7 @@
                 </a>
               </li>
 
-              @for (pagina of paginasDisponibles; track pagina) {
+              @for (pagina of getPaginasDisponibles(); track pagina) {
                 <li class="page-item" [class.active]="pagina === currentPage">
                   <a class="page-link" href="javascript:void(0)" (click)="irAPagina(pagina)">
                     {{ pagina }}
