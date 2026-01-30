@@ -1,1 +1,168 @@
-<p>register works!</p>
+<div class="registro-container d-flex align-items-center justify-content-center min-vh-100">
+  <div class="registro-card card shadow-lg" style="max-width: 500px; width: 100%;">
+    
+    <!-- Header -->
+    <div class="card-header bg-success text-white text-center py-4">
+      <h3 class="mb-0">Crear Cuenta</h3>
+      <small>Ingeniera Global E-Commerce</small>
+    </div>
+
+    <!-- Body -->
+    <div class="card-body p-4">
+      
+      <!-- Mensaje de error -->
+      @if (error) {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="fas fa-exclamation-circle"></i> {{ error }}
+          <button 
+            type="button" 
+            class="btn-close" 
+            (click)="error = ''"
+          ></button>
+        </div>
+      }
+
+      <!-- Mensaje de éxito -->
+      @if (success) {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <i class="fas fa-check-circle"></i> {{ success }}
+        </div>
+      }
+
+      <!-- Formulario -->
+      <form (ngSubmit)="registro()" class="registro-form">
+        
+        <!-- Nombre Completo -->
+        <div class="mb-3">
+          <label for="nombreCompleto" class="form-label">Nombre Completo</label>
+          <input 
+            type="text" 
+            class="form-control"
+            id="nombreCompleto"
+            placeholder="Tu nombre completo"
+            [(ngModel)]="nombreCompleto"
+            name="nombreCompleto"
+            required
+            [disabled]="isLoading"
+          >
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input 
+            type="email" 
+            class="form-control"
+            id="email"
+            placeholder="tu@email.com"
+            [(ngModel)]="email"
+            name="email"
+            required
+            [disabled]="isLoading"
+          >
+        </div>
+
+        <!-- Teléfono -->
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input 
+            type="tel" 
+            class="form-control"
+            id="telefono"
+            placeholder="987654321"
+            [(ngModel)]="telefono"
+            name="telefono"
+            required
+            [disabled]="isLoading"
+          >
+        </div>
+
+        <!-- Dirección -->
+        <div class="mb-3">
+          <label for="direccion" class="form-label">Dirección</label>
+          <input 
+            type="text" 
+            class="form-control"
+            id="direccion"
+            placeholder="Tu dirección"
+            [(ngModel)]="direccion"
+            name="direccion"
+            required
+            [disabled]="isLoading"
+          >
+        </div>
+
+        <!-- Contraseña -->
+        <div class="mb-3">
+          <label for="contraseña" class="form-label">Contraseña</label>
+          <div class="input-group">
+            <input 
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              id="contraseña"
+              placeholder="••••••••"
+              [(ngModel)]="password"
+              name="contraseña"
+              required
+              [disabled]="isLoading"
+            >
+            <button 
+              class="btn btn-outline-secondary" 
+              type="button"
+              (click)="togglePasswordVisibility()"
+              [disabled]="isLoading"
+            >
+              <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </button>
+          </div>
+          <small class="text-muted">Mínimo 6 caracteres</small>
+        </div>
+
+        <!-- Confirmar Contraseña -->
+        <div class="mb-3">
+          <label for="contraseñaConfirm" class="form-label">Confirmar Contraseña</label>
+          <input 
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control"
+            id="contraseñaConfirm"
+            placeholder="••••••••"
+            [(ngModel)]="passwordconfirm"
+            name="contraseñaConfirm"
+            required
+            [disabled]="isLoading"
+          >
+        </div>
+
+        <!-- Botón de registro -->
+        <button 
+          type="submit" 
+          class="btn btn-success btn-lg w-100 mb-3"
+          [disabled]="isLoading"
+        >
+          @if (isLoading) {
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Registrando...
+          } @else {
+            <i class="fas fa-user-plus me-2"></i>
+            Crear Cuenta
+          }
+        </button>
+
+        <!-- Link a login -->
+        <div class="text-center">
+          <small class="text-muted">
+            ¿Ya tienes cuenta? 
+            <a href="javascript:void(0)" (click)="irAlLogin()" class="text-success fw-bold">
+              Inicia sesión aquí
+            </a>
+          </small>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</div>
+
+

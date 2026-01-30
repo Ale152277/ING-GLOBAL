@@ -2,61 +2,52 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home';
 import { Productos } from './features/productos/pages/productos/productos';
 import { Nosotros } from './features/nosotros/nosotros/nosotros';
-// import { AuthComponent } from './features/auth/auth';
-// import { ProductosComponent } from './features/productos/productos';
-// import { CarritoComponent } from './features/carrito/carrito';
-// import { PedidosComponent } from './features/pedidos/pedidos';
-// import { CuentaComponent } from './features/cuenta/cuenta';
-// import { AdminComponent } from './features/admin/admin';
-
+import { Login } from './features/auth/pages/login/login';
+import { Register } from './features/auth/pages/register/register';
+import { AuthGuard } from './core/guards/Auth/auth-guard';
+import { GuestGuard } from './core/guards/Guest/guest-guard';
+import { Perfil } from './features/cuenta/pages/perfil/perfil';
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
   },
 
   {
     path: 'productos',
-    component: Productos 
+    component: Productos,
   },
 
   {
     path: 'nosotros',
-    component: Nosotros
+    component: Nosotros,
   },
-  
-  // {
-  //   path: 'auth',
-  //   component: AuthComponent
-  // },
-  
-  // {
-  //   path: 'productos',
-  //   component: ProductosComponent
-  // },
-  
-  // {
-  //   path: 'carrito',
-  //   component: CarritoComponent
-  // },
-  
-  // {
-  //   path: 'pedidos',
-  //   component: PedidosComponent
-  // },
-  
-  // {
-  //   path: 'cuenta',
-  //   component: CuentaComponent
-  // },
-  
-  // {
-  //   path: 'admin',
-  //   component: AdminComponent
-  // },
+
+  {
+    path: 'auth',
+    children: [
+      {
+        path: 'login',
+        component: Login,
+        canActivate: [GuestGuard]  // Solo si NO estás logueado
+      },
+      {
+        path: 'registro',
+        component: Register,
+        canActivate: [GuestGuard]  // Solo si NO estás logueado
+      }
+    ]
+  },
+
+  {
+    path: 'cuenta',
+    component: Perfil,
+    canActivate: [AuthGuard]  // Solo si ESTÁS logueado
+    // Componentes: perfil, direcciones, etc
+  },
 
   {
     path: '**',
-    redirectTo: ''
-  }
+    redirectTo: '',
+  },
 ];

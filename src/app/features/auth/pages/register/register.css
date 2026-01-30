@@ -1,0 +1,17 @@
+
+.registro-card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.registro-form input, 
+.registro-form button {
+  border-radius: 6px;
+}
+
+.registro-form input:disabled,
+.registro-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

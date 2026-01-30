@@ -68,7 +68,7 @@ export class AuthService {
   }
 
   obtenerUsuario(): any {
-    if (typeof window !== undefined) {
+    if (typeof window !== 'undefined') {
       const usuario = sessionStorage.getItem('usuario');
       return usuario ? JSON.parse(usuario) : null;
     }

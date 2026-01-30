@@ -20,7 +20,7 @@ export class ProductosService {
     precioMin?: number,
     precioMax?: number,
     soloStock: boolean = false,
-    ordernar?: string,
+    ordenar?: string,
   ): Observable<ApiResponse<PageResponse<Producto>>> {
     let params = new HttpParams();
     params = params.set('page', page);
@@ -30,8 +30,8 @@ export class ProductosService {
     if (categoriaId) params = params.set('categoriaId', categoriaId);
     if (marcaId) params = params.set('marcaId', marcaId);
     if (precioMin) params = params.set('precioMin', precioMin);
-    if (precioMax) params = params.set('precioMin', precioMax);
-    if (ordernar) params = params.set('ordenar', ordernar);
+    if (precioMax) params = params.set('precioMax', precioMax);
+    if (ordenar) params = params.set('ordenar', ordenar);
 
     return this.http.get<ApiResponse<PageResponse<Producto>>>(this.apiUrl, { params });
   }
@@ -50,7 +50,7 @@ export class ProductosService {
     params = params.set('page', page);
     params = params.set('size', size);
 
-    return this.http.get<ApiResponse<PageResponse<Producto>>>(`${this.apiUrl}/buscar`);
+    return this.http.get<ApiResponse<PageResponse<Producto>>>(`${this.apiUrl}/buscar`,{params});
   }
 
   obtenerPorEtiqueta(

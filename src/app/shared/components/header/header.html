@@ -1,4 +1,3 @@
-
 <header class="header-top py-3 bg-white">
   <div class="container-fluid px-4">
     <div class="row align-items-center">
@@ -40,119 +39,107 @@
       <!-- Iconos derecha + Hamburguesa -->
       <div class="col-lg-5 col-md-5 col-6">
         <div class="d-flex justify-content-end gap-3 gap-lg-5 align-items-center">
-          <!-- Carrito -->
-          <div class="position-relative header-icon">
-            <a href="/carrito" class="text-decoration-none d-flex align-items-center gap-2">
-              <div
-                class="icon-circle"
-                style="
-                  background-color: #e0e0e0;
-                  border-radius: 50%;
-                  width: 40px;
-                  height: 40px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  flex-shrink: 0;
-                "
+          @if (usuarioAutenticado) {
+            <!-- Carrito -->
+            <div class="position-relative header-icon">
+              <a
+                [routerLink]="['/carrito']"
+                class="text-decoration-none d-flex align-items-center gap-2"
               >
-                <img src="/assets/cart-shop.png" alt="Carrito" width="20" height="20" />
-                @if (cantidadCarrito > 0) {
-                  <span
-                    class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-circle"
-                    style="
-                      width: 22px;
-                      height: 22px;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      font-size: 11px;
-                      font-weight: bold;
-                    "
+                <div class="icon-circle">
+                  <img src="/assets/cart-shop.png" alt="Carrito" width="20" height="20" />
+                  @if (cantidadCarrito > 0) {
+                    <span
+                      class="cantidad-carrito badge bg-danger position-absolute top-0 start-100 translate-middle rounded-circle"
+                    >
+                      {{ cantidadCarrito }}
+                    </span>
+                  }
+                </div>
+                <div class="d-flex flex-column gap-2 d-none d-md-flex">
+                  <small class="text-dark" style="font-size: 12px; font-weight: 500"
+                    >Mi carrito</small
                   >
-                    {{ cantidadCarrito }}
-                  </span>
-                }
-              </div>
-              <div class="d-flex flex-column gap-2 d-none d-md-flex">
-                <small class="text-dark" style="font-size: 12px; font-weight: 500"
-                  >Mi carrito</small
-                >
-                <small class="text-muted" style="font-size: 11px">Ver carro</small>
-              </div>
-            </a>
-          </div>
-
-          <!-- Lista de deseos -->
-          <div class="position-relative header-icon d-none d-sm-flex">
+                  <small class="text-muted" style="font-size: 11px">Ver carro</small>
+                </div>
+              </a>
+            </div>
+          } @else {
             <a
-              href="/cuenta/lista-deseos"
+              [routerLink]="['/auth/login']"
               class="text-decoration-none d-flex align-items-center gap-2"
             >
-              <div
-                class="icon-circle"
-                style="
-                  background-color: #e0e0e0;
-                  border-radius: 50%;
-                  width: 40px;
-                  height: 40px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  flex-shrink: 0;
-                "
-              >
-                <img src="/assets/heart.png" alt="Deseos" width="20" height="20" />
-                @if (cantidadDeseos > 0) {
-                  <span
-                    class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-circle"
-                    style="
-                      width: 22px;
-                      height: 22px;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      font-size: 11px;
-                      font-weight: bold;
-                    "
-                  >
-                    {{ cantidadDeseos }}
-                  </span>
-                }
-              </div>
-              <div class="d-flex flex-column gap-2 d-none d-lg-flex">
-                <small class="text-dark" style="font-size: 12px; font-weight: 500"
-                  >Mi lista de deseos</small
-                >
-                <small class="text-muted" style="font-size: 11px">Ver lista de deseos</small>
-              </div>
+
+            <div class="icon-circle">
+              <img src="/assets/cart-shop.png" alt="Carrito" width="20" height="20" />
+            </div>
+            <div class="d-flex flex-column gap-2 d-none d-md-flex">
+              <small class="text-dark" style="font-size: 12px; font-weight: 500">Mi carrito</small>
+              <small class="text-muted,  color: #dc3545" style="font-size: 7px">Iniciar sesión para ver tu carrito</small>
+            </div>
             </a>
-          </div>
+          }
+
+          <!-- Lista de deseos -->
+          @if (usuarioAutenticado) {
+            <div class="position-relative header-icon d-none d-sm-flex">
+              <a
+                [routerLink]="['/cuenta/lista-deseos']"
+                class="text-decoration-none d-flex align-items-center gap-2"
+              >
+                <div class="icon-circle">
+                  <img src="/assets/heart.png" alt="Deseos" width="20" height="20" />
+                  @if (cantidadDeseos > 0) {
+                    <span
+                      class="cantidad-deseos badge bg-danger position-absolute top-0 start-100 translate-middle rounded-circle"
+                    >
+                      {{ cantidadDeseos }}
+                    </span>
+                  }
+                </div>
+                <div class="d-flex flex-column gap-2 d-none d-lg-flex">
+                  <small class="text-dark" style="font-size: 12px; font-weight: 500"
+                    >Mi lista de deseos</small
+                  >
+                  <small class="text-muted" style="font-size: 11px">Ver lista de deseos</small>
+                </div>
+              </a>
+            </div>
+          } @else {
+            <div class="position-relative header-icon d-none d-sm-flex">
+              <a
+                [routerLink]="['/auth/login']"
+                class="text-decoration-none d-flex align-items-center gap-2"
+              >
+                <div class="icon-circle">
+                  <img src="/assets/heart.png" alt="Deseos" width="20" height="20" />
+                </div>
+                <div class="d-flex flex-column gap-2 d-none d-lg-flex">
+                  <small class="text-dark" style="font-size: 12px; font-weight: 500">
+                    Mi lista de deseos
+                  </small>
+                  <small class="text-muted, color: #dc3545" style="font-size: 7px"
+                    >Inicia sesión para ver tu lista de deseos</small
+                  >
+                </div>
+              </a>
+            </div>
+          }
 
           <!-- Usuario / Login -->
           @if (usuarioAutenticado) {
             <div class="dropdown header-icon d-none d-sm-flex">
               <button
                 class="btn btn-sm d-flex align-items-center gap-2 text-decoration-none"
+                d
                 type="button"
+                (click)="togglePerfil()"
                 id="dropdownUser"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
                 style="background-color: transparent; border: none; padding: 0"
               >
-                <div
-                  class="icon-circle"
-                  style="
-                    background-color: #e0e0e0;
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-shrink: 0;
-                  "
-                >
+                <div class="icon-circle">
                   <img src="/assets/user.png" alt="Usuario" width="20" height="20" />
                 </div>
                 <div class="d-flex flex-column gap-0 d-none d-lg-flex">
@@ -164,6 +151,7 @@
               </button>
               <ul
                 class="dropdown-menu dropdown-menu-end"
+                [ngClass]="{ show: perfilAbierto }"
                 aria-labelledby="dropdownUser"
                 style="min-width: 180px"
               >
@@ -176,22 +164,10 @@
             </div>
           } @else {
             <a
-              href="/auth"
+              [routerLink]="['auth/login']"
               class="text-decoration-none d-flex align-items-center gap-2 header-icon d-none d-sm-flex"
             >
-              <div
-                class="icon-circle"
-                style="
-                  background-color: #e0e0e0;
-                  border-radius: 50%;
-                  width: 40px;
-                  height: 40px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  flex-shrink: 0;
-                "
-              >
+              <div class="icon-circle">
                 <img src="/assets/user.png" alt="Usuario" width="20" height="20" />
               </div>
               <div class="d-flex flex-column gap-2 d-none d-lg-flex">
