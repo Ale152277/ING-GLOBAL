@@ -6,17 +6,20 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.obtenerToken();
 
-  console.log('📨 Interceptando:', req.url);
-  console.log('🔑 Token:', token ? 'EXISTE ✅' : 'NO EXISTE ❌');
+  console.log('Interceptando:', req.url);
 
-  if (token) {
-    console.log('✅ Agregando Authorization header');
-    req = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+  if(!token){
+    console.log('TOKEN: NO EXISTE');
+    return next(req);
   }
+    console.log('🔑 Token: EXISTE ✅ -', token.substring(0, 20) + '...');
 
-  return next(req);
+  const clonedRequ = req.clone({
+    setHeaders:{
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  console.log('Authorization header agregado')
+  return next(clonedRequ);
 };

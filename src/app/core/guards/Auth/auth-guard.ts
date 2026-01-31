@@ -1,30 +1,21 @@
-import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivateFn, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn:'root'
-})
+export const authGuardFn: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const router = inject(Router);
+  const authService = inject(AuthService);
 
-export class AuthGuard implements CanActivate {
-
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) { }
-
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
-    
-    // Verificar si el usuario está autenticado
-    if (this.authService.estaAutenticado()) {
-      return true;
-    }
-
-    // Si no está autenticado, redirigir a login
-    this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
-    return false;
+  if (authService.estaAutenticado()) {
+    console.log('✅ Usuario autenticado: ACCESO PERMITIDO');
+    return true;
+  } else {
+    console.log('❌ Usuario NO autenticado: ACCESO DENEGADO');
+    return router.createUrlTree(['/auth/login'], {
+      queryParams: { returnUrl: state.url }
+    });
   }
-}
+};
