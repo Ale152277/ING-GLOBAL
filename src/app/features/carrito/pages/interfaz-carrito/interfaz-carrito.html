@@ -1,0 +1,160 @@
+<div class="carrito-page py-4">
+  <div class="container">
+    
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="/productos">Productos</a></li>
+        <li class="breadcrumb-item active">Mi Carrito</li>
+      </ol>
+    </nav>
+
+    <!-- Mensaje de error -->
+    @if (error) {
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ error }}
+        <button type="button" class="btn-close" (click)="error = ''"></button>
+      </div>
+    }
+
+    <!-- Carrito vacío -->
+    @if (!isloading && (!carrito || carrito.detalles.length === 0)) {
+      <div class="text-center py-5">
+        <i class="fas fa-shopping-cart" style="font-size: 64px; color: #ccc;"></i>
+        <h4 class="mt-3">Tu carrito está vacío</h4>
+        <p class="text-muted">No hay productos en tu carrito</p>
+        <a href="/productos" class="btn btn-primary mt-3">
+          <i class="fas fa-shopping-bag me-2"></i>Continuar Comprando
+        </a>
+      </div>
+    }
+
+    <!-- Carrito con productos -->
+    @if (!isloading && carrito && carrito.detalles.length > 0) {
+      <div class="row g-4">
+        
+        <!-- Tabla de productos -->
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header bg-light">
+              <h5 class="mb-0">Resumen del Carrito ({{ obtenerCantidadTotal() }} artículos)</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Producto</th>
+                      <th>Precio</th>
+                      <th>Cantidad</th>
+                      <th>Subtotal</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (detalle of carrito.detalles; track detalle.id) {
+                      <tr>
+                        <td>
+                          <strong>{{ detalle.producto?.nombre }}</strong>
+                          <br>
+                          <small class="text-muted">SKU: {{ detalle.producto?.sku }}</small>
+                        </td>
+                        <td>{{ formatearPrecio(detalle.precioUnitario) }}</td>
+                        <td>
+                          <span class="badge bg-secondary">{{ detalle.cantidad }}</span>
+                        </td>
+                        <td>
+                          <strong>{{ formatearPrecio(detalle.subtotal) }}</strong>
+                          @if (detalle.descuento > 0) {
+                            <br>
+                            <small class="text-danger">Desc: {{ detalle.descuento }}%</small>
+                          }
+                        </td>
+                        <td>
+                          <button 
+                            class="btn btn-sm btn-danger"
+                            (click)="eliminarProducto(detalle)"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="mt-3 d-flex gap-2">
+            <a href="/productos" class="btn btn-outline-secondary">
+              <i class="fas fa-arrow-left me-2"></i>Continuar Comprando
+            </a>
+            <button 
+              class="btn btn-outline-danger"
+              (click)="vaciarCarrito()"
+            >
+              <i class="fas fa-trash me-2"></i>Vaciar Carrito
+            </button>
+          </div>
+        </div>
+
+        <!-- Resumen de compra -->
+        <div class="col-lg-4">
+          <div class="card sticky-top" style="top: 20px;">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0">Resumen de Compra</h5>
+            </div>
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-2">
+                <span>Subtotal:</span>
+                <strong>{{ formatearPrecio(obtenerTotal()) }}</strong>
+              </div>
+              
+              <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
+                <span>Envío:</span>
+                <strong class="text-success">Gratis</strong>
+              </div>
+
+              <div class="d-flex justify-content-between mb-3">
+                <h6 class="mb-0">Total:</h6>
+                <h5 class="mb-0 text-primary">{{ formatearPrecio(obtenerTotal()) }}</h5>
+              </div>
+
+              <button 
+                class="btn btn-success btn-lg w-100 mb-2"
+                (click)="Comprar()"
+                [disabled]="isloading"
+              >
+                @if (isloading) {
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Procesando...
+                } @else {
+                  <i class="fab fa-whatsapp me-2"></i>Comprar por WhatsApp
+                }
+              </button>
+
+              <small class="text-muted d-block text-center">
+                <i class="fas fa-info-circle me-1"></i>
+                Serás redirigido a WhatsApp para confirmar tu pedido
+              </small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    }
+
+    <!-- Cargando -->
+    @if (isloading && !carrito) {
+      <div class="text-center py-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Cargando carrito...</span>
+        </div>
+      </div>
+    }
+
+  </div>
+</div>

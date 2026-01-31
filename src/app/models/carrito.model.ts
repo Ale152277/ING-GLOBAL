@@ -2,7 +2,7 @@ import { Producto } from "./producto.model";
 
 export interface DetalleCarrito{
     id: number;
-    productoId: Number;
+    productoId: number;
     producto: Producto;
     cantidad: number;
     precioUnitario: number;
@@ -18,4 +18,9 @@ export interface Carrito{
     fechaEnvioWhatsapp?: string;
     detalles: DetalleCarrito[];
     total?: number;
+}
+
+export interface AgregarAlCarrito{
+    productoId: number;
+    cantidad: number;
 }

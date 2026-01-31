@@ -30,9 +30,21 @@
       <button 
         class="btn btn-danger btn-sm d-flex align-items-center gap-2"
         (click)="onAgregarAlCarrito()"
+        [disabled]="isLoading || !usuarioAutenticado"
       >
-        <i class="fas fa-shopping-cart"></i>
-        CARRITO
+
+      @if(isLoading){
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+    Agregando...
+
+      }@else {
+        @if(!usuarioAutenticado){
+          <i class="fas fa-lock me-2"></i>Inicia sesión para comprar
+        }@else {
+          <i class="fas fa-shopping-cart me-2"></i>Anadir al carrito
+        }
+      }
+
       </button>
     </div>
   </div>

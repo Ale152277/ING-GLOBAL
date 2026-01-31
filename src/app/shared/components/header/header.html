@@ -69,14 +69,17 @@
               [routerLink]="['/auth/login']"
               class="text-decoration-none d-flex align-items-center gap-2"
             >
-
-            <div class="icon-circle">
-              <img src="/assets/cart-shop.png" alt="Carrito" width="20" height="20" />
-            </div>
-            <div class="d-flex flex-column gap-2 d-none d-md-flex">
-              <small class="text-dark" style="font-size: 12px; font-weight: 500">Mi carrito</small>
-              <small class="text-muted,  color: #dc3545" style="font-size: 7px">Iniciar sesión para ver tu carrito</small>
-            </div>
+              <div class="icon-circle">
+                <img src="/assets/cart-shop.png" alt="Carrito" width="20" height="20" />
+              </div>
+              <div class="d-flex flex-column gap-2 d-none d-md-flex">
+                <small class="text-dark" style="font-size: 12px; font-weight: 500"
+                  >Mi carrito</small
+                >
+                <small class="text-muted, color: #dc3545" style="font-size: 7px"
+                  >Iniciar sesión para ver tu carrito</small
+                >
+              </div>
             </a>
           }
 
@@ -327,7 +330,11 @@
         height="14"
         class="d-none d-sm-inline"
       />
-      <small class="text-white d-none d-sm-inline" style="font-size: 12px">+51 984 115 299</small>
+      <button (click)="abrirWhatsapp()" class="btn btn-link text-decoration-none pb-1">
+        <small href="" class="text-white d-none d-sm-inline" style="font-size: 12px"
+          >+51 984 115 299</small
+        >
+      </button>
     </div>
   </div>
 </div>

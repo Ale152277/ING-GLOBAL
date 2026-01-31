@@ -7,6 +7,7 @@ import { Register } from './features/auth/pages/register/register';
 import { AuthGuard } from './core/guards/Auth/auth-guard';
 import { GuestGuard } from './core/guards/Guest/guest-guard';
 import { Perfil } from './features/cuenta/pages/perfil/perfil';
+import { InterfazCarrito } from './features/carrito/pages/interfaz-carrito/interfaz-carrito';
 export const routes: Routes = [
   {
     path: '',
@@ -44,6 +45,12 @@ export const routes: Routes = [
     component: Perfil,
     canActivate: [AuthGuard]  // Solo si ESTÁS logueado
     // Componentes: perfil, direcciones, etc
+  },
+
+  {
+    path: 'carrito',
+    component: InterfazCarrito,
+    canActivate: [AuthGuard]  // Solo si ESTÁS logueado
   },
 
   {

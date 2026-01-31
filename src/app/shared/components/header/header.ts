@@ -103,5 +103,9 @@ export class Header implements OnInit, OnDestroy {
   }
 
 
+  abrirWhatsapp(): void {
+  const urlWhatsapp = `https://wa.me/51973306855`;
+  window.open(urlWhatsapp, '_blank'); // Abre en nueva pestaña
+}
 
 }
