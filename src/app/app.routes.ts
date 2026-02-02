@@ -4,10 +4,12 @@ import { Productos } from './features/productos/pages/productos/productos';
 import { Nosotros } from './features/nosotros/nosotros/nosotros';
 import { Login } from './features/auth/pages/login/login';
 import { Register } from './features/auth/pages/register/register';
-import { authGuardFn } from './core/guards/Auth/auth-guard';
+import { AuthGuard } from './core/guards/Auth/auth-guard';
 import { GuestGuard } from './core/guards/Guest/guest-guard';
 import { Perfil } from './features/cuenta/pages/perfil/perfil';
 import { InterfazCarrito } from './features/carrito/pages/interfaz-carrito/interfaz-carrito';
+import { ProductosAdmin } from './features/productos-admin/productos-admin';
+import { AdminGuard } from './core/guards/Admin/admin-guard';
 export const routes: Routes = [
   {
     path: '',
@@ -43,18 +45,32 @@ export const routes: Routes = [
   {
     path: 'cuenta',
     component: Perfil,
-    canActivate: [authGuardFn]  // Solo si ESTÁS logueado
+    canActivate: [AuthGuard]  // Solo si ESTÁS logueado
     // Componentes: perfil, direcciones, etc
   },
 
   {
     path: 'carrito',
     component: InterfazCarrito,
-    canActivate: [authGuardFn]  // Solo si ESTÁS logueado
+    canActivate: [AuthGuard]  // Solo si ESTÁS logueado
   },
+
+  {
+  path: 'admin',
+  canActivate: [AdminGuard],
+  children: [
+    {
+      path: 'productos',
+      component: ProductosAdmin,
+    }
+  ]
+},
 
   {
     path: '**',
     redirectTo: '',
   },
+  
+
+ 
 ];

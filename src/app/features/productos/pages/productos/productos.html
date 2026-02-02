@@ -1,6 +1,5 @@
 <div class="productos-page py-4">
   <div class="container">
-    
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="mb-4">
       <ol class="breadcrumb">
@@ -10,28 +9,21 @@
     </nav>
 
     <div class="row g-4">
-      
       <!-- SIDEBAR - FILTROS -->
       <div class="col-lg-3">
         <div class="sidebar">
-          
           <!-- Buscador -->
           <div class="mb-4">
             <h6 class="fw-bold mb-3">Buscar</h6>
             <div class="input-group">
-               <input 
-              type="text" 
-              class="form-control"
-              placeholder="Nombre o SKU"
-              [(ngModel)]="searchTerm"
-              (input)="onSearchChange()"
-            >
-
-
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nombre o SKU"
+                [(ngModel)]="searchTerm"
+                (input)="onSearchChange()"
+              />
             </div>
-           
-
-
           </div>
 
           <!-- Categorías -->
@@ -41,15 +33,15 @@
               @for (cat of categorias; track cat.id) {
                 <li class="mb-2">
                   <div class="form-check">
-                    <input 
-                      type="radio" 
-                      class="form-check-input" 
+                    <input
+                      type="radio"
+                      class="form-check-input"
                       [id]="'cat-' + cat.id"
                       name="categoria"
-                      [value]="cat.id ===0 ? null:cat.id"
+                      [value]="cat.id === 0 ? null : cat.id"
                       [(ngModel)]="selectedCategoria"
                       (change)="onCategoriaChange()"
-                    >
+                    />
                     <label class="form-check-label" [for]="'cat-' + cat.id">
                       {{ cat.nombre }}
                     </label>
@@ -58,27 +50,34 @@
               }
             </ul>
           </div>
-
         </div>
       </div>
 
       <!-- CONTENIDO PRINCIPAL -->
       <div class="col-lg-9">
-        
         <!-- Header de Productos -->
-        <div class="productos-header d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+        <div
+          class="productos-header d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom"
+        >
           <div>
             <h4 class="mb-0">Productos</h4>
             <small class="text-muted">{{ totalProductos }} artículos</small>
           </div>
-          
+
+          @if (isAdmin) {
+            <div>
+              <a routerLink="/admin/productos" class="btn btn-danger text-decoration-none  btn-lg rounded-pill " style="font-weight: 600;"> EDITAR</a>
+            </div>
+          }
+
           <div class="d-flex gap-2 align-items-center">
             <label class="text-muted small mb-0">Ordenar por:</label>
-            <select 
-              class="form-select form-select-sm" 
-              style="max-width: 200px;"
+            <select
+              class="form-select form-select-sm"
+              style="max-width: 200px"
               [(ngModel)]="ordernadoPor"
-              (change)="onOrdenamiento()">
+              (change)="onOrdenamiento()"
+            >
               <option value="destacados">Destacados</option>
               <option value="menor-precio">Menor Precio</option>
               <option value="mayor-precio">Mayor Precio</option>
@@ -88,13 +87,11 @@
           </div>
         </div>
 
-        @if(isLoading){
+        @if (isLoading) {
           <div class="text-center py-5">
             <div class="spinner-border" role="status">
               <span class="visually-hidden">Cargando...</span>
-
             </div>
-
           </div>
         }
 
@@ -144,10 +141,7 @@
             </ul>
           </nav>
         }
-
       </div>
-
     </div>
-
   </div>
 </div>

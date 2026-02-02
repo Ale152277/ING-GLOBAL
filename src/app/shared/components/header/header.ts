@@ -46,7 +46,7 @@ export class Header implements OnInit, OnDestroy {
   }
 
   private cargarDatos(): void {
-    this.usuarioAutenticado = this.authService.estaAutenticado();
+    this.usuarioAutenticado = this.authService.isAuthenticated();
     if(this.usuarioAutenticado){
       const usuario = this.authService.obtenerUsuario()
       this.nombreUsuario = usuario?.nombreCompleto || 'Usuario'

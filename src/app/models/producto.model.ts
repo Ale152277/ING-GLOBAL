@@ -9,7 +9,12 @@ export interface Producto {
   descripcion: string;
   imagen?: string;
   rating?: number;
-  estado: string;
   categoriaId?: number;
+  categoriaNombre?: string;
+  marcaNombre?: string;      
   marcaId?: number;
+  estado: 'ACTIVO' | 'INACTIVO'
+  createdAt?: string;
+  updatedAt?: string;
+
 }

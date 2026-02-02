@@ -7,10 +7,11 @@ import { ProductoCard } from '../../components/producto-card/producto-card';
 import { ProductosService } from '../../services/productos.service';
 import { CategoriaService } from '../../../../core/services/categoria.service';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
-
+import { AuthService } from '../../../../core/services/auth.service';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-productos',
-  imports: [CommonModule, FormsModule, ProductoCard],
+  imports: [CommonModule, FormsModule, ProductoCard, RouterLink],
   templateUrl: './productos.html',
   styleUrl: './productos.css',
 })
@@ -29,15 +30,20 @@ export class Productos implements OnInit {
   totalPages: number = 0;
   totalProductos: number = 0;
 
+  isAdmin : boolean = false;
+
   private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
 
   constructor(
     private productoService: ProductosService,
     private categoriaService: CategoriaService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.isAdmin();
+    
     this.searchSubject.pipe(debounceTime(300),
       distinctUntilChanged(),
       takeUntil(this.destroy$)
