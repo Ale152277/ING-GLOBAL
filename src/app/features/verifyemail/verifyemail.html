@@ -1,1 +1,77 @@
-<p>verifyemail works!</p>
+<!-- src/app/features/auth/pages/verify-email/verify-email.component.html -->
+
+<div class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+  <div class="card shadow-lg text-center" style="max-width: 480px; width: 100%;">
+    <div class="card-body p-5">
+
+      <!-- ESTADO: Cargando -->
+      @if (estado === 'cargando') {
+        <div class="spinner-border text-danger mb-4" style="width: 3rem; height: 3rem;"></div>
+        <h5 class="text-muted">Verificando tu cuenta...</h5>
+      }
+
+      <!-- ESTADO: Éxito -->
+      @if (estado === 'exito') {
+        <i class="fas fa-check-circle text-success mb-4" style="font-size: 4rem;"></i>
+        <h4 class="fw-bold mb-2">¡Cuenta verificada!</h4>
+        <p class="text-muted mb-4">{{ mensaje }}</p>
+        <button class="btn btn-danger w-100" (click)="irAlLogin()">
+          <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
+        </button>
+      }
+
+      <!-- ESTADO: Error genérico -->
+      @if (estado === 'error') {
+        <i class="fas fa-times-circle text-danger mb-4" style="font-size: 4rem;"></i>
+        <h4 class="fw-bold mb-2">Enlace inválido</h4>
+        <p class="text-muted mb-4">{{ mensaje }}</p>
+        <button class="btn btn-outline-danger w-100" (click)="irAlLogin()">
+          <i class="fas fa-arrow-left me-2"></i> Volver al Login
+        </button>
+      }
+
+      <!-- ESTADO: Token expirado -->
+      @if (estado === 'expirado') {
+        <i class="fas fa-clock text-warning mb-4" style="font-size: 4rem;"></i>
+        <h4 class="fw-bold mb-2">Enlace expirado</h4>
+        <p class="text-muted mb-4">{{ mensaje }}</p>
+
+        <hr class="my-3"/>
+        <p class="text-muted small mb-2">Ingresa tu email para recibir un nuevo enlace:</p>
+
+        <div class="input-group mb-3">
+          <input type="email" class="form-control"
+            placeholder="tu@email.com"
+            [(ngModel)]="reenvioEmail"
+            [disabled]="reenvioLoading"/>
+          <button class="btn btn-danger"
+            (click)="reenviarVerificacion()"
+            [disabled]="reenvioLoading">
+            @if (reenvioLoading) {
+              <span class="spinner-border spinner-border-sm"></span>
+            } @else {
+              <i class="fas fa-paper-plane"></i>
+            }
+          </button>
+        </div>
+
+        @if (reenvioMensaje) {
+          <div class="alert alert-success py-2 small">
+            <i class="fas fa-check-circle me-1"></i>{{ reenvioMensaje }}
+          </div>
+        }
+
+        <button class="btn btn-outline-secondary w-100 mt-2" (click)="irAlLogin()">
+          <i class="fas fa-arrow-left me-2"></i> Volver al Login
+        </button>
+      }
+
+    </div>
+
+    <div class="card-footer bg-light py-3">
+      <small class="text-muted">
+        <i class="fas fa-shield-alt me-1"></i> Ingeniería Global E-Commerce
+      </small>
+    </div>
+  </div>
+</div>

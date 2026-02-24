@@ -165,4 +165,52 @@
   </div>
 </div>
 
+@if (registroCompletado) {
+  <div class="d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card  shadow-lg text-center" style="max-width: 480px; width: 100%;">
+
+      <div class="card-body p-5">
+
+        <!-- Icono animado -->
+        <div class="mb-4">
+          <i class="fas fa-envelope-open-text text-danger" style="font-size: 4rem;"></i>
+        </div>
+
+        <h4 class="fw-bold mb-2">¡Revisa tu correo!</h4>
+        <p class="text-muted mb-1">Enviamos un enlace de verificación a:</p>
+        <p class="">{{ emailRegistrado }}</p>
+
+        <p class="fw-bold text-danger mb-4">
+          Haz clic en el enlace del correo para activar tu cuenta.
+          El enlace expira en <strong>24 horas</strong>.
+        </p>
+
+        <hr class="my-4"/>
+
+        <!-- Reenviar verificación -->
+        <p class="text-muted small mb-2">¿No recibiste el correo?</p>
+
+        @if (reenvioMensaje) {
+          <div class="alert alter-success py-2 small">
+            <i class="fas fa-check-circle me-1"></i>{{ reenvioMensaje }}
+          </div>
+        }
+
+        <button class="btn btn-outline-danger w-100 mb-3"
+          (click)="reenviarVerificacion()" [disabled]="reenvioLoading">
+          @if (reenvioLoading) {
+            <span class="spinner-botder spinner-border-sm me-2"></span> Enviando...
+          } @else {
+            <i class="fas fa-redo me-2"></i> Reenviar correo de verificación
+          }
+        </button>
+
+        <button class="btn btn-danger w-100" (click)="irAlLogin()">
+          <i class="fas fa-sign-in-alt me-2"></i> Ir al Login
+        </button>
+
+      </div>
+    </div>
+  </div>
+}
 

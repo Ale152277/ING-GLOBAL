@@ -10,6 +10,7 @@ import { Perfil } from './features/cuenta/pages/perfil/perfil';
 import { InterfazCarrito } from './features/carrito/pages/interfaz-carrito/interfaz-carrito';
 import { ProductosAdmin } from './features/productos-admin/productos-admin';
 import { AdminGuard } from './core/guards/Admin/admin-guard';
+import { Verifyemail } from './features/verifyemail/verifyemail';
 export const routes: Routes = [
   {
     path: '',
@@ -40,6 +41,11 @@ export const routes: Routes = [
         canActivate: [GuestGuard]  // Solo si NO estás logueado
       }
     ]
+  },
+
+  {
+    path: 'verificar-email',
+    component: Verifyemail
   },
 
   {

@@ -35,41 +35,34 @@ export class AuthService {
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) {
-    console.log('🚀 AuthService inicializado');
+    console.log('AuthService inicializado');
   }
 
   isAuthenticated(): boolean {
     if (!this.isBrowser()) return false;
     const token = localStorage.getItem('token');
-    const isAuth = !!token && token.length > 0;    
-    console.log('🔍 isAuthenticated() =', isAuth);
-
     return !!token && token.length > 0;
   }
 
   cargarTokenDesdeStorage(): void {
-if (!this.isBrowser()) {
-      console.log('⚠️ No estamos en navegador (SSR)');
-      return;
-    }
-    console.log('📦 Cargando datos desde localStorage...');
+    if (!this.isBrowser()) return;
 
     const token = localStorage.getItem('token');
     const usuarioJson = localStorage.getItem('usuario');
 
-    if (token && token.length>0) {
+    if (token && token.length > 0) {
       this.tokenSubject.next(token);
       this.authenticatedSubject.next(true);
-      console.log('✅ Token cargado desde storage');
+      console.log('Token cargado desde storage');
     }
 
     if (usuarioJson) {
       try {
         const usuario = JSON.parse(usuarioJson);
         this.usuarioSubject.next(usuario);
-        console.log('✅ Usuario cargado desde storage');
+        console.log('Usuario cargado desde storage');
       } catch (error) {
-        console.error('❌ Error al parsear usuario:', error);
+        console.error('Error al parsear usuario:', error);
       }
     }
   }
@@ -80,7 +73,7 @@ if (!this.isBrowser()) {
     return this.http.post<ApiResponse<TokenResponse>>(`${this.apiUrl}/login`, loginRequest).pipe(
       tap((response) => {
         if (response.success && response.data) {
-          console.log('✅ Login exitoso');
+          console.log('Login exitoso');
 
           // Guardar en localStorage
           this.guardarToken(response.data.token);
@@ -103,7 +96,7 @@ if (!this.isBrowser()) {
   }
 
   logout(): void {
-    console.log('👋 Ejecutando logout...');
+    console.log(' Ejecutando logout...');
     this.limpiarLocalStorage();
     this.tokenSubject.next(null);
     this.usuarioSubject.next(null);
@@ -126,25 +119,40 @@ if (!this.isBrowser()) {
     const token = this.obtenerToken();
 
     if (!token) {
-      console.log('⚠️ No hay token para decodificar');
+      console.log('No hay token para decodificar');
       return null;
     }
 
     try {
       const decoded: any = jwtDecode(token);
-      console.log('🔑 Token decodificado:', decoded);
+      console.log('Token decodificado:', decoded);
       const rol = decoded.rol || null;
-      console.log('👨‍💼 Rol extraído:', rol);
+      console.log('Rol extraído:', rol);
       return rol;
     } catch (error) {
-      console.error('❌ Error al decodificar token:', error);
+      console.error(' Error al decodificar token:', error);
       return null;
     }
   }
-  isAdmin():boolean {
+  isAdmin(): boolean {
     const rol = this.obtenerRolDesdeToken();
     return rol === 'ADMIN';
   }
+  
+  isLogged(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  verificarEmail(token: string): Observable<ApiResponse<string>>{
+    return this.http.get<ApiResponse<string>>(`${this.apiUrl}/verificar`,{params:{token}})
+  }
+
+  reenviarVerificacion(email:string): Observable<ApiResponse<string>>{
+    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/reenviar-verificacion`, null, {params:{email}})
+  }
+
+
+  /* METODOS PRIVADOS */
 
   private guardarToken(token: string): void {
     if (!this.isBrowser()) return;
@@ -166,14 +174,11 @@ if (!this.isBrowser()) {
     }
   }
 
- 
-
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
   }
 
-   isLogged(): boolean {
-    return !!localStorage.getItem('token');
-  }
-  
+ 
+
+
 }

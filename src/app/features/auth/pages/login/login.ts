@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { response } from 'express';
 @Component({
   selector: 'app-login',
   imports: [CommonModule, FormsModule],
@@ -16,6 +17,10 @@ export class Login {
   isLoading: boolean = false;
   error: string = '';
   showPassword: boolean = false;
+
+  cuentaNoVerificada: boolean = false;
+  reenvioLoading: boolean = false;
+  reenvioMensaje: string = '';
 
   constructor(
     private authService: AuthService,
@@ -34,33 +39,42 @@ export class Login {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
         if (response.success) {
-          console.log('✅ Login exitoso');
-          console.log('📦 Response:', response.data);
-
-          // ✅ Esperar a que se guarden los datos en localStorage
-         
-            console.log('🔍 Verificando localStorage después de guardar:');
-            console.log('Token:', localStorage.getItem('token') ? 'SÍ' : 'NO');
-            console.log('Usuario:', localStorage.getItem('usuario') ? 'SÍ' : 'NO');
-
-            // Navegar después de verificar
-            console.log('ROL:', this.authService.obtenerRolDesdeToken());
-
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/productos';
-
             this.router.navigateByUrl(returnUrl);
           
         } else {
           this.error = response.message || 'error al iniciar sesión';
+          this.cuentaNoVerificada = this.error.toLowerCase().includes('verificar')
         }
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('❌ Error en el login', error);
         this.error = error.error?.message || 'Error al conectar con el servidor';
+        this.cuentaNoVerificada = this.error.toLowerCase().includes('verificar');
         this.isLoading = false;
       },
     });
+  }
+
+  reenviarVerificacion(): void{
+    if(!this.email){
+      this.reenvioMensaje = 'Ingresa tu email primero'
+      return;
+
+    }
+    this.reenvioLoading = true;
+    this.reenvioMensaje='';
+
+    this.authService.reenviarVerificacion(this.email).subscribe({
+      next:(response)=>{
+        this.reenvioMensaje = response.message ||'Correo enviado'
+        this.reenvioLoading = false;
+      },
+      error:()=>{
+        this.reenvioMensaje = 'No pudimos reenviar el correo. Intenta en otro momento o contacta con soporte';
+        this.reenvioLoading = false;
+      }
+    })
   }
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;

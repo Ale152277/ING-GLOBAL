@@ -24,19 +24,18 @@ export class Register {
   success: string = '';
   showPassword: boolean = false;
 
+  registroCompletado: boolean = false;
+  emailRegistrado: string = '';
+  reenvioLoading: boolean = false;
+  reenvioMensaje: string = ''; 
+
   constructor(
     private authService: AuthService,
     private router: Router,
   ) {}
 
   registro(): void {
-    if (
-      !this.nombreCompleto ||
-      !this.email ||
-      !this.password ||
-      !this.telefono ||
-      !this.direccion
-    ) {
+    if (!this.nombreCompleto || !this.email || !this.password || !this.telefono || !this.direccion) {
       this.error = 'Por favor completa todos los campos';
       return;
     }
@@ -66,19 +65,33 @@ export class Register {
     this.authService.registro(registroData).subscribe({
       next: (response)=>{
         if(response.success){
-          this.success = 'Registro exitoso, redirigiendo al login'
-          setTimeout(()=>{
-            this.router.navigate(['/home'])
-          }, 2000);
+          this.emailRegistrado =this.email;
+          this.registroCompletado = true;
         }else{
-          this.error = response.message || 'Error al registrarse';
+          this.error = response.message || 'Error al registrarse'
         }
-        this.isLoading = false
+        
       },
       error: (error)=>{
         console.error('error en el registro:', error)
         this.error = error.error?.message || 'El email ya está registrado o error del servidor'
         this.isLoading = false;
+      }
+    })
+  }
+
+  reenviarVerificacion (): void{
+    this.reenvioLoading = true;
+    this.reenvioMensaje = '';
+
+    this.authService.reenviarVerificacion(this.emailRegistrado).subscribe({
+      next: (response)=>{
+        this.reenvioMensaje = response.message || 'Correo reenviado directamente'
+        this.reenvioLoading = false
+      },
+      error:()=>{
+        this.reenvioMensaje = 'No pudimos reenviar el correo de verificacion'
+        this.reenvioLoading = false;
       }
     })
   }
