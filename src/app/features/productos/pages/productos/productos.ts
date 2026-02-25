@@ -9,6 +9,7 @@ import { CategoriaService } from '../../../../core/services/categoria.service';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { AuthService } from '../../../../core/services/auth.service';
 import { RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-productos',
   imports: [CommonModule, FormsModule, ProductoCard, RouterLink],
@@ -39,10 +40,19 @@ export class Productos implements OnInit {
     private productoService: ProductosService,
     private categoriaService: CategoriaService,
     private authService: AuthService,
+    private route:ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
+
+     this.route.queryParams.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(params => {
+      this.currentPage = 1;
+      this.selectedCategoria = +params['categoriaId']; 
+      this.cargarProductos();
+  });
     
     this.searchSubject.pipe(debounceTime(300),
       distinctUntilChanged(),

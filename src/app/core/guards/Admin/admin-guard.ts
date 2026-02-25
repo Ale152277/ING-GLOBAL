@@ -21,7 +21,7 @@ export class AdminGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    console.log('👨‍💼 AdminGuard - Verificando acceso a:', state.url);
+    console.log(' AdminGuard - Verificando acceso a:', state.url);
 
     if(!this.isBrowser()){
       console.log('SSR - permitiendo acceso (verificacion en cliente)')

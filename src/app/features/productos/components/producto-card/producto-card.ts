@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Producto } from '../../../../models/producto.model';
 import { CarritoService } from '../../../carrito/service/carrito.service';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -16,7 +16,6 @@ export class ProductoCard implements OnInit {
   @Output() agregarDeseados = new EventEmitter<Producto>();
   @Output() compartir = new EventEmitter<Producto>();
 
-  usuarioAutenticado = false;
   isLoading = false;
 
   constructor(
@@ -26,13 +25,15 @@ export class ProductoCard implements OnInit {
   ){}
 
 
-  ngOnInit(): void {
-    this.usuarioAutenticado = this.authService.isAuthenticated();
+  ngOnInit(): void {}
+
+  get usuarioAutenticado():boolean{
+    return this.authService.isAuthenticated();
   }
 
-  getPrecioFinal(): number{
+  get precioFinal(): number{
     if(this.producto.descuento){
-      this.producto.precio - (this.producto.precio * this.producto.descuento / 100)
+      return this.producto.precio - (this.producto.precio * this.producto.descuento / 100)
     }
     return this.producto.precio
   }
@@ -44,18 +45,17 @@ export class ProductoCard implements OnInit {
     }).format(precio);
   }
 
-  onAgregarAlCarrito(): void{
+  private requiereLogin():boolean{
     if(!this.usuarioAutenticado){
-      this.router.navigate(['/auth/login']);
-      return;
+      this.router.navigate(['/auth/login'])
     }
+    return false;
+  }
+
+  onAgregarAlCarrito(): void{
+    if(this.requiereLogin()) return;
     this.isLoading = true;
     const usuario = this.authService.obtenerUsuario();
-
-    if(!usuario){
-      this.router.navigate(['/auth/login']);
-      return;
-    }
 
     this.carritoService.agregarProducto(usuario.id,{
       productoId: this.producto.id,
@@ -73,10 +73,7 @@ export class ProductoCard implements OnInit {
   }
 
   onAgregarDeseados(): void{
-    if(!this.usuarioAutenticado){
-      this.router.navigate(['/auth/login']);
-      return;
-    }
+    if(this.requiereLogin()) return;
     this.agregarDeseados.emit(this.producto);
   }
 

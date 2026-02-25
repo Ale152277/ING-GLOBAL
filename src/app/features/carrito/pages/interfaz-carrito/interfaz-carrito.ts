@@ -8,7 +8,7 @@ import { CarritoService } from '../../service/carrito.service';
 
 @Component({
   selector: 'app-interfaz-carrito',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './interfaz-carrito.html',
   styleUrl: './interfaz-carrito.css',
 })

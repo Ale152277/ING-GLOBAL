@@ -4,7 +4,7 @@ import { filter } from 'rxjs';
 import { Header } from './shared/components/header/header';
 import { Footer } from './shared/components/footer/footer';
 import { CommonModule } from '@angular/common';
-
+import { Navbar } from './shared/components/navbar/navbar';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, CommonModule, Header, Footer],
