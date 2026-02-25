@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Producto } from '../../../../models/producto.model';
 import { ProductosService } from '../../../productos/services/productos.service';
+import { ProductoCard } from '../../../productos/components/producto-card/producto-card';
 import { response } from 'express';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-productos-destacados',
-  imports: [CommonModule],
+  imports: [CommonModule, ProductoCard, RouterLink],
   templateUrl: './productos-destacados.html',
   styleUrl: './productos-destacados.css'
 })
@@ -38,22 +40,4 @@ export class ProductosDestacados implements OnInit{
     }
   })
  }
-
-  getPrecioFinal(producto : Producto): number{
-    if(producto.descuento){
-      return producto.precio - (producto.precio * (producto.descuento / 100));
-    }
-    return producto.precio;
-  }
-
-  formatearPrecio(precio: number): string {
-    return new Intl.NumberFormat('es-ES',{
-      style: 'currency',
-      currency: 'PEN'
-    }).format(precio);
-  }
-
-
-  agregarAlCarrito(producto: Producto): void {
-    console.log('Producto agregado al carrito:', producto.nombre);
-  }}
+}

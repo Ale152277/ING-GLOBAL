@@ -34,9 +34,7 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
-  ) {
-    console.log('AuthService inicializado');
-  }
+  ) {}
 
   isAuthenticated(): boolean {
     if (!this.isBrowser()) return false;
@@ -53,14 +51,12 @@ export class AuthService {
     if (token && token.length > 0) {
       this.tokenSubject.next(token);
       this.authenticatedSubject.next(true);
-      console.log('Token cargado desde storage');
     }
 
     if (usuarioJson) {
       try {
         const usuario = JSON.parse(usuarioJson);
         this.usuarioSubject.next(usuario);
-        console.log('Usuario cargado desde storage');
       } catch (error) {
         console.error('Error al parsear usuario:', error);
       }
@@ -73,19 +69,13 @@ export class AuthService {
     return this.http.post<ApiResponse<TokenResponse>>(`${this.apiUrl}/login`, loginRequest).pipe(
       tap((response) => {
         if (response.success && response.data) {
-          console.log('Login exitoso');
-
           // Guardar en localStorage
           this.guardarToken(response.data.token);
           this.guardarUsuario(response.data.usuario);
-
           // Actualizar BehaviorSubjects
           this.tokenSubject.next(response.data.token);
           this.usuarioSubject.next(response.data.usuario);
           this.authenticatedSubject.next(true);
-
-          console.log('📝 Token guardado:', response.data.token.substring(0, 20) + '...');
-          console.log('👤 Usuario guardado:', response.data.usuario.email);
         }
       }),
     );
@@ -96,7 +86,6 @@ export class AuthService {
   }
 
   logout(): void {
-    console.log(' Ejecutando logout...');
     this.limpiarLocalStorage();
     this.tokenSubject.next(null);
     this.usuarioSubject.next(null);
@@ -119,18 +108,13 @@ export class AuthService {
     const token = this.obtenerToken();
 
     if (!token) {
-      console.log('No hay token para decodificar');
       return null;
     }
 
     try {
       const decoded: any = jwtDecode(token);
-      console.log('Token decodificado:', decoded);
-      const rol = decoded.rol || null;
-      console.log('Rol extraído:', rol);
-      return rol;
+      return decoded.rol || null;
     } catch (error) {
-      console.error(' Error al decodificar token:', error);
       return null;
     }
   }
