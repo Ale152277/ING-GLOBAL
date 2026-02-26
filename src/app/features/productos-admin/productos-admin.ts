@@ -14,7 +14,7 @@ import { CrearProductoRequest, EditarProductoRequest } from '../../models/crearP
 import { Categoria } from '../../models/categoria.model';
 import { Marca } from '../../models/marca.model';
 import { CategoriaService } from '../../core/services/categoria.service';
-import { MarcaService } from '../../models/Services/marca.service';
+import { MarcaService } from '../../core/services/marca.service';
 import { error } from 'console';
 
 @Component({

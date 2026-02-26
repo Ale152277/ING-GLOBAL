@@ -34,7 +34,26 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
-  ) {}
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      const usuarioJson = localStorage.getItem('usuario');
+
+      // Actualizar subjects inmediatamente con los datos del storage
+      // Así token$ emite el valor correcto desde el primer render en cliente
+      if (token && token.length > 0) {
+        this.tokenSubject.next(token);
+        this.authenticatedSubject.next(true);
+      }
+
+      if (usuarioJson) {
+        try {
+          this.usuarioSubject.next(JSON.parse(usuarioJson));
+        } catch {}
+      }
+    }
+    
+  }
 
   isAuthenticated(): boolean {
     if (!this.isBrowser()) return false;

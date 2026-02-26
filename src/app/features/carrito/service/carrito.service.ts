@@ -27,7 +27,7 @@ export class CarritoService {
   }
 
   eliminarProducto(detalleId:number, carritoId:number):Observable<void>{
-    return this.http.delete<void>(`${this.apiUrl}/${detalleId}?carritoId=${carritoId}`)
+    return this.http.delete<void>(`${this.apiUrl}/detalle/${detalleId}?carritoId=${carritoId}`)
   }
   
 

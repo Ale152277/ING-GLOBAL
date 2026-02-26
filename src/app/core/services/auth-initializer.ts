@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from './auth.service';
 /**
  * Este inicializador se ejecuta ANTES de que Angular renderize cualquier componente
  * Garantiza que el estado de autenticación esté cargado cuando los guards se ejecuten

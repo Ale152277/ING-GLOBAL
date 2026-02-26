@@ -7,7 +7,7 @@ import { response } from 'express';
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, CommonModule],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
