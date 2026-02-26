@@ -21,39 +21,26 @@ export class AdminGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    console.log(' AdminGuard - Verificando acceso a:', state.url);
 
-    if(!this.isBrowser()){
-      console.log('SSR - permitiendo acceso (verificacion en cliente)')
+    if(!isPlatformBrowser(this.platformId)){
       return true;
 
     }
 
     // Verificar si está autenticado
-    if (!this.authService.isAuthenticated()) {
-      console.log('❌ No autenticado - Redirigiendo a login');
+    if (!this.authService.isAuthenticatedSync()) {
       this.router.navigate(['/auth/login'], {
         queryParams: { returnUrl: state.url }
       });
       return false;
     }
 
-    // Obtener rol desde token
-    const rol = this.authService.obtenerRolDesdeToken();
-    console.log('🔍 Rol del usuario:', rol);
-
-    // Verificar si es ADMIN
-    if (rol === 'ADMIN') {
-      console.log('✅ Acceso concedido - Es ADMIN');
+    if(this.authService.isAdmin()){
       return true;
     }
 
-    console.log('❌ Acceso denegado - No es ADMIN. Redirigiendo a productos');
     this.router.navigate(['/productos']);
     return false;
   }
 
-  private isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
-  }
 }

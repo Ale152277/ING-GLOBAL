@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 /**
@@ -22,20 +21,15 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    console.log('🔐 AuthGuard - Verificando acceso a:', state.url);
 
-     if (!this.isBrowser()) {
-      console.log('⚠️ SSR - Permitiendo acceso (verificación en cliente)');
+     if (!isPlatformBrowser(this.platformId)) {
       return true;
     }
 
-    // Verificar si está autenticado
-    if (this.authService.isAuthenticated()) {
-      console.log('✅ Usuario autenticado');
+    if(this.authService.isAuthenticatedSync()){
       return true;
     }
 
-    console.log('❌ Usuario NO autenticado - Redirigiendo a login');
     
     // Redirigir a login con returnUrl
     this.router.navigate(['/auth/login'], {
@@ -44,7 +38,5 @@ export class AuthGuard implements CanActivate {
 
     return false;
   }
-  private isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
-  }
+
 }

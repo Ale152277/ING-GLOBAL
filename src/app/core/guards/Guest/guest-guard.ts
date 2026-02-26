@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
@@ -19,29 +19,20 @@ export class GuestGuard implements CanActivate {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
-    console.log('👤 GuestGuard - Verificando acceso a:', state.url);
+  canActivate(): boolean {
 
-     if (!this.isBrowser()) {
-      console.log('⚠️ SSR - Permitiendo acceso (verificación en cliente)');
+     if (!isPlatformBrowser(this.platformId)) {
       return true;
     }
 
     // Si está autenticado, redirigir a productos
-    if (this.authService.isAuthenticated()) {
-      console.log('⚠️ Ya estás autenticado - Redirigiendo a productos');
-      this.router.navigate(['/productos']);
-      return false;
+  
+    if(this.authService.isAuthenticatedSync()){
+      this.router.navigate(['/productos'])
+      return false//bloquea acceso a login y registro
     }
 
-    console.log('✅ No autenticado - Permitiendo acceso');
-    return true;
+    return true; //permite acceso si no está autenticado
   }
 
-  private isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
-  }
 }

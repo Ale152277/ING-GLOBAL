@@ -154,6 +154,9 @@ export class AuthService {
     return this.http.post<ApiResponse<string>>(`${this.apiUrl}/reenviar-verificacion`, null, {params:{email}})
   }
 
+  
+
+
 
   /* METODOS PRIVADOS */
 
@@ -179,6 +182,10 @@ export class AuthService {
 
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
+  }
+
+  isAuthenticatedSync():boolean{
+    return this.authenticatedSubject.getValue();
   }
 
  

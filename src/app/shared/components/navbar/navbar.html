@@ -58,7 +58,7 @@
       </a>
 
       <!-- Consultas -->
-      <a href="/consultas" class="navbar-link d-flex align-items-center gap-2">
+      <a [routerLink]="'/consultas'" class="navbar-link d-flex align-items-center gap-2">
         <img src="/assets/support.png" alt="Consultas" width="18" height="18" />
         <span>Consultas</span>
       </a>
@@ -81,7 +81,6 @@
         <ul class="dropdown-menu" aria-labelledby="dropdownMarcas">
           <li><a class="dropdown-item" [routerLink]="'/productos' ">HikVision</a></li>
           <li><a class="dropdown-item" [routerLink]="'/productos' ">Dalhua</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos' ">Marca 3</a></li>
         </ul>
       </div>
 

@@ -23,7 +23,7 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([jwtInterceptor])
     ),
-    // ✅ NUEVO PROVIDER
+    
     {
       provide: APP_INITIALIZER,
       useFactory: initializeAuth,

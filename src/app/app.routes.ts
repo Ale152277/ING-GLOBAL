@@ -11,6 +11,7 @@ import { InterfazCarrito } from './features/carrito/pages/interfaz-carrito/inter
 import { ProductosAdmin } from './features/productos-admin/productos-admin';
 import { AdminGuard } from './core/guards/Admin/admin-guard';
 import { Verifyemail } from './features/auth/pages/verifyemail/verifyemail';
+import { Consultas } from './features/consultas/consultas';
 export const routes: Routes = [
   {
     path: '',
@@ -25,6 +26,11 @@ export const routes: Routes = [
   {
     path: 'nosotros',
     component: Nosotros,
+  },
+
+  {
+    path : 'consultas',
+    component: Consultas,
   },
 
   {

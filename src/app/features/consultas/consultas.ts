@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -26,9 +26,13 @@ export class Consultas implements OnInit {
     private authService: AuthService,
     private http: HttpClient,
     private router: Router,
+    @Inject(PLATFORM_ID) private platformId: object
   ) {}
 
   ngOnInit(): void {
+
+    if(!isPlatformBrowser(this.platformId)) return;
+    
     this.usuario = this.authService.obtenerUsuario();
     if (!this.usuario) {
       this.router.navigate(['/auth/login']);
@@ -52,6 +56,30 @@ export class Consultas implements OnInit {
     this.isLoading = true;
     this.error =''
 
+    this.http.post<ApiResponse<string>>('http://localhost:8080/api/v1/consultas/enviar',
+      {asunto: this.asunto, mensaje: this.mensaje}
+    ).subscribe({
+      next:(response)=>{
+        if(response.success){
+          this.enviado = true;
+        }else{
+          this.error = response.message || 'Error al enviar la consulta';
+        }
+        this.isLoading = false;
+      },
+      error:()=>{
+        this.error = 'No pudimos enviar tu consulta. Intenta nuevamente';
+        this.isLoading = false;
+      }
+    })
+
+    
 
   }
+  nuevaConsulta():void{
+      this.asunto = '';
+      this.mensaje = '';
+      this.enviado= false;
+      this.error ='';
+    }
 }
