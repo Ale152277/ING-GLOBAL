@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule  } from '@angular/common';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-footer',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './footer.html',
   styleUrl: './footer.css'
 })
@@ -12,15 +13,15 @@ export class Footer {
 
   metodosPago=[
     { 
-      name: 'Diners Club', 
+      name: 'PLIN', 
       icon: 'assets/Payment/plin.png'
     },
     { 
-      name: 'American Express', 
+      name: 'MASTER CARD', 
       icon: 'assets/Payment/masterCard.png'
     },
     { 
-      name: 'Mastercard', 
+      name: 'YAPE', 
       icon: 'assets/Payment/yape.png'
     },
     { 
@@ -33,8 +34,7 @@ export class Footer {
   { name: 'Facebook', icon: 'fab fa-facebook-f', href: 'https://www.facebook.com/ingenieriaglobalperu/' },
   { name: 'Instagram', icon: 'fab fa-instagram', href: 'https://www.instagram.com/ingenieriaglobal_grupoig/?hl=es-la' },
   { name: 'LinkedIn', icon: 'fab fa-linkedin-in', href: 'https://www.linkedin.com/company/ingenieria-global-grupo-ig?originalSubdomain=pe' },
-  { name: 'Twitter', icon: 'fab fa-x-twitter', href: '' },
-  { name: 'YouTube', icon: 'fab fa-youtube', href: '' }
+
   ];
 
 }

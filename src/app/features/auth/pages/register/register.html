@@ -1,3 +1,4 @@
+@if (!registroCompletado){
 <div class="registro-container d-flex align-items-center justify-content-center min-vh-100">
   <div class="registro-card card shadow-lg" style="max-width: 500px; width: 100%;">
     
@@ -13,7 +14,7 @@
       <!-- Mensaje de error -->
       @if (error) {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <i class="fas fa-exclamation-circle"></i> {{ error }}
+        <i class="fas fa-exclamation-circle"></i>  Inténtelo nuevamente 
           <button 
             type="button" 
             class="btn-close" 
@@ -165,7 +166,7 @@
   </div>
 </div>
 
-@if (registroCompletado) {
+}@else{
   <div class="d-flex align-items-center justify-content-center min-vh-100">
     <div class="card  shadow-lg text-center" style="max-width: 480px; width: 100%;">
 
@@ -212,5 +213,9 @@
       </div>
     </div>
   </div>
+
 }
+
+
+
 

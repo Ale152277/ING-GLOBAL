@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 const rutas_sin_header_footer_navbar = ['/auth/login', '/auth/registro']
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, Header, Footer, Navbar],
+  imports: [RouterOutlet, CommonModule, Header, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

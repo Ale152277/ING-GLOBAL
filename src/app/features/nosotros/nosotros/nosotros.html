@@ -2,7 +2,7 @@
   <div class="container">
     <div class="text-center mb-5">
       <h2 class="section-title position-relative d-inline-block">
-        QUIÉNES SOMOS <span class="title-underline"> </span>
+        ¿QUIÉNES SOMOS? <span class="title-underline"> </span>
       </h2>
     </div>
 
@@ -114,14 +114,17 @@
 
           <!-- Imagen Principal -->
           <div class="imagen-principal position-relative overflow-hidden">
+            @if (imagenActual; as img){
             <img
-            *ngIf="imagenActual as img"
-            [@imagenSlider]
+              [@imagenSlider] = "currentImageIndex"
               [src]="imagenActual.src"
               [alt]="imagenActual.alt"
               class="w-100 rounded-lg"
               style="aspect-ratio: 4/5; object-fit: cover"
-            />
+            />  
+            }
+
+            
     
             <!-- Badge de años -->
             <div class="badge-anos position-absolute top-0 end-0 m-4">

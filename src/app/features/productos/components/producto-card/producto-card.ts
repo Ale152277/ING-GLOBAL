@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Producto } from '../../../../models/producto.model';
 import { CarritoService } from '../../../carrito/service/carrito.service';
 import { AuthService } from '../../../../core/services/auth.service';
+import { title } from 'node:process';
 @Component({
   selector: 'app-producto-card',
   imports: [CommonModule],
@@ -17,6 +18,7 @@ export class ProductoCard implements OnInit {
   @Output() compartir = new EventEmitter<Producto>();
 
   isLoading = false;
+  mensajeCompartido= '';
 
   constructor(
     private carritoService: CarritoService,
@@ -78,6 +80,26 @@ export class ProductoCard implements OnInit {
   }
 
   onCompartir(): void{
+    const url =`${window.location.origin}/productos/${this.producto.id}`
+    const texto = `${this.producto.nombre} - S/${this.precioFinal.toFixed(2)}`;
+
+    if(navigator.share){
+      navigator.share({
+        title: this.producto.nombre,
+      text: texto,
+      url: url,
+
+      }).catch(()=>{})
+      
+    }else{
+      navigator.clipboard.writeText(url).then(()=>{
+        this.mensajeCompartido = '¡Enlace copiado!';
+        setTimeout(() => {
+          this.mensajeCompartido =''
+        }, 2500);
+      })
+    }
+
     this.compartir.emit(this.producto);
   }
 }

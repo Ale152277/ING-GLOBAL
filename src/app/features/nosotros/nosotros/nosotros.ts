@@ -18,7 +18,7 @@ interface ImagenEquipo{
   styleUrl: './nosotros.css',
   animations: [
     trigger('imagenSlider', [
-      transition(':enter', [
+      transition('*<=>*', [
         style({
           opacity: 0,
           transform: 'translateX(30px) scale(0.98)'
@@ -133,7 +133,7 @@ export class Nosotros {
   }
 
   prevImagen():void{
-    this.currentImageIndex = (this.currentImageIndex - 1 + this.imagenesEquipo.length) & this.imagenesEquipo.length
+    this.currentImageIndex = (this.currentImageIndex - 1 + this.imagenesEquipo.length) % this.imagenesEquipo.length
 
   }
 

@@ -56,9 +56,9 @@
                     @for (detalle of carrito.detalles; track detalle.id) {
                       <tr>
                         <td>
-                          <strong>{{ detalle.producto?.nombre }}</strong>
+                          <strong>{{ detalle.producto.nombre }}</strong>
                           <br>
-                          <small class="text-muted">SKU: {{ detalle.producto?.sku }}</small>
+                          <small class="text-muted">SKU: {{ detalle.producto.sku }}</small>
                         </td>
                         <td>{{ formatearPrecio(detalle.precioUnitario) }}</td>
                         <td>
