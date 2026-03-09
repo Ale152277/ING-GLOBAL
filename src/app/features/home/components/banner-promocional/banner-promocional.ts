@@ -19,10 +19,11 @@ export class BannerPromocional {
     this.router.navigate(['/productos'])
   }
 
+  irAConsultas():void{
+    this.router.navigate(['/consultas'])
+  }
+
   
 
-  verMasInfo():void{
-    console.log('Ver mas información de la promoción');
-  }
 
 }
