@@ -128,7 +128,7 @@
 
 @media (max-width: 758px) {
   .hero-banner {
-    aspect-ratio: auto;   /* 👈 CLAVE */
+    aspect-ratio: auto;   
     height: 300px;
     width: 100%;
   }

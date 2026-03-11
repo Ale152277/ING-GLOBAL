@@ -14,33 +14,33 @@ export class HeroBanner {
   slides = [
     {
       id: 1,
-      image: 'assets/Banners/banner-4.png',
-      title: 'Instalaciones Profesionales',
-      description: 'Servicios de ingeniería de calidad'
+      image: 'assets/Banners/banner-7.jpeg',
+      title: 'SOLUCIONES INTEGRALES TI',
+      description: 'Soluciones Integrales de Infraestructura, Redes y Comunicaciones'
     },
     {
       id: 2,
-      image: 'assets/Banners/banner-2.png',
-      title: 'Expertos en el Sector',
-      description: 'Con experiencia y dedicación'
+      image: 'assets/Banners/banner-8.jpeg',
+      title: 'SEGURIDAD ELECTRÓNICA',
+      description: 'Sistemas de CCTV, Control de Acceso, Sistemas Contra Incendio, Sistemas anti-intrusión'
     },
     {
       id: 3,
-      image: 'assets/Banners/banner-3.png',
-      title: 'Tecnología Avanzada',
-      description: 'Soluciones innovadoras'
+      image: 'assets/Banners/banner-9.jpeg',
+      title: 'SERVICIOS DE TELECOMUNICACIONES',
+      description: 'Radio enlaces en VHF, UHF, Wireless LAN y Microondas'
     },
     {
       id: 4,
-      image: 'assets/Banners/banner-6.jpg',
-      title: 'Seguridad Garantizada',
-      description: 'Cumplimiento de normativas'
+      image: 'assets/Banners/banner-10.jpeg',
+      title: 'MANTENIMIENTO INDUSTRIAL',
+      description: 'Garantizamos maximizar la eficiencia y seguridad de tu industria'
     },
     {
       id: 5,
-      image: 'assets/Banners/banner-5.jpg',
-      title: 'Trabajos de Precisión',
-      description: 'Instalaciones confiables'
+      image: 'assets/Banners/banner-11.jpeg',
+      title: 'CLIENTES',
+      description: ''
     }
   ];
 
