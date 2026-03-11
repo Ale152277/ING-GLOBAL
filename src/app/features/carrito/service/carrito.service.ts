@@ -4,14 +4,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Carrito, DetalleCarrito } from '../../../models/carrito.model';
 import { ApiResponse } from '../../../models/api-response.model';
 import { AgregarAlCarrito } from '../../../models/carrito.model';
-
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarritoService {
   
-  private apiUrl = 'http://localhost:8080/api/v1/carrito';
+  private apiUrl = `${environment.apiUrl}/api/v1/carrito`;
 
   private carritoSubjetc = new BehaviorSubject<Carrito | null>(null);
   public carrito$ = this.carritoSubjetc.asObservable();

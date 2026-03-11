@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { Producto } from '../../../models/producto.model';
 import { PageResponse, ApiResponse } from '../../../models/api-response.model';
 import { CrearProductoRequest, EditarProductoRequest } from '../../../models/crearProductoRequest';
+import { environment } from '../../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductosService {
-  private apiUrl = 'http://localhost:8080/api/v1/productos';
+  private apiUrl = `${environment.apiUrl}/api/v1/productos`;
 
   constructor(private http: HttpClient) {}
 

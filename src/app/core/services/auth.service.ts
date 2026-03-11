@@ -7,7 +7,7 @@ import { LoginRequest, RegistroRequest, TokenResponse } from '../../models/auth.
 import { jwtDecode } from 'jwt-decode';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-
+import { environment } from '../../../environments/environment';
 //request = payload que envia el frontend (el contenido debe coincidir)
 //response = estructura/wrapper que devuelve el backend como respuesta
 //tokenresponse = data real de login
@@ -17,7 +17,7 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/v1/auth';
+  private apiUrl = `${environment.apiUrl}/api/v1/auth`;
 
   //creo un estado reactivo para el token que empieza con lo que haya en el storage
   //crear una variable tokensubject que almacenará un valor inicial (en este casonull)

@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Categoria } from '../../models/categoria.model';
 import { ApiResponse } from '../../models/api-response.model';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class CategoriaService {
 
-  private apiUrl = 'http://localhost:8080/api/v1/categorias'
+  private apiUrl = `${environment.apiUrl}/api/v1/categorias`
 
   constructor(private http: HttpClient){}
 
