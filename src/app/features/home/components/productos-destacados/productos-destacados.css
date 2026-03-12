@@ -1,6 +1,6 @@
-/* ============================================
+/* 
    PRODUCTOS DESTACADOS
-   ============================================ */
+    */
 
 .productos-destacados {
   background-color: var(--color-gray-light);
@@ -13,9 +13,9 @@
   margin-bottom: var(--spacing-md);
 }
 
-/* ============================================
+/* 
    TARJETA DE PRODUCTO
-   ============================================ */
+    */
 
 .producto-card {
   border: none;
@@ -31,9 +31,9 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* ============================================
+/* 
    IMAGEN DEL PRODUCTO
-   ============================================ */
+    */
 
 .producto-imagen-container {
   aspect-ratio: 1;
@@ -47,9 +47,9 @@
   transform: scale(1.1);
 }
 
-/* ============================================
+/* 
    BADGES (Etiqueta y Descuento)
-   ============================================ */
+    */
 
 .etiqueta {
   font-size: 0.75rem;
@@ -76,9 +76,9 @@
   50% { opacity: 0.7; }
 }
 
-/* ============================================
+/* 
    OVERLAY DE COMPRA
-   ============================================ */
+    */
 
 .producto-overlay {
   background-color: rgba(0, 0, 0, 0.7);
@@ -92,9 +92,9 @@
 }
 
 
-/* ============================================
+/* 
    CARRUSEL HORIZONTAL MOBILE
-   ============================================ */
+    */
 .productos-carousel {
   display: flex;
   gap: 1rem;
@@ -134,9 +134,9 @@
 }
 
 
-/* ============================================
+/* 
    RESPONSIVE
-   ============================================ */
+    */
 
 @media (max-width: 576px) {
   .section-title {
