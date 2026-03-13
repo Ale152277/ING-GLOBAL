@@ -62,7 +62,27 @@
                         </td>
                         <td>{{ formatearPrecio(detalle.precioUnitario) }}</td>
                         <td>
-                          <span class="badge bg-secondary">{{ detalle.cantidad }}</span>
+                          <div class="d-flex align-items-center gap-2">
+
+                            @if (detalle.cantidad >1) {
+                               <button
+                            class="btn btn-sm btn-outline-secondary"
+                            (click)="actualizarCantidad(detalle, -1)">-</button>
+
+                            }@else{
+                              <button
+                            class="btn btn-sm btn-outline-secondary disabled"
+                            (click)="actualizarCantidad(detalle, -1)">-</button>
+
+                            }
+                            
+                           
+                          <span class="badge bg-secondary"> {{ detalle.cantidad }}</span>
+                          <button
+                          class=" btn btn-sm btn btn-outline-secondary"
+                          (click)="actualizarCantidad(detalle, 1)">+</button>
+
+                          </div>
                         </td>
                         <td>
                           <strong>{{ formatearPrecio(detalle.subtotal) }}</strong>

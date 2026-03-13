@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Carrito, DetalleCarrito } from '../../../models/carrito.model';
 import { ApiResponse } from '../../../models/api-response.model';
 import { AgregarAlCarrito } from '../../../models/carrito.model';
 import { environment } from '../../../../environments/environment';
+import { response } from 'express';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,13 @@ export class CarritoService {
   }
 
   agregarProducto(usuarioId:number, request:AgregarAlCarrito):Observable<ApiResponse<Carrito>>{
-    return this.http.post<ApiResponse<Carrito>>(`${this.apiUrl}/${usuarioId}/agregar`, request);
+    return this.http.post<ApiResponse<Carrito>>(`${this.apiUrl}/${usuarioId}/agregar`, request).pipe(
+      tap(response =>{
+        if(response.data){
+          this.carritoSubjetc.next(response.data)
+        }
+      })
+    );
   }
 
   eliminarProducto(detalleId:number, carritoId:number):Observable<void>{
@@ -51,6 +58,22 @@ export class CarritoService {
       return 0;
     }
     return carrito.detalles.reduce((total, detalle)=> total + detalle.subtotal, 0)
+  }
+
+  actualizarCantidad(detalleId: number, carritoId: number, cantidad: number):Observable<ApiResponse<Carrito>>{
+    return this.http.put<ApiResponse<Carrito>>(
+         `${this.apiUrl}/detalle/${detalleId}?cantidad=${cantidad}&carritoId=${carritoId}`, {}
+    ).pipe(
+      tap((response: ApiResponse<Carrito>)=>{
+        if(response.data){
+          this.carritoSubjetc.next(response.data)
+        }
+      })
+    )
+  }
+
+  actualizarBehaviorSubject(carrito: Carrito): void{
+    this.carritoSubjetc.next({... carrito, detalles: [...carrito.detalles]});
   }
 
   generarURLWhatsapp(carrito:Carrito, numeroEmpresa: string = '51984115299'):string{

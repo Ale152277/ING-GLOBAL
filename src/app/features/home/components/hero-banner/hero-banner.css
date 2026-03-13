@@ -29,8 +29,8 @@
 .slide-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
+  object-fit:fill;
+  object-position: left center;
 }
 
 /* 
@@ -127,6 +127,12 @@
     */
 
 @media (max-width: 758px) {
+  .slide-image{
+    object-position: left center;
+    object-fit: fill;
+    background-color: #000;
+  }
+
   .hero-banner {
     aspect-ratio: auto;   
     height: 300px;
@@ -144,6 +150,11 @@
 }
 
 @media (max-width: 576px) {
+
+  .slide-image{
+    object-fit: fill;
+    object-position: left center;
+  }
   .hero-banner {
     aspect-ratio: auto;
     height: 250px;

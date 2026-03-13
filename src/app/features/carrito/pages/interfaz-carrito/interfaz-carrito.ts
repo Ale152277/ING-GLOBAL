@@ -68,11 +68,25 @@ export class InterfazCarrito implements OnInit{
     }).format(precio);
   }
 
+  actualizarCantidad(detalle:DetalleCarrito, incremento: number): void{
+    if(!this.carrito) return;
+    const nuevaCantidad = detalle.cantidad + incremento;
+    
+    if(nuevaCantidad <= 0){
+      this.eliminarProducto(detalle)
+    }
+
+    detalle.cantidad = nuevaCantidad;
+    detalle.subtotal = detalle.precioUnitario * nuevaCantidad
+    this.carritoService.actualizarBehaviorSubject(this.carrito!)
+  }
+
   eliminarProducto(dettalle: DetalleCarrito):void{
     if(!this.carrito) return;
     this.carritoService.eliminarProducto(dettalle.id, this.carrito.id).subscribe({
       next:()=>{
-        this.cargarCarrito();
+        this.carrito!.detalles = this.carrito!.detalles.filter(d => d.id !== dettalle.id);
+        this.carritoService.actualizarBehaviorSubject(this.carrito!)
       },
       error : (error)=>{
         console.error('Error al eliminar producto:', error);
@@ -87,7 +101,8 @@ export class InterfazCarrito implements OnInit{
     }
     this.carritoService.varciarCarrito(this.carrito.id).subscribe({
       next:()=>{
-        this.carrito = null;
+        this.carrito!.detalles = [];
+        this.carritoService.actualizarBehaviorSubject(this.carrito!)
       },
       error:(error)=>{
         console.error('Error al vaciar el carrito:', error);
