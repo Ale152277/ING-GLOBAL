@@ -35,22 +35,12 @@
         <!-- Tabla de productos -->
         <div class="col-lg-8">
           <div class="card">
-            @for (detalle of carrito.detalles; track detalle.id) {
-              @if (detalle.cantidad <= 1) {
                 <div class="card-header bg-primary d-flex justify-content-between">
                   <h5 class="mb-0 text-white">Resumen del Carrito</h5>
 
-                  <h5 class="mb-0 text-white">({{ obtenerCantidadTotal() }} artículo)</h5>
+                  <h5 class="mb-0 text-white">({{ obtenerCantidadTotal()}})</h5>
                 </div>
-              } @else {
-                <div class="card-header bg-primary d-flex justify-content-between">
-                  <h5 class="mb-0 text-white">Resumen del Carrito</h5>
-
-                  <h5 class="mb-0 text-white">({{ obtenerCantidadTotal() }} artículos)</h5>
-                </div>
-              }
-            }
-            <div class="card-body p-0">
+                    <div class="card-body p-0">
               <div class="table-responsive">
                 <table class="table mb-0">
                   <thead class="table-light">
