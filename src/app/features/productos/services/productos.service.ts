@@ -4,8 +4,7 @@ import { Observable } from 'rxjs';
 import { Producto } from '../../../models/producto.model';
 import { PageResponse, ApiResponse } from '../../../models/api-response.model';
 import { CrearProductoRequest, EditarProductoRequest } from '../../../models/crearProductoRequest';
-import { environment } from '../../../../environments/environment.prod';
-
+import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })

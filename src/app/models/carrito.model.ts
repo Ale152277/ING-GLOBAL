@@ -1,9 +1,25 @@
 import { Producto } from "./producto.model";
 
+
+export interface PresentacionProducto{
+    id: number;
+    productoId: number;
+    nombreProducto: string;
+    tipoPresentacionId?: number;
+    tipoUnidadId?: number;
+    tipoPresentacion?: string;
+    tipoUnidad?: string;
+    cantidadBase: number;
+    precio: number;
+    estado: string;
+    imagen?: string;
+}
+
 export interface DetalleCarrito{
     id: number;
     productoId: number;
-    producto: Producto;
+    producto?: Producto;
+    presentacion?: PresentacionProducto;
     cantidad: number;
     precioUnitario: number;
     descuento: number;
@@ -21,6 +37,7 @@ export interface Carrito{
 }
 
 export interface AgregarAlCarrito{
-    productoId: number;
+    productoId?: number;
+    presentacionId?: number;
     cantidad: number;
 }

@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Carrito, DetalleCarrito } from '../../../models/carrito.model';
+import { Carrito, DetalleCarrito, AgregarAlCarrito} from '../../../models/carrito.model';
 import { ApiResponse } from '../../../models/api-response.model';
-import { AgregarAlCarrito } from '../../../models/carrito.model';
 import { environment } from '../../../../environments/environment';
-import { response } from 'express';
 
 @Injectable({
   providedIn: 'root',
@@ -76,12 +74,29 @@ export class CarritoService {
     this.carritoSubjetc.next({... carrito, detalles: [...carrito.detalles]});
   }
 
-  generarURLWhatsapp(carrito:Carrito, numeroEmpresa: string = '51984115299'):string{
+  generarURLWhatsapp(carrito:Carrito, numeroEmpresa: string = '51973306855'):string{
     let mensaje = '*Mi carrito de compras*\n\n';
 
     if(carrito.detalles && carrito.detalles.length > 0){
       carrito.detalles.forEach((detalle, index)=>{
-        mensaje += `${index + 1}. ${detalle.producto?.nombre || 'Producto'}\n`;
+        
+        //puede venir producto o de presentacion
+        const nombre = 
+        detalle.producto?.nombre || 
+        detalle.presentacion?.nombreProducto || 
+        'Producto';
+
+        //detalle extra si tiene presentacion
+        const extra = detalle.presentacion 
+        ? `Presentacion: 
+        ${detalle.presentacion.tipoPresentacion || ''} 
+        ${detalle.presentacion.cantidadBase} 
+        ${detalle.presentacion.tipoUnidad || ''}\n` : '';
+
+
+
+        mensaje += `${index + 1}. ${nombre}\n`;
+        mensaje += extra;
         mensaje += `   Cantidad: ${detalle.cantidad}\n`;
         mensaje += `   Precio Unitario: S/ ${detalle.precioUnitario.toFixed(2)}\n`;
         if(detalle.descuento >0){

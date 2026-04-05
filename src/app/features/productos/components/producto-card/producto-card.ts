@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { PresentacionProducto } from '../../../../models/carrito.model';
 import { Producto } from '../../../../models/producto.model';
 import { CarritoService } from '../../../carrito/service/carrito.service';
 import { AuthService } from '../../../../core/services/auth.service';
-import { title } from 'node:process';
 @Component({
   selector: 'app-producto-card',
   imports: [CommonModule],
@@ -13,6 +13,7 @@ import { title } from 'node:process';
 })
 export class ProductoCard implements OnInit {
   @Input() producto!: Producto;
+  @Input() presentacion?: PresentacionProducto;
   @Output() agregarAlCarrito = new EventEmitter<Producto>();
   @Output() agregarDeseados = new EventEmitter<Producto>();
   @Output() compartir = new EventEmitter<Producto>();
@@ -59,10 +60,10 @@ export class ProductoCard implements OnInit {
     this.isLoading = true;
     const usuario = this.authService.obtenerUsuario();
 
-    this.carritoService.agregarProducto(usuario.id,{
-      productoId: this.producto.id,
-      cantidad: 1
-    }).subscribe({
+    const request = this.presentacion ? 
+    {presentacionId : this.presentacion.id, cantidad: 1}:{productoId: this.producto.id, cantidad:1};
+
+    this.carritoService.agregarProducto(usuario.id, request).subscribe({
       next:()=>{
         this.isLoading= false;
         this.agregarAlCarrito.emit(this.producto)
