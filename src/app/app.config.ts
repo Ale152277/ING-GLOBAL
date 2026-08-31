@@ -6,10 +6,9 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { AuthInitializer } from './core/services/auth-initializer';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-export function initializeAuth(authInitializer: AuthInitializer): () => void {
-  return () => {
-    authInitializer.initializeAuth();
-  };
+export function initializeAuth(authInitializer: AuthInitializer): () => Promise<void> {
+  return () => authInitializer.initializeAuth();
+  
 }
 
 export const appConfig: ApplicationConfig = {

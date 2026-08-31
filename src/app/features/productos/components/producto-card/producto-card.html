@@ -1,5 +1,4 @@
 <div class="producto-card h-100 shadow-sm">
-  <!-- Imagen Container -->
   <div class="producto-imagen-container position-relative overflow-hidden">
     <img
       [src]="producto.imagen"
@@ -7,7 +6,6 @@
       class="w-100 h-100 object-fit-cover producto-imagen"
     />
 
-    <!-- Etiqueta -->
     @if (producto.etiqueta) {
       <span
         class="position-absolute top-0 start-0 m-2 px-2 py-1 text-white text-uppercase fw-bold etiqueta"
@@ -17,14 +15,12 @@
       </span>
     }
 
-    <!-- Descuento Badge -->
     @if (producto.descuento) {
       <span class="position-absolute top-0 end-0 m-2 badge bg-danger">
         -{{ producto.descuento }}%
       </span>
     }
 
-    <!-- Overlay de Compra -->
     <div
       class="producto-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
     >
@@ -51,7 +47,6 @@
     </div>
   </div>
 
-  <!-- Info Producto -->
   <div class="card-body d-flex flex-column">
     <div class="d-flex justify-content-between text-success" style="font-weight: 700;  " >
       <p class=" text-uppercase small mb-2">{{ producto.categoriaNombre }}</p>
@@ -60,7 +55,6 @@
 
     <h6 class="card-title mb-3">{{ producto.nombre }}</h6>
 
-    <!-- Precios -->
     <div class="mb-2">
       @if (producto.descuento) {
         <span class="text-muted text-decoration-line-through me-2 small">
@@ -72,10 +66,8 @@
       </span>
     </div>
 
-    <!-- SKU -->
     <p class="text-muted small mb-2">SKU: {{ producto.sku }}</p>
 
-    <!-- Rating -->
     @if (producto.rating) {
       <div class="mb-3">
         <i class="fas fa-star text-warning"></i>
@@ -83,7 +75,6 @@
       </div>
     }
 
-    <!-- Acciones -->
     <div class="d-flex gap-2 mt-auto pt-3 border-top">
       <button
         class="btn btn-outline-secondary btn-sm flex-grow-1"

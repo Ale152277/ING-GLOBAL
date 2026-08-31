@@ -31,7 +31,7 @@ export class ProductoCard implements OnInit {
   ngOnInit(): void {}
 
   get usuarioAutenticado():boolean{
-    return this.authService.isAuthenticated();
+    return this.authService.isAuthenticatedSync();
   }
 
   get precioFinal(): number{

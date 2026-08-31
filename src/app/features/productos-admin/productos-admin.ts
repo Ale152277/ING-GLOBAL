@@ -15,7 +15,6 @@ import { Categoria } from '../../models/categoria.model';
 import { Marca } from '../../models/marca.model';
 import { CategoriaService } from '../../core/services/categoria.service';
 import { MarcaService } from '../../core/services/marca.service';
-import { error } from 'console';
 
 @Component({
   selector: 'app-productos-admin',
@@ -40,6 +39,11 @@ export class ProductosAdmin implements OnInit {
   productoForm: FormGroup;
 
   mensaje: { tipo: 'success' | 'danger' | 'info'; texto: string } | null = null;
+
+  archivoSeleccionado: File | null = null;
+  previsualizacionImagen: string | null = null;
+  modoImagen: 'url' | 'archivo' = 'url';
+  subiendoImagen = false;
 
   constructor(
     private productoService: ProductosService,
@@ -102,26 +106,27 @@ export class ProductosAdmin implements OnInit {
     });
   }
 
-  cargarCategorias():void{
+  cargarCategorias(): void {
     this.categoriaService.obtenerTodas().subscribe({
-      next:(response)=>{
-        if(response.success && response.data){
+      next: (response) => {
+        if (response.success && response.data) {
           this.categoria = response.data;
         }
       },
-      error:(error)=>{
-        console.log('Error', error)
-      }
-    })
+      error: (error) => {
+        console.log('Error', error);
+      },
+    });
   }
-
-
 
   abrirModalCrear(): void {
     this.isEditando = false;
     this.productoSeleccionado = null;
     this.productoForm.reset();
     this.mostrarModal = true;
+    this.archivoSeleccionado = null;
+    this.previsualizacionImagen = null;
+    this.modoImagen = 'url';
   }
 
   abrirModalEditar(producto: Producto): void {
@@ -149,6 +154,9 @@ export class ProductosAdmin implements OnInit {
     this.mostrarModal = false;
     this.productoForm.reset();
     this.productoSeleccionado = null;
+    this.archivoSeleccionado = null;
+    this.previsualizacionImagen = null;
+    this.modoImagen = 'url';
   }
 
   guardarProducto(): void {
@@ -157,7 +165,30 @@ export class ProductosAdmin implements OnInit {
       return;
     }
 
-    const datosFormulario = this.productoForm.value;
+    if(this.modoImagen =='archivo' && this.archivoSeleccionado){
+      this.subiendoImagen = true;
+      this.productoService.subirImagen(this.archivoSeleccionado).subscribe({
+        next: (response) =>{
+          this.subiendoImagen = false;
+          if(response.success && response.data){
+            this.productoForm.patchValue({imagen: response.data});
+            this.procesarGuardado();
+          }
+        },
+        error: (error) => {
+        this.subiendoImagen = false;
+        this.mostrarMensaje('danger', error.error?.message || 'Error al subir la imagen');
+      },
+    });
+  } else {
+    this.procesarGuardado();
+  }
+    
+   
+}
+
+  private procesarGuardado(): void{
+     const datosFormulario = this.productoForm.value;
 
     const datosBase: CrearProductoRequest = {
       nombre: datosFormulario.nombre,
@@ -187,7 +218,7 @@ export class ProductosAdmin implements OnInit {
           }
         },
         error: (error) => {
-          console.error('❌ Error al editar producto:', error);
+          console.error(' Error al editar producto:', error);
           this.mostrarMensaje('danger', error.error?.message || 'Error al actualizar el producto');
         },
       });
@@ -251,8 +282,6 @@ export class ProductosAdmin implements OnInit {
     });
   }
 
-  // ==================== UTILIDADES ====================
-
   mostrarMensaje(tipo: 'success' | 'danger' | 'info', texto: string): void {
     this.mensaje = { tipo, texto };
 
@@ -277,4 +306,27 @@ export class ProductosAdmin implements OnInit {
     const control = this.productoForm.get(campo);
     return !!(control && control.invalid && control.touched);
   }
-}
+
+  onArchivoSeleccionado(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const archivo = input.files[0];
+
+      const tiposPermitidos = ['image/jpeg', 'image/jpg', 'image/png'];
+      if (!tiposPermitidos.includes(archivo.type)) {
+        this.mostrarMensaje('danger', 'Solo se permiten imágenes JPG, JPEG o PNG');
+        return;
+      }
+      if (archivo.size > 5 * 1024 * 1024) {
+        this.mostrarMensaje('danger', 'La imagen no puede pesar más de 5MB');
+        return;
+      }
+
+      this.archivoSeleccionado = archivo;
+      const reader = new FileReader();
+      reader.onload = () => (this.previsualizacionImagen = reader.result as string);
+      reader.readAsDataURL(archivo);
+    }
+  }
+
+  }

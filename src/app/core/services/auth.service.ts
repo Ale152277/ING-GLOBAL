@@ -31,35 +31,12 @@ export class AuthService {
   public authenticated$ = this.authenticatedSubject.asObservable();
 
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object,
-  ) {
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('token');
-      const usuarioJson = localStorage.getItem('usuario');
+  private http: HttpClient,
+  private router: Router,
+  @Inject(PLATFORM_ID) private platformId: Object,
+) {}
 
-      // Actualizar subjects inmediatamente con los datos del storage
-      // Así token$ emite el valor correcto desde el primer render en cliente
-      if (token && token.length > 0) {
-        this.tokenSubject.next(token);
-        this.authenticatedSubject.next(true);
-      }
 
-      if (usuarioJson) {
-        try {
-          this.usuarioSubject.next(JSON.parse(usuarioJson));
-        } catch {}
-      }
-    }
-    
-  }
-
-  isAuthenticated(): boolean {
-    if (!this.isBrowser()) return false;
-    const token = localStorage.getItem('token');
-    return !!token && token.length > 0;
-  }
 
   cargarTokenDesdeStorage(): void {
     if (!this.isBrowser()) return;
@@ -142,9 +119,6 @@ export class AuthService {
     return rol === 'ADMIN';
   }
   
-  isLogged(): boolean {
-    return !!localStorage.getItem('token');
-  }
 
   verificarEmail(token: string): Observable<ApiResponse<string>>{
     return this.http.get<ApiResponse<string>>(`${this.apiUrl}/verificar`,{params:{token}})
@@ -184,6 +158,8 @@ export class AuthService {
     return isPlatformBrowser(this.platformId);
   }
 
+
+  //----------------------------------------
   isAuthenticatedSync():boolean{
     return this.authenticatedSubject.getValue();
   }

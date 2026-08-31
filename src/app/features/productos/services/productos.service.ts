@@ -101,6 +101,12 @@ export class ProductosService {
   params = params.set('estado', estado);
   return this.http.patch<ApiResponse<Producto>>(`${this.apiUrl}/${id}/estado`, null, { params });
 }
+
+subirImagen(archivo: File): Observable<ApiResponse<string>> {
+  const formData = new FormData();
+  formData.append('archivo', archivo);
+  return this.http.post<ApiResponse<string>>(`${this.apiUrl}/upload-imagen`, formData);
+}
   
   obtenerTodosParaAdmin(
     page:number =1,
