@@ -2,16 +2,13 @@
 <div class="registro-container d-flex align-items-center justify-content-center min-vh-100">
   <div class="registro-card card shadow-lg" style="max-width: 500px; width: 100%;">
     
-    <!-- Header -->
     <div class="card-header bg-success text-white text-center py-4">
       <h3 class="mb-0">Crear Cuenta</h3>
       <small>Ingeniera Global E-Commerce</small>
     </div>
 
-    <!-- Body -->
     <div class="card-body p-4">
       
-      <!-- Mensaje de error -->
       @if (error) {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <i class="fas fa-exclamation-circle"></i>  Inténtelo nuevamente 
@@ -23,17 +20,14 @@
         </div>
       }
 
-      <!-- Mensaje de éxito -->
       @if (success) {
         <div class="alert alert-success alert-dismissible fade show" role="alert">
           <i class="fas fa-check-circle"></i> {{ success }}
         </div>
       }
 
-      <!-- Formulario -->
       <form (ngSubmit)="registro()" class="registro-form">
         
-        <!-- Nombre Completo -->
         <div class="mb-3">
           <label for="nombreCompleto" class="form-label">Nombre Completo</label>
           <input 
@@ -48,7 +42,6 @@
           >
         </div>
 
-        <!-- Email -->
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
           <input 
@@ -63,7 +56,6 @@
           >
         </div>
 
-        <!-- Teléfono -->
         <div class="mb-3">
           <label for="telefono" class="form-label">Teléfono</label>
           <input 
@@ -78,7 +70,6 @@
           >
         </div>
 
-        <!-- Dirección -->
         <div class="mb-3">
           <label for="direccion" class="form-label">Dirección</label>
           <input 
@@ -93,7 +84,6 @@
           >
         </div>
 
-        <!-- Contraseña -->
         <div class="mb-3">
           <label for="contraseña" class="form-label">Contraseña</label>
           <div class="input-group">
@@ -119,7 +109,6 @@
           <small class="text-muted">Mínimo 6 caracteres</small>
         </div>
 
-        <!-- Confirmar Contraseña -->
         <div class="mb-3">
           <label for="contraseñaConfirm" class="form-label">Confirmar Contraseña</label>
           <input 
@@ -134,7 +123,6 @@
           >
         </div>
 
-        <!-- Botón de registro -->
         <button 
           type="submit" 
           class="btn btn-success btn-lg w-100 mb-3"
@@ -149,10 +137,8 @@
           }
         </button>
 
-        <!-- Link a login -->
         <div class="text-center">
           <small class="text-muted">
-            ¿Ya tienes cuenta? 
             <a href="javascript:void(0)" (click)="irAlLogin()" class="text-success fw-bold">
               Inicia sesión aquí
             </a>
@@ -172,7 +158,6 @@
 
       <div class="card-body p-5">
 
-        <!-- Icono animado -->
         <div class="mb-4">
           <i class="fas fa-envelope-open-text text-danger" style="font-size: 4rem;"></i>
         </div>
@@ -188,7 +173,6 @@
 
         <hr class="my-4"/>
 
-        <!-- Reenviar verificación -->
         <p class="text-muted small mb-2">¿No recibiste el correo?</p>
 
         @if (reenvioMensaje) {

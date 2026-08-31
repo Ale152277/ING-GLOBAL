@@ -1,6 +1,6 @@
 <div class="carrito-page py-4">
   <div class="container">
-    <!-- Breadcrumb -->
+    
     <nav aria-label="breadcrumb" class="mb-4">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">Inicio</a></li>
@@ -9,7 +9,7 @@
       </ol>
     </nav>
 
-    <!-- Mensaje de error -->
+    
     @if (error) {
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
         {{ error }}
@@ -17,7 +17,7 @@
       </div>
     }
 
-    <!-- Carrito vacío -->
+    
     @if (!isloading && (!carrito || carrito.detalles.length === 0)) {
       <div class="text-center py-5">
         <i class="fas fa-shopping-cart" style="font-size: 64px; color: #ccc"></i>
@@ -29,10 +29,10 @@
       </div>
     }
 
-    <!-- Carrito con productos -->
+    
     @if (!isloading && carrito && carrito.detalles.length > 0) {
       <div class="row g-4">
-        <!-- Tabla de productos -->
+        
         <div class="col-lg-8">
           <div class="card">
                 <div class="card-header bg-primary d-flex justify-content-between">
@@ -66,12 +66,12 @@
                         <td>
                           <strong>{{ detalle.producto?.nombre || detalle.presentacion?.nombreProducto || 'Producto' }}</strong>
                           <br />
-                          <!--SKU si solo viene producto solo-->
+                          
 
                           @if(detalle.producto){
                             <small class="text-muted">SKU: {{ detalle.producto.sku }}</small>
                           }
-                          <!--Info de presentacion si existe-->
+                          
                           @if(detalle.presentacion){
                             <small class="text-muted">
                               {{detalle.presentacion.tipoPresentacion}}
@@ -131,7 +131,7 @@
             </div>
           </div>
 
-          <!-- Botones de acción -->
+          
           <div class="mt-3 d-flex gap-2">
             <a href="/productos" class="btn btn-outline-secondary">
               <i class="fas fa-arrow-left me-2"></i>Continuar Comprando
@@ -142,7 +142,7 @@
           </div>
         </div>
 
-        <!-- Resumen de compra -->
+        
         <div class="col-lg-4">
           <div class="card sticky-top" style="top: 20px">
             <div class="card-header bg-primary text-white">
@@ -191,7 +191,7 @@
       </div>
     }
 
-    <!-- Cargando -->
+    
     @if (isloading && !carrito) {
       <div class="text-center py-5">
         <div class="spinner-border" role="status">

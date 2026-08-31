@@ -1,12 +1,12 @@
 <section class="consultas-page">
 
-  <!-- Fondo mapa punteado -->
+  
   <div class="map-bg"></div>
 
   <div class="container ">
     <div class="row min-vh-100 align-items-center justify-content-center py-5">
 
-      <!-- Columna izquierda — info -->
+      
       <div class="col-lg-5 col-md-12 mb-5 mb-lg-0 pe-lg-5">
 
         <p class="consultas-eyebrow">INGENIERÍA GLOBAL</p>
@@ -49,11 +49,11 @@
 
       </div>
 
-      <!-- Columna derecha — formulario -->
+      
       <div class="col-lg-6 col-md-12">
         <div class="consultas-card p-4 p-lg-5">
 
-          <!-- Éxito -->
+          
           @if (enviado) {
             <div class="text-center py-4">
               <div class="exito-icono mx-auto mb-4">
@@ -69,7 +69,7 @@
             </div>
           }
 
-          <!-- Formulario -->
+          
           @if (!enviado) {
             <form (ngSubmit)="enviarConsulta()">
 
@@ -80,7 +80,7 @@
                 </div>
               }
 
-              <!-- Asunto -->
+              
               <div class="mb-4">
                 <label class="consultas-label mb-2 d-block">
                   <i class="fas fa-tag me-2"></i>ASUNTO *
@@ -96,7 +96,7 @@
                 />
               </div>
 
-              <!-- Mensaje -->
+              
               <div class="mb-4 position-relative">
                 <label class="consultas-label mb-2 d-block">
                   <i class="fas fa-comment-alt me-2"></i>MENSAJE *
@@ -114,7 +114,7 @@
                 <small class="form-contador">{{ mensaje.length }}/2000</small>
               </div>
 
-              <!-- Botón -->
+              
               <button
                 type="submit"
                 class="btn btn-danger w-100 py-3 fw-bold btn-enviar"

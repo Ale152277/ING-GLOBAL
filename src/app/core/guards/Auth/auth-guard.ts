@@ -3,10 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 import { AuthService } from '../../services/auth.service';
 import { isPlatformBrowser } from '@angular/common';
 
-/**
- * Guard que protege rutas que requieren autenticación
- * Solo permite acceso si hay un token válido
- */
+
 @Injectable({
   providedIn: 'root'
 })
@@ -31,7 +28,6 @@ export class AuthGuard implements CanActivate {
     }
 
     
-    // Redirigir a login con returnUrl
     this.router.navigate(['/auth/login'], {
       queryParams: { returnUrl: state.url }
     });

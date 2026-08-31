@@ -1,16 +1,14 @@
-<!-- src/app/features/auth/pages/verify-email/verify-email.component.html -->
+
 
 <div class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
   <div class="card shadow-lg text-center" style="max-width: 480px; width: 100%;">
     <div class="card-body p-5">
 
-      <!-- ESTADO: Cargando -->
       @if (estado === 'cargando') {
         <div class="spinner-border text-danger mb-4" style="width: 3rem; height: 3rem;"></div>
         <h5 class="text-muted">Verificando tu cuenta...</h5>
       }
 
-      <!-- ESTADO: Éxito -->
       @if (estado === 'exito') {
         <i class="fas fa-check-circle text-success mb-4" style="font-size: 4rem;"></i>
         <h4 class="fw-bold mb-2">¡Cuenta verificada!</h4>
@@ -20,7 +18,6 @@
         </button>
       }
 
-      <!-- ESTADO: Error genérico -->
       @if (estado === 'error') {
         <i class="fas fa-times-circle text-danger mb-4" style="font-size: 4rem;"></i>
         <h4 class="fw-bold mb-2">Enlace inválido</h4>
@@ -30,7 +27,6 @@
         </button>
       }
 
-      <!-- ESTADO: Token expirado -->
       @if (estado === 'expirado') {
         <i class="fas fa-clock text-warning mb-4" style="font-size: 4rem;"></i>
         <h4 class="fw-bold mb-2">Enlace expirado</h4>

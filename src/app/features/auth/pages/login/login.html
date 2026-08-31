@@ -1,16 +1,13 @@
 <div class="login-container d-flex align-items-center justify-content-center min-vh-100">
   <div class="login-card card shadow-lg" style="max-width: 400px; width: 100%;">
     
-    <!-- Header -->
     <div class="card-header bg-primary text-white text-center py-4">
       <h3 class="mb-0">Iniciar Sesión</h3>
       <small>Ingeniera Global E-Commerce</small>
     </div>
 
-    <!-- Body -->
     <div class="card-body p-4">
       
-      <!-- Mensaje de error -->
       @if (error) {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <i class="fas fa-exclamation-circle"></i> {{ error }}
@@ -48,10 +45,8 @@
         </div>
       }
 
-      <!-- Formulario -->
       <form (ngSubmit)="login()" class="login-form">
         
-        <!-- Email -->
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
           <input 
@@ -66,7 +61,6 @@
           >
         </div>
 
-        <!-- Contraseña -->
         <div class="mb-3">
           <label for="password" class="form-label">Contraseña</label>
           <div class="input-group">
@@ -91,7 +85,6 @@
           </div>
         </div>
 
-        <!-- Recordarme -->
         <div class="mb-3 ">
           <div class="form-check ">
             <input 
@@ -106,7 +99,6 @@
           </div>
         </div>
 
-        <!-- Botón de login -->
         <button 
           type="submit" 
           class="btn btn-primary btn-lg w-100 mb-3"
@@ -121,7 +113,6 @@
           }
         </button>
 
-        <!-- Link a registro -->
         <div class="text-center">
           <small class="text-muted">
             ¿No tienes cuenta? 
@@ -135,7 +126,6 @@
 
     </div>
 
-    <!-- Footer -->
     <div class="card-footer bg-light text-center py-3">
       <small class="text-muted">
         <i class="fas fa-lock me-1"></i>

@@ -199,20 +199,14 @@ export class Productos implements OnInit {
 
   onAgregarCarrito(producto: Producto): void {
     console.log('Agregado al carrito:', producto.nombre);
-    // TODO: Conectar con servicio de carrito
   }
 
-  /**
-   * Agrega producto a deseos
-   */
+ 
   onAgregarDeseos(producto: Producto): void {
     console.log('Agregado a deseos:', producto.nombre);
-    // TODO: Conectar con servicio de wishlist
   }
 
-  /**
-   * Comparte el producto
-   */
+  
   onCompartir(producto: Producto): void {
     console.log('Compartiendo:', producto.nombre);
   }

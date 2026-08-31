@@ -65,10 +65,8 @@ export class AuthService {
     return this.http.post<ApiResponse<TokenResponse>>(`${this.apiUrl}/login`, loginRequest).pipe(
       tap((response) => {
         if (response.success && response.data) {
-          // Guardar en localStorage
           this.guardarToken(response.data.token);
           this.guardarUsuario(response.data.usuario);
-          // Actualizar BehaviorSubjects
           this.tokenSubject.next(response.data.token);
           this.usuarioSubject.next(response.data.usuario);
           this.authenticatedSubject.next(true);

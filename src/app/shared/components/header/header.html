@@ -16,7 +16,7 @@
         </a>
       </div>
 
-      <!-- Buscador (oculto en móvil) -->
+      
       <div class="col-lg-4 d-none d-lg-block">
         <div class="input-group">
           <input
@@ -36,11 +36,11 @@
         </div>
       </div>
 
-      <!-- Iconos derecha + Hamburguesa -->
+      
       <div class="col-lg-5 col-md-5 col-6">
         <div class="d-flex justify-content-end gap-3 gap-lg-5 align-items-center">
           @if (usuarioAutenticado) {
-            <!-- Carrito -->
+            
             <div class="position-relative header-icon">
               <a
                 [routerLink]="['/carrito']"
@@ -83,53 +83,8 @@
             </a>
           }
 
-          <!-- Lista de deseos
-          @if (usuarioAutenticado) {
-            <div class="position-relative header-icon d-none d-sm-flex">
-              <a
-                [routerLink]="['/cuenta/lista-deseos']"
-                class="text-decoration-none d-flex align-items-center gap-2"
-              >
-                <div class="icon-circle">
-                  <img src="/assets/heart.png" alt="Deseos" width="20" height="20" />
-                  @if (cantidadDeseos > 0) {
-                    <span
-                      class="cantidad-deseos badge bg-danger position-absolute top-0 start-100 translate-middle rounded-circle"
-                    >
-                      {{ cantidadDeseos }}
-                    </span>
-                  }
-                </div>
-                <div class="d-flex flex-column gap-2 d-none d-lg-flex">
-                  <small class="text-dark" style="font-size: 12px; font-weight: 500"
-                    >Mi lista de deseos</small
-                  >
-                  <small class="text-muted" style="font-size: 11px">Ver lista de deseos</small>
-                </div>
-              </a>
-            </div>
-          } @else {
-            <div class="position-relative header-icon d-none d-sm-flex">
-              <a
-                [routerLink]="['/auth/login']"
-                class="text-decoration-none d-flex align-items-center gap-2"
-              >
-                <div class="icon-circle">
-                  <img src="/assets/heart.png" alt="Deseos" width="20" height="20" />
-                </div>
-                <div class="d-flex flex-column gap-2 d-none d-lg-flex">
-                  <small class="text-dark" style="font-size: 12px; font-weight: 500">
-                    Mi lista de deseos
-                  </small>
-                  <small class="text-muted, color: #dc3545" style="font-size: 7px"
-                    >Inicia sesión para ver tu lista de deseos</small
-                  >
-                </div>
-              </a>
-            </div>
-          }
- -->
-          <!-- Usuario / Login -->
+          
+          
           @if (usuarioAutenticado) {
             <div class="dropdown header-icon d-none d-sm-flex">
               <button
@@ -180,7 +135,7 @@
             </a>
           }
 
-          <!-- Botón Hamburguesa (solo en móvil) -->
+          
           <button
             class="btn btn-hamburger d-lg-none"
             (click)="toggleMenu()"
@@ -199,7 +154,7 @@
 </header>
 <app-navbar [menuAbierto]="menuAbierto"></app-navbar>
 
-<!-- Barra de contacto -->
+
 <div class="contact-bar bg-blue py-3  " style="background-color: #000000">
   <div class="container-fluid px-4">
     <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -216,11 +171,7 @@
         class="d-none d-sm-inline"
       />
 
-      <!--
-      <small (click)="abrirWhatsapp()" class="fw-semibold text-white" style="font-size: 13px">
-          +51 973 306 855
-      </small>
-    -->
+      
     </div>
   </div>
 </div>
