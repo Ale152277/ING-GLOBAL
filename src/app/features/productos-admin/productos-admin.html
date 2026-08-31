@@ -10,15 +10,8 @@
   </div>
 
   @if (mensaje) {
-    <div
-      class="alert alert-{{ mensaje.tipo }} alert-dismissible fade show d-flex align-items-center"
-      role="alert"
-    >
-      <i
-        class="fas"
-        [ngClass]="mensaje.tipo === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'"
-        style="font-size: 1.5rem; margin-right: 1rem"
-      ></i>
+    <div class="alert alert-{{ mensaje.tipo }} alert-dismissible fade show d-flex align-items-center" role="alert">
+      <i class="fas" [ngClass]="mensaje.tipo === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'" style="font-size: 1.5rem; margin-right: 1rem"></i>
       <div>{{ mensaje.texto }}</div>
       <button type="button" class="btn-close" (click)="mensaje = null"></button>
     </div>
@@ -47,7 +40,7 @@
                 <th style="width: 5%">Imagen</th>
                 <th>Nombre</th>
                 <th>SKU</th>
-                <th >Precio</th>
+                <th>Precio</th>
                 <th style="width: 5%">Stock</th>
                 <th>Estado</th>
                 <th style="width: 15%">Acciones</th>
@@ -69,7 +62,7 @@
                     @if(producto.imagen){
                       <img [src]="producto.imagen"
                            alt="{{producto.nombre}}"
-                          style="width: 50px; height: 50px; object-fit: fill; border-radius: 6px;">
+                           style="width: 50px; height: 50px; object-fit: fill; border-radius: 6px;">
                     }@else {
                       <i class="fas fa-image text-muted"></i>
                     }
@@ -99,57 +92,32 @@
                         'text-danger fw-bold': producto.stock <= 0,
                       }"
                     >
-                      <i
-                        class="fas"
-                        [ngClass]="producto.stock > 0 ? 'fa-check-circle' : 'fa-times-circle'"
-                      ></i>
+                      <i class="fas" [ngClass]="producto.stock > 0 ? 'fa-check-circle' : 'fa-times-circle'"></i>
                       {{ producto.stock }}
                     </span>
                   </td>
                   <td>
                     @if (producto.estado === 'ACTIVO') {
                       <span class="badge bg-success me-2">
-                        <i class="fas fa-circle"></i>
-                        Activo
+                        <i class="fas fa-circle"></i> Activo
                       </span>
-                      <button
-                        class="btn btn-sm btn-warning"
-                        (click)="cambiarEstado(producto)"
-                        title="Desactivar producto"
-                        [disabled]="isLoading"
-                      >
+                      <button class="btn btn-sm btn-warning" (click)="cambiarEstado(producto)" title="Desactivar producto" [disabled]="isLoading">
                         <i class="fas fa-ban"></i> Desactivar
                       </button>
                     } @else {
                       <span class="badge bg-danger me-2 mb-2">
-                        <i class="fas fa-ban"></i>
-                        Inactivo
+                        <i class="fas fa-ban"></i> Inactivo
                       </span>
-                      <button
-                        class="btn btn-sm btn-success"
-                        (click)="cambiarEstado(producto)"
-                        title="Activar producto"
-                        [disabled]="isLoading"
-                      >
+                      <button class="btn btn-sm btn-success" (click)="cambiarEstado(producto)" title="Activar producto" [disabled]="isLoading">
                         <i class="fas fa-check"></i> Activar
                       </button>
                     }
                   </td>
                   <td>
-                    <button
-                      class="btn btn-sm btn-warning me-1"
-                      (click)="abrirModalEditar(producto)"
-                      title="Editar producto"
-                      [disabled]="isLoading"
-                    >
+                    <button class="btn btn-sm btn-warning me-1" (click)="abrirModalEditar(producto)" title="Editar producto" [disabled]="isLoading">
                       <i class="fas fa-edit"></i>
                     </button>
-                    <button
-                      class="btn btn-sm btn-danger"
-                      (click)="eliminarProducto(producto)"
-                      title="Eliminar producto"
-                      [disabled]="isLoading"
-                    >
+                    <button class="btn btn-sm btn-danger" (click)="eliminarProducto(producto)" title="Eliminar producto" [disabled]="isLoading">
                       <i class="fas fa-trash"></i>
                     </button>
                   </td>
@@ -166,11 +134,7 @@
         <nav aria-label="Paginación">
           <ul class="pagination mb-0 justify-content-center">
             <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
-              <button
-                class="page-link"
-                (click)="cambiarPagina(currentPage - 1)"
-                [disabled]="currentPage === 1"
-              >
+              <button class="page-link" (click)="cambiarPagina(currentPage - 1)" [disabled]="currentPage === 1">
                 <i class="fas fa-chevron-left me-1"></i>Anterior
               </button>
             </li>
@@ -182,11 +146,7 @@
             }
 
             <li class="page-item" [ngClass]="{ disabled: currentPage === totalPages }">
-              <button
-                class="page-link"
-                (click)="cambiarPagina(currentPage + 1)"
-                [disabled]="currentPage === totalPages"
-              >
+              <button class="page-link" (click)="cambiarPagina(currentPage + 1)" [disabled]="currentPage === totalPages">
                 Siguiente<i class="fas fa-chevron-right ms-1"></i>
               </button>
             </li>
@@ -198,279 +158,14 @@
 </div>
 
 @if (mostrarModal) {
-  <div
-    class="modal fade show"
-    style="display: block; background-color: rgba(0, 0, 0, 0.5)"
-    tabindex="-1"
-    role="dialog"
-  >
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-light border-bottom">
-          <h5 class="modal-title">
-            <i
-              class="fas me-2"
-              [ngClass]="isEditando ? 'fa-edit text-warning' : 'fa-plus-circle text-success'"
-            ></i>
-            {{ isEditando ? 'Editar Producto' : 'Crear Nuevo Producto' }}
-          </h5>
-          <button type="button" class="btn-close" (click)="cerrarModal()"></button>
-        </div>
-
-        <div class="modal-body">
-          <form [formGroup]="productoForm">
-            <div class="row">
-              
-              <div class="col-md-6 mb-3">
-                <label for="nombre" class="form-label">
-                  <i class="fas fa-heading me-1"></i>Nombre *
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="nombre"
-                  formControlName="nombre"
-                  [class.is-invalid]="esValido('nombre')"
-                  placeholder="Nombre del producto"
-                />
-                @if (esValido('nombre')) {
-                  <small class="form-text text-danger">
-                    <i class="fas fa-exclamation-triangle me-1"></i>El nombre es requerido (mínimo 3
-                    caracteres)
-                  </small>
-                }
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <label for="sku" class="form-label">
-                  <i class="fas fa-barcode me-1"></i>SKU *
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="sku"
-                  formControlName="sku"
-                  [class.is-invalid]="esValido('sku')"
-                  placeholder="Código único"
-                />
-                @if (esValido('sku')) {
-                  <small class="form-text text-danger">
-                    <i class="fas fa-exclamation-triangle me-1"></i>El SKU es requerido
-                  </small>
-                }
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <label for="precio" class="form-label">
-                  <i class="fas fa-dollar-sign me-1"></i>Precio *
-                </label>
-                <input
-                  type="number"
-                  step="0.01"
-                  class="form-control"
-                  id="precio"
-                  formControlName="precio"
-                  [class.is-invalid]="esValido('precio')"
-                  placeholder="0.00"
-                />
-                @if (esValido('precio')) {
-                  <small class="form-text text-danger">
-                    <i class="fas fa-exclamation-triangle me-1"></i>El precio es requerido
-                  </small>
-                }
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <label for="stock" class="form-label">
-                  <i class="fas fa-boxes me-1"></i>Stock *
-                </label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="stock"
-                  formControlName="stock"
-                  [class.is-invalid]="esValido('stock')"
-                  placeholder="0"
-                />
-                @if (esValido('stock')) {
-                  <small class="form-text text-danger">
-                    <i class="fas fa-exclamation-triangle me-1"></i>El stock es requerido
-                  </small>
-                }
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <label for="categoriaId" class="form-label">
-                  <i class="fas fa-list me-1"></i>Categoría *
-                </label>
-                <select
-                  class="form-control"
-                  id="categoriaId"
-                  formControlName="categoriaId"
-                  [class.is-invalid]="esValido('categoriaId')"
-                >
-                  <option value="">Seleccionar categoria</option>
-                  @for (c of categoria; track c.id) {
-                    <option value="{{ c.id }}">{{ c.nombre }}</option>
-                  }
-                </select>
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <label for="marcaId" class="form-label">
-                  <i class="fas fa-trademark me-1"></i>Marca
-                </label>
-                <select
-                  class="form-control"
-                  id="marcaId"
-                  formControlName="marcaId"
-                  placeholder="ID de marca "
-                >
-                  <option value="">Seleccionar marca</option>
-                  @for (m of marca; track m.id) {
-                    <option value="{{ m.id }}">{{ m.nombre }}</option>
-                  }
-                </select>
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <label for="descuento" class="form-label">
-                  <i class="fas fa-percentage me-1"></i>Descuento (%)
-                </label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="descuento"
-                  min="0"
-                  max="100"
-                  formControlName="descuento"
-                  placeholder="0"
-                />
-                <small class="form-text text-muted">0-100%</small>
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <label for="rating" class="form-label">
-                  <i class="fas fa-star me-1"></i>Rating
-                </label>
-                <input
-                  type="number"
-                  step="0.1"
-                  class="form-control"
-                  id="rating"
-                  min="0"
-                  max="5"
-                  formControlName="rating"
-                  placeholder="0.0"
-                />
-                <small class="form-text text-muted">0-5 estrellas</small>
-              </div>
-
-              <div class="col-md-12 mb-3">
-                <label for="etiqueta" class="form-label">
-                  <i class="fas fa-tag me-1"></i>Etiqueta
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="etiqueta"
-                  formControlName="etiqueta"
-                  placeholder="ej: bestseller, nuevo, oferta"
-                />
-              </div>
-
-              <div class="col-md-12 mb-3">
-                <label for="descripcion" class="form-label">
-                  <i class="fas fa-align-left me-1"></i>Descripción
-                </label>
-                <textarea
-                  class="form-control"
-                  id="descripcion"
-                  rows="3"
-                  formControlName="descripcion"
-                  placeholder="Descripción del producto"
-                ></textarea>
-              </div>
-
-              <div class="col-md-12 mb-2">
-                <div class="btn-group" role="group">
-                  <button
-                    type="button"
-                    class="btn btn-sm"
-                    [ngClass]="modoImagen === 'url' ? 'btn-primary' : 'btn-outline-primary'"
-                    (click)="modoImagen = 'url'"
-                  >
-                    <i class="fas fa-link me-1"></i>URL
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm"
-                    [ngClass]="modoImagen === 'archivo' ? 'btn-primary' : 'btn-outline-primary'"
-                    (click)="modoImagen = 'archivo'"
-                  >
-                    <i class="fas fa-upload me-1"></i>Subir imagen
-                  </button>
-                </div>
-              </div>
-
-              @if (modoImagen === 'url') {
-                <div class="col-md-12 mb-3">
-                  <label for="imagen" class="form-label">
-                    <i class="fas fa-image me-1"></i>URL de la Imagen
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="imagen"
-                    formControlName="imagen"
-                    placeholder="https://ejemplo.com/imagen.jpg"
-                  />
-                </div>
-              } @else {
-                <div class="col-md-12 mb-3">
-                  <label class="form-label"
-                    ><i class="fas fa-upload me-1"></i>Subir imagen (JPG, JPEG, PNG)</label
-                  >
-                  <input
-                    type="file"
-                    class="form-control"
-                    accept="image/jpeg,image/jpg,image/png"
-                    (change)="onArchivoSeleccionado($event)"
-                  />
-                  <small class="form-text text-muted">Tamaño máximo: 5MB</small>
-
-                  @if (previsualizacionImagen) {
-                    <div class="mt-2">
-                      <img
-                        [src]="previsualizacionImagen"
-                        alt="Previsualización"
-                        style="max-height: 150px; border-radius: 8px"
-                      />
-                    </div>
-                  }
-                </div>
-              }
-            </div>
-          </form>
-        </div>
-
-        <div class="modal-footer bg-light border-top">
-          <button type="button" class="btn btn-secondary" (click)="cerrarModal()">
-            <i class="fas fa-times me-1"></i>Cancelar
-          </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="guardarProducto()"
-            [disabled]="!productoForm.valid || isLoading || subiendoImagen"
-          >
-            <i class="fas me-1" [ngClass]="isEditando ? 'fa-save' : 'fa-plus'"></i>
-            {{ isEditando ? 'Actualizar' : 'Crear' }}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop fade show"></div>
+  <app-producto-modal
+    [categorias]="categoria"
+    [marcas]="marca"
+    [isEditando]="isEditando"
+    [productoSeleccionado]="productoSeleccionado"
+    [bloqueado]="subiendoImagen || isLoading"
+    (cerrar)="cerrarModal()"
+    (guardar)="ejecutarGuardado($event)"
+    (errorValidacion)="mostrarMensaje('danger', $event)">
+  </app-producto-modal>
 }

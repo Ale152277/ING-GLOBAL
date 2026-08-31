@@ -1,12 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 import { ProductosService } from '../productos/services/productos.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Producto } from '../../models/producto.model';
@@ -15,10 +8,11 @@ import { Categoria } from '../../models/categoria.model';
 import { Marca } from '../../models/marca.model';
 import { CategoriaService } from '../../core/services/categoria.service';
 import { MarcaService } from '../../core/services/marca.service';
+import { ProductoModal } from './producto-modal';
 
 @Component({
   selector: 'app-productos-admin',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, ProductoModal],
   templateUrl: './productos-admin.html',
   styleUrl: './productos-admin.css',
 })
@@ -33,39 +27,16 @@ export class ProductosAdmin implements OnInit {
 
   mostrarModal = false;
   isEditando = false;
-
   productoSeleccionado: Producto | null = null;
-
-  productoForm: FormGroup;
-
-  mensaje: { tipo: 'success' | 'danger' | 'info'; texto: string } | null = null;
-
-  archivoSeleccionado: File | null = null;
-  previsualizacionImagen: string | null = null;
-  modoImagen: 'url' | 'archivo' = 'url';
   subiendoImagen = false;
+  mensaje: { tipo: 'success' | 'danger' | 'info'; texto: string } | null = null;
 
   constructor(
     private productoService: ProductosService,
     private authService: AuthService,
-    private fb: FormBuilder,
     private categoriaService: CategoriaService,
     private marcaService: MarcaService,
-  ) {
-    this.productoForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(3)]],
-      sku: ['', [Validators.required, Validators.minLength(3)]],
-      precio: ['', [Validators.required, Validators.min(0.01)]],
-      categoriaId: ['', Validators.required],
-      marcaId: [''],
-      descripcion: [''],
-      stock: ['', [Validators.required, Validators.min(0)]],
-      descuento: ['', [Validators.min(0), Validators.max(100)]],
-      etiqueta: [''],
-      imagen: [''],
-      rating: ['', [Validators.min(0), Validators.max(5)]],
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.cargarProductos();
@@ -75,18 +46,15 @@ export class ProductosAdmin implements OnInit {
 
   cargarProductos(): void {
     this.isLoading = true;
-
     this.productoService.obtenerTodosParaAdmin(this.currentPage, this.pageSize).subscribe({
       next: (response) => {
         if (response.success && response.data) {
           this.productos = response.data.content;
           this.totalPages = response.data.totalPages;
-          console.log('Productos cargados:', this.productos.length);
         }
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error al cargar productos:', error);
         this.mostrarMensaje('danger', 'Error al cargar productos.');
         this.isLoading = false;
       },
@@ -96,147 +64,96 @@ export class ProductosAdmin implements OnInit {
   cargarMarcas(): void {
     this.marcaService.obtenerTodas().subscribe({
       next: (response) => {
-        if (response.success && response.data) {
-          this.marca = response.data;
-        }
-      },
-      error: (error) => {
-        console.log('Error:', error);
-      },
+        if (response.success && response.data) this.marca = response.data;
+      }
     });
   }
 
   cargarCategorias(): void {
     this.categoriaService.obtenerTodas().subscribe({
       next: (response) => {
-        if (response.success && response.data) {
-          this.categoria = response.data;
-        }
-      },
-      error: (error) => {
-        console.log('Error', error);
-      },
+        if (response.success && response.data) this.categoria = response.data;
+      }
     });
   }
 
   abrirModalCrear(): void {
     this.isEditando = false;
     this.productoSeleccionado = null;
-    this.productoForm.reset();
     this.mostrarModal = true;
-    this.archivoSeleccionado = null;
-    this.previsualizacionImagen = null;
-    this.modoImagen = 'url';
   }
 
   abrirModalEditar(producto: Producto): void {
     this.isEditando = true;
     this.productoSeleccionado = producto;
-
-    this.productoForm.patchValue({
-      nombre: producto.nombre,
-      sku: producto.sku,
-      precio: producto.precio,
-      categoriaId: producto.categoriaId,
-      marcaId: producto.marcaId,
-      descripcion: producto.descripcion,
-      stock: producto.stock,
-      descuento: producto.descuento,
-      etiqueta: producto.etiqueta,
-      imagen: producto.imagen,
-      rating: producto.rating,
-    });
-
     this.mostrarModal = true;
   }
 
   cerrarModal(): void {
     this.mostrarModal = false;
-    this.productoForm.reset();
     this.productoSeleccionado = null;
-    this.archivoSeleccionado = null;
-    this.previsualizacionImagen = null;
-    this.modoImagen = 'url';
   }
 
-  guardarProducto(): void {
-    if (!this.productoForm.valid) {
-      this.mostrarMensaje('danger', 'Por favor completa todos los campos requeridos');
-      return;
-    }
-
-    if(this.modoImagen =='archivo' && this.archivoSeleccionado){
+  ejecutarGuardado(evento: { values: any; modoImagen: string; archivoSeleccionado: File | null }): void {
+    if (evento.modoImagen === 'archivo' && evento.archivoSeleccionado) {
       this.subiendoImagen = true;
-      this.productoService.subirImagen(this.archivoSeleccionado).subscribe({
-        next: (response) =>{
+      this.productoService.subirImagen(evento.archivoSeleccionado).subscribe({
+        next: (response) => {
           this.subiendoImagen = false;
-          if(response.success && response.data){
-            this.productoForm.patchValue({imagen: response.data});
-            this.procesarGuardado();
+          if (response.success && response.data) {
+            evento.values.imagen = response.data;
+            this.enviarDatosBackend(evento.values);
           }
         },
         error: (error) => {
-        this.subiendoImagen = false;
-        this.mostrarMensaje('danger', error.error?.message || 'Error al subir la imagen');
-      },
-    });
-  } else {
-    this.procesarGuardado();
+          this.subiendoImagen = false;
+          this.mostrarMensaje('danger', error.error?.message || 'Error al subir la imagen');
+        }
+      });
+    } else {
+      this.enviarDatosBackend(evento.values);
+    }
   }
-    
-   
-}
 
-  private procesarGuardado(): void{
-     const datosFormulario = this.productoForm.value;
-
+  private enviarDatosBackend(datosFormulario: any): void {
     const datosBase: CrearProductoRequest = {
       nombre: datosFormulario.nombre,
       sku: datosFormulario.sku,
-      precio: parseFloat(datosFormulario.precio), // BigDecimal en backend
-      categoriaId: parseInt(datosFormulario.categoriaId), // Long en backend
+      precio: parseFloat(datosFormulario.precio),
+      categoriaId: parseInt(datosFormulario.categoriaId),
       categoriaNombre: datosFormulario.categoriaNombre,
       marcaId: datosFormulario.marcaId ? parseInt(datosFormulario.marcaId) : undefined,
       marcaNombre: datosFormulario.marcaNombre,
       descripcion: datosFormulario.descripcion || undefined,
-      stock: datosFormulario.stock ? parseInt(datosFormulario.stock) : 0, // Integer en backend
-      descuento: datosFormulario.descuento ? parseInt(datosFormulario.descuento) : 0, // Integer en backend
+      stock: datosFormulario.stock ? parseInt(datosFormulario.stock) : 0,
+      descuento: datosFormulario.descuento ? parseInt(datosFormulario.descuento) : 0,
       etiqueta: datosFormulario.etiqueta || undefined,
       imagen: datosFormulario.imagen || undefined,
-      rating: datosFormulario.rating ? parseFloat(datosFormulario.rating) : undefined, // BigDecimal en backend
+      rating: datosFormulario.rating ? parseFloat(datosFormulario.rating) : undefined,
     };
 
     if (this.isEditando && this.productoSeleccionado) {
       const datosEditar: EditarProductoRequest = { ...datosBase, id: this.productoSeleccionado.id };
-      // EDITAR
       this.productoService.editarProducto(this.productoSeleccionado.id, datosEditar).subscribe({
         next: (response) => {
           if (response.success) {
-            this.mostrarMensaje('success', ' Producto actualizado exitosamente');
+            this.mostrarMensaje('success', 'Producto actualizado exitosamente');
             this.cerrarModal();
             this.cargarProductos();
           }
         },
-        error: (error) => {
-          console.error(' Error al editar producto:', error);
-          this.mostrarMensaje('danger', error.error?.message || 'Error al actualizar el producto');
-        },
+        error: (error) => this.mostrarMensaje('danger', error.error?.message || 'Error al actualizar el producto'),
       });
     } else {
-      // CREAR
-      const datosCrear: CrearProductoRequest = datosBase;
-      this.productoService.crearProducto(datosCrear).subscribe({
+      this.productoService.crearProducto(datosBase).subscribe({
         next: (response) => {
           if (response.success) {
-            this.mostrarMensaje('success', ' Producto creado exitosamente');
+            this.mostrarMensaje('success', 'Producto creado exitosamente');
             this.cerrarModal();
             this.cargarProductos();
           }
         },
-        error: (error) => {
-          console.error(' Error al crear producto:', error);
-          this.mostrarMensaje('danger', error.error?.message || 'Error al crear el producto');
-        },
+        error: (error) => this.mostrarMensaje('danger', error.error?.message || 'Error al crear el producto'),
       });
     }
   }
@@ -245,9 +162,7 @@ export class ProductosAdmin implements OnInit {
     const nuevoEstado = producto.estado === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO';
     const accion = producto.estado === 'ACTIVO' ? 'Desactivar' : 'Activar';
 
-    if (!confirm(`¿${accion} el producto "${producto.nombre}"?`)) {
-      return;
-    }
+    if (!confirm(`¿${accion} el producto "${producto.nombre}"?`)) return;
 
     this.productoService.cambiarEstado(producto.id, nuevoEstado).subscribe({
       next: (response) => {
@@ -256,39 +171,27 @@ export class ProductosAdmin implements OnInit {
           this.cargarProductos();
         }
       },
-      error: (error) => {
-        console.error('Error:', error);
-        this.mostrarMensaje('danger', 'Error al cambiar estado');
-      },
+      error: () => this.mostrarMensaje('danger', 'Error al cambiar estado'),
     });
   }
 
   eliminarProducto(producto: Producto): void {
-    if (!confirm(`¿Estás seguro de que deseas eliminar el producto "${producto.nombre}"?`)) {
-      return;
-    }
+    if (!confirm(`¿Estás seguro de que deseas eliminar el producto "${producto.nombre}"?`)) return;
 
     this.productoService.eliminarProducto(producto.id).subscribe({
       next: (response) => {
         if (response.success) {
-          this.mostrarMensaje('success', ' Producto eliminado exitosamente');
+          this.mostrarMensaje('success', 'Producto eliminado exitosamente');
           this.cargarProductos();
         }
       },
-      error: (error) => {
-        console.error(' Error al eliminar producto:', error);
-        this.mostrarMensaje('danger', error.error?.message || 'Error al eliminar el producto');
-      },
+      error: (error) => this.mostrarMensaje('danger', error.error?.message || 'Error al eliminar el producto'),
     });
   }
 
   mostrarMensaje(tipo: 'success' | 'danger' | 'info', texto: string): void {
     this.mensaje = { tipo, texto };
-
-    // Auto cerrar el mensaje después de 3 segundos
-    setTimeout(() => {
-      this.mensaje = null;
-    }, 3000);
+    setTimeout(() => (this.mensaje = null), 3000);
   }
 
   cambiarPagina(nuevaPagina: number): void {
@@ -297,36 +200,4 @@ export class ProductosAdmin implements OnInit {
       this.cargarProductos();
     }
   }
-
-  obtenerEstado(producto: Producto): string {
-    return producto.estado === 'ACTIVO' ? 'Activo' : 'Inactivo';
-  }
-
-  esValido(campo: string): boolean {
-    const control = this.productoForm.get(campo);
-    return !!(control && control.invalid && control.touched);
-  }
-
-  onArchivoSeleccionado(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const archivo = input.files[0];
-
-      const tiposPermitidos = ['image/jpeg', 'image/jpg', 'image/png'];
-      if (!tiposPermitidos.includes(archivo.type)) {
-        this.mostrarMensaje('danger', 'Solo se permiten imágenes JPG, JPEG o PNG');
-        return;
-      }
-      if (archivo.size > 5 * 1024 * 1024) {
-        this.mostrarMensaje('danger', 'La imagen no puede pesar más de 5MB');
-        return;
-      }
-
-      this.archivoSeleccionado = archivo;
-      const reader = new FileReader();
-      reader.onload = () => (this.previsualizacionImagen = reader.result as string);
-      reader.readAsDataURL(archivo);
-    }
-  }
-
-  }
+}
