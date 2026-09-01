@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
@@ -9,14 +9,11 @@ import { RouterLink, RouterModule } from '@angular/router';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-   @Input()menuAbierto = false;
-
-
+   @Input() menuAbierto: boolean = false;
+   @Output() menuCerrado = new EventEmitter<void>();
 
   cerrarMenu(): void {
-    this.menuAbierto = false;
+    this.menuCerrado.emit();
   }
-
- 
 
 }

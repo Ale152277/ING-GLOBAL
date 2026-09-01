@@ -8,12 +8,12 @@
       
       <div class="btn-group">
         <a
-          [routerLink]="'/productos'"
+          [routerLink]="['/productos']"
           class="btn btn-danger d-flex align-items-center gap-2"
           style="padding: 16px 20px"
         >
-          <img src="/assets/cart-shop.png" width="18" />
-          Productos
+          <i class="fas fa-boxes-stacked" style="font-size: 20px;"></i>
+          <span style="font-weight: bold;"> Productos</span>
         </a>
 
         <button
@@ -36,34 +36,29 @@
           <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:9}">Automatizacion</a></li>
           <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:10}">Almacenamiento</a></li>
           <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:11}">Fuentes, transformadores y UPS</a></li>
-
-
-
-
-
         </ul>
       </div>
 
       
-      <a href="/distribuidores" class="navbar-link d-flex align-items-center gap-2">
-        <img src="/assets/distribution.png" alt="Distribuidores" width="18" height="18" />
+      <a [routerLink]="['/distribuidores']" class="navbar-link d-flex align-items-center gap-2">
+        <i class="fas fa-handshake" style="font-size: 20px;"></i>
         <span>Distribuidores (próximamente)</span>
       </a>
 
       
-      <a [routerLink]="'/consultas'" class="navbar-link d-flex align-items-center gap-2">
-        <img src="/assets/support.png" alt="Consultas" width="18" height="18" />
+      <a [routerLink]="['/consultas']" class="navbar-link d-flex align-items-center gap-2">
+        <i class="fas fa-headset" style="font-size: 20px;"></i>
         <span>Consultas</span>
       </a>
 
       
       <div class="btn-group">
         <a
-          [routerLink]="'/productos'"
+          [routerLink]="['/productos']"
           class="btn d-flex align-items-center gap-2"
           style="padding: 16px 20px"
         >
-          <img src="/assets/joomla.png" alt="Marcas" width="18" height="18" />
+          <i class="fas fa-tags "style="font-size: 20px;"></i>
           <span>Marcas</span>
         </a>
         <button
@@ -72,14 +67,14 @@
           data-bs-toggle="dropdown"
         ></button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMarcas">
-          <li><a class="dropdown-item" [routerLink]="'/productos' ">HikVision</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos' ">Dalhua</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/productos'] ">HikVision</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/productos'] ">Dalhua</a></li>
         </ul>
       </div>
 
       
-      <a href="/nosotros" class="navbar-link d-flex align-items-center gap-2">
-        <img src="/assets/information.png" alt="Nosotros" width="18" height="18" />
+      <a [routerLink]="['/nosotros']" class="navbar-link d-flex align-items-center gap-2">
+        <i class="fas fa-circle-info" style="font-size: 20px;" ></i>
         <span>Nosotros</span>
       </a>
     </div>
@@ -89,34 +84,35 @@
 
 <div class="sidebar-menu" [class.open]="menuAbierto">
   <div class="sidebar-content">
-    <button class="btn-close-menu" (click)="cerrarMenu()">&times;</button>
+    <button  class="btn-close-menu" (click)="cerrarMenu()">   <i class="fa fa-times" aria-hidden="true"></i></button>
+  
 
     <div class="sidebar-search mb-4">
       <input type="text" class="form-control" placeholder="Buscar..." style="border-radius: 4px" />
     </div>
 
-    <a [routerLink]="'/productos'" (click)="cerrarMenu()" class="sidebar-link">
-      <img src="/assets/cart-shop.png" alt="Productos" width="18" height="18" />
+    <a [routerLink]="['/productos']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
+      <i class="fas fa-boxes-stacked"></i>
       <span>Productos</span>
     </a>
-    <a href="/descuentos" (click)="cerrarMenu()" class="sidebar-link">
-      <img src="/assets/discount.png" alt="Descuentos" width="18" height="18" />
+    <a [routerLink]="['/descuentos']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
+      <i class="fas fa-percent"></i>
       <span>Descuentos</span>
     </a>
-    <a href="/distribuidores" (click)="cerrarMenu()" class="sidebar-link">
-      <img src="/assets/distribution.png" alt="Distribuidores" width="18" height="18" />
+    <a [routerLink]="['/distribuidores']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
+      <i class="fas fa-handshake"></i>
       <span>Distribuidores</span>
     </a>
-    <a href="/consultas" (click)="cerrarMenu()" class="sidebar-link">
-      <img src="/assets/support.png" alt="Consultas" width="18" height="18" />
+    <a [routerLink]="['/consultas']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
+      <i class="fas fa-headset"></i>
       <span>Consultas</span>
     </a>
-    <a href="#" (click)="cerrarMenu()" class="sidebar-link">
-      <img src="/assets/joomla.png" alt="Marcas" width="18" height="18" />
+    <a [routerLink]="['/productos']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
+      <i class="fas fa-tags"></i>
       <span>Marcas</span>
     </a>
-    <a [routerLink]="'/nosotros'" (click)="cerrarMenu()" class="sidebar-link">
-      <img src="/assets/information.png" alt="Nosotros" width="18" height="18" />
+    <a [routerLink]="['/nosotros']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
+      <i class="fas fa-circle-info"></i>
       <span>Nosotros</span>
     </a>
   </div>

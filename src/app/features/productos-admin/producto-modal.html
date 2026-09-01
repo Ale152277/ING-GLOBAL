@@ -16,7 +16,7 @@
               <label for="nombre" class="form-label"><i class="fas fa-heading me-1"></i>Nombre *</label>
               <input type="text" class="form-control" id="nombre" formControlName="nombre" [class.is-invalid]="esValido('nombre')" placeholder="Nombre del producto" />
               @if (esValido('nombre')) {
-                <small class="form-text text-danger"><i class="fas fa-exclamation-triangle me-1"></i>El nombre es requerido (mínimo 3 caracteres)</small>
+                <small class="form-text text-danger"><i class="fas fa-exclamation-triangle me-1"></i>El nombre es requerido (mínimo 8 caracteres)</small>
               }
             </div>
 
@@ -76,7 +76,12 @@
 
             <div class="col-md-12 mb-3">
               <label for="etiqueta" class="form-label"><i class="fas fa-tag me-1"></i>Etiqueta</label>
-              <input type="text" class="form-control" id="etiqueta" formControlName="etiqueta" placeholder="ej: bestseller, nuevo, oferta" />
+              <select class="form-control" id="etiqueta" formControlName="etiqueta">
+                @for (et of etiquetasDisponibles; track et) {
+                  <option [value]="et">{{et | titlecase}}</option>
+                }
+
+              </select>
             </div>
 
             <div class="col-md-12 mb-3">

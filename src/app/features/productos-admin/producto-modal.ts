@@ -27,6 +27,8 @@ export class ProductoModal implements OnChanges {
     modoImagen: 'url'|'archivo' = 'url'
     archivoSeleccionado: File | null = null;
     previsualizacionImagen: string | null = null
+    etiquetasDisponibles: string[] = ['bestseller', 'new', 'premium', 'promo', 'agotado'];
+
 
     constructor(private fb: FormBuilder){
         
