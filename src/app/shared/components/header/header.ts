@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Navbar } from '../navbar/navbar';
-import { CarritoService } from '../../../features/carrito/service/carrito.service';
+import { CarritoService } from '../../../features/carrito/services/carrito.service';
 @Component({
   selector: 'app-header',
   imports: [CommonModule, RouterModule, RouterLink, Navbar],

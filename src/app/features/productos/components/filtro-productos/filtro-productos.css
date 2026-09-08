@@ -1,67 +1,32 @@
-/* 
-   FILTRO PRODUCTOS - SIDEBAR
-    */
-
-.sidebar {
-  height: fit-content;
-  position: sticky;
-  top: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.custom-input {
+  border-color: #ddd;
 }
 
-.sidebar h6 {
-  color: var(--color-text-primary);
-  border-bottom: 2px solid var(--color-primary);
-  padding-bottom: var(--spacing-sm);
-  font-size: 0.95rem;
+.custom-input:focus {
+  border-color: var(--color-primary);
+  /* Asegúrate de cambiar el rgba si tu color primario no es rojo */
+  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.1); 
 }
 
-.sidebar .form-check-label {
-  cursor: pointer;
-  color: var(--color-text-primary);
-  font-size: 0.9rem;
-  transition: all var(--transition-base);
-}
-
-.sidebar .form-check-label:hover {
-  color: var(--color-primary);
-}
-
-.sidebar .form-check-input {
+.custom-radio {
   border-color: #ddd;
   cursor: pointer;
   width: 1.2em;
   height: 1.2em;
 }
 
-.sidebar .form-check-input:checked {
+.custom-radio:checked {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
 
-.sidebar .form-control {
-  border-color: #ddd;
-  border-radius: var(--border-radius-sm);
+.custom-label {
+  color: var(--color-text-primary);
   font-size: 0.9rem;
+  cursor: pointer;
+  transition: color var(--transition-base, 0.3s ease);
 }
 
-.sidebar .form-control:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.1);
-}
-
-.sidebar .badge {
-  font-size: 0.75rem;
-  padding: 0.3rem 0.5rem;
-}
-
-/* 
-   RESPONSIVE
-    */
-
-@media (max-width: 992px) {
-  .sidebar {
-    position: relative;
-    top: auto;
-  }
+.custom-label:hover {
+  color: var(--color-primary);
 }

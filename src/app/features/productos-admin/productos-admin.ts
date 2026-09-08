@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductosService } from '../productos/services/productos.service';
-import { AuthService } from '../../core/services/auth.service';
-import { Producto } from '../../models/producto.model';
-import { CrearProductoRequest, EditarProductoRequest } from '../../models/crearProductoRequest';
+import { Producto } from '../productos/models/producto.model';
+import {
+  CrearProductoRequest,
+  EditarProductoRequest,
+} from '../productos/models/crearProductoRequest';
 import { Categoria } from '../../models/categoria.model';
 import { Marca } from '../../models/marca.model';
-import { CategoriaService } from '../../core/services/categoria.service';
-import { MarcaService } from '../../core/services/marca.service';
-import { ProductoModal } from './producto-modal';
+import { CategoriaService } from '../productos/services/categoria.service';
+import { MarcaService } from '../productos/services/marca.service';
+import { ProductoModal } from './components/producto-modal/producto-modal';
 
 @Component({
   selector: 'app-productos-admin',
@@ -33,7 +35,6 @@ export class ProductosAdmin implements OnInit {
 
   constructor(
     private productoService: ProductosService,
-    private authService: AuthService,
     private categoriaService: CategoriaService,
     private marcaService: MarcaService,
   ) {}
@@ -65,7 +66,7 @@ export class ProductosAdmin implements OnInit {
     this.marcaService.obtenerTodas().subscribe({
       next: (response) => {
         if (response.success && response.data) this.marca = response.data;
-      }
+      },
     });
   }
 
@@ -73,7 +74,7 @@ export class ProductosAdmin implements OnInit {
     this.categoriaService.obtenerTodas().subscribe({
       next: (response) => {
         if (response.success && response.data) this.categoria = response.data;
-      }
+      },
     });
   }
 
@@ -94,7 +95,11 @@ export class ProductosAdmin implements OnInit {
     this.productoSeleccionado = null;
   }
 
-  ejecutarGuardado(evento: { values: any; modoImagen: string; archivoSeleccionado: File | null }): void {
+  ejecutarGuardado(evento: {
+    values: any;
+    modoImagen: string;
+    archivoSeleccionado: File | null;
+  }): void {
     if (evento.modoImagen === 'archivo' && evento.archivoSeleccionado) {
       this.subiendoImagen = true;
       this.productoService.subirImagen(evento.archivoSeleccionado).subscribe({
@@ -108,7 +113,7 @@ export class ProductosAdmin implements OnInit {
         error: (error) => {
           this.subiendoImagen = false;
           this.mostrarMensaje('danger', error.error?.message || 'Error al subir la imagen');
-        }
+        },
       });
     } else {
       this.enviarDatosBackend(evento.values);
@@ -142,7 +147,8 @@ export class ProductosAdmin implements OnInit {
             this.cargarProductos();
           }
         },
-        error: (error) => this.mostrarMensaje('danger', error.error?.message || 'Error al actualizar el producto'),
+        error: (error) =>
+          this.mostrarMensaje('danger', error.error?.message || 'Error al actualizar el producto'),
       });
     } else {
       this.productoService.crearProducto(datosBase).subscribe({
@@ -153,7 +159,8 @@ export class ProductosAdmin implements OnInit {
             this.cargarProductos();
           }
         },
-        error: (error) => this.mostrarMensaje('danger', error.error?.message || 'Error al crear el producto'),
+        error: (error) =>
+          this.mostrarMensaje('danger', error.error?.message || 'Error al crear el producto'),
       });
     }
   }
@@ -185,7 +192,8 @@ export class ProductosAdmin implements OnInit {
           this.cargarProductos();
         }
       },
-      error: (error) => this.mostrarMensaje('danger', error.error?.message || 'Error al eliminar el producto'),
+      error: (error) =>
+        this.mostrarMensaje('danger', error.error?.message || 'Error al eliminar el producto'),
     });
   }
 

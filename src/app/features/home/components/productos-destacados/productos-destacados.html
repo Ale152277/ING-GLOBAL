@@ -1,33 +1,30 @@
 <section class="productos-destacados py-5">
   <div class="container">
-    
     <div class="text-center mb-5">
       <h2 class="section-title">Productos destacados en seguridad electrónica</h2>
       <p class="text-muted">Las mejores soluciones para tu empresa</p>
     </div>
 
-    @if(isLoading){
+    @if (isLoading) {
       <div class="text-center py-5">
         <div class="spinner-border text-danger" role="status"></div>
       </div>
-
     }
 
-    @if(!isLoading){
+    @if (!isLoading) {
       <div class="productos-carousel">
         @for (productos of productos; track productos.id) {
           <div class="productos-carousel-item">
-            <app-producto-card [producto]="productos" ></app-producto-card>
-
+            <app-producto-card [producto]="productos"></app-producto-card>
           </div>
         }
       </div>
     }
 
-    
-    
     <div class="text-center">
-      <button class="btn btn-outline-danger btn-lg fw-bold" [routerLink]="'/productos'">VER MÁS PRODUCTOS</button>
+      <button class="btn btn-outline-danger btn-lg fw-bold" [routerLink]="'/productos'">
+        VER MÁS PRODUCTOS
+      </button>
     </div>
   </div>
 </section>

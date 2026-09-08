@@ -2,25 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { ApiResponse } from '../../models/api-response.model';
+import { ApiResponse } from '../../shared/models/api-response.model';
 import { LoginRequest, RegistroRequest, TokenResponse } from '../../models/auth.model';
 import { jwtDecode } from 'jwt-decode';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../../environments/environment';
-//request = payload que envia el frontend (el contenido debe coincidir)
-//response = estructura/wrapper que devuelve el backend como respuesta
-//tokenresponse = data real de login
 
-//este servicio es global y unico, vive mientras exista la app
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/api/v1/auth`;
-
-  //creo un estado reactivo para el token que empieza con lo que haya en el storage
-  //crear una variable tokensubject que almacenará un valor inicial (en este casonull)
 
   private tokenSubject = new BehaviorSubject<string | null>(null);
   private usuarioSubject = new BehaviorSubject<any>(null);
@@ -126,11 +119,7 @@ export class AuthService {
     return this.http.post<ApiResponse<string>>(`${this.apiUrl}/reenviar-verificacion`, null, {params:{email}})
   }
 
-  
 
-
-
-  /* METODOS PRIVADOS */
 
   private guardarToken(token: string): void {
     if (!this.isBrowser()) return;
@@ -156,8 +145,6 @@ export class AuthService {
     return isPlatformBrowser(this.platformId);
   }
 
-
-  //----------------------------------------
   isAuthenticatedSync():boolean{
     return this.authenticatedSubject.getValue();
   }

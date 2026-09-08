@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Producto } from '../../models/producto.model';
-import { Categoria } from '../../models/categoria.model';
-import { Marca } from '../../models/marca.model';
+import { Producto } from '../../../productos/models/producto.model';
+import { Categoria } from '../../../../models/categoria.model';
+import { Marca } from '../../../../models/marca.model';
 
 @Component({
   selector: 'app-producto-modal',

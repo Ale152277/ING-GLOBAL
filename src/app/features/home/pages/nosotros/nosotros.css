@@ -1,0 +1,100 @@
+.text-justify {
+  text-align: justify;
+}
+
+.title-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--bs-primary, #0d6efd) 0%, transparent 100%);
+}
+
+.nav-tabs-custom .nav-link {
+  color: var(--bs-secondary);
+  border: none;
+  background: transparent;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs-custom .nav-link:hover {
+  color: var(--bs-primary);
+}
+
+.nav-tabs-custom .nav-link.active {
+  color: var(--bs-primary);
+  border-bottom-color: var(--bs-primary);
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hover-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.hover-zoom img {
+  transition: transform 0.5s ease;
+}
+
+.hover-zoom:hover img {
+  transform: scale(1.05);
+}
+
+.badge-anos {
+  background-color: #1a3d5c;
+  min-width: 90px;
+}
+
+.imagen-titulo {
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.btn-slider {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: rgba(220, 53, 69, 0.9); /* Rojo semitransparente */
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+  z-index: 10;
+}
+
+.btn-slider:hover {
+  background-color: var(--bs-primary, #0d6efd);
+  transform: translate(-50%, -50%) scale(1.1); /* Mantiene el centrado de translate-middle de Bootstrap */
+}
+
+.indicador {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--bs-primary, #0d6efd);
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.indicador:hover,
+.indicador.active {
+  background-color: var(--bs-primary, #0d6efd);
+  transform: scale(1.2);
+}

@@ -1,40 +1,42 @@
-<div class="sidebar bg-white p-4 rounded">
-  
+<!-- Se aplica shadow-sm, bg-white, y sticky-lg-top directo en el contenedor -->
+<div class="bg-white p-4 rounded shadow-sm sticky-lg-top" style="top: 20px; height: fit-content; z-index: 1020;">
   
   <div class="mb-4">
-    <h6 class="fw-bold mb-3">
+    <!-- El borde inferior y color se manejan con utilidades de Bootstrap -->
+    <h6 class="fw-bold mb-3 pb-2 border-bottom border-2 border-primary text-dark" style="font-size: 0.95rem;">
       <i class="fas fa-search me-2"></i>Buscar
     </h6>
     <input 
       type="text" 
-      class="form-control form-control-sm"
+      class="form-control form-control-sm custom-input"
       placeholder="Nombre o SKU"
       [(ngModel)]="searchTerm"
       (change)="onSearchChange()"
     >
   </div>
 
-  
   <div class="mb-4">
-    <h6 class="fw-bold mb-3">
+    <h6 class="fw-bold mb-3 pb-2 border-bottom border-2 border-primary text-dark" style="font-size: 0.95rem;">
       <i class="fas fa-list me-2"></i>Categorías
     </h6>
     <ul class="list-unstyled">
       @for (cat of categorias; track cat.id) {
         <li class="mb-2">
-          <div class="form-check">
+          <!-- Alineación con Flexbox nativo de Bootstrap -->
+          <div class="form-check d-flex align-items-center">
             <input 
               type="radio" 
-              class="form-check-input" 
+              class="form-check-input custom-radio me-2 mt-0" 
               [id]="'cat-' + cat.id"
               name="categoria"
               [value]="cat.id"
               [(ngModel)]="selectedCategoria"
               (change)="onCategoriaChange()"
             >
-            <label class="form-check-label" [for]="'cat-' + cat.id">
+            <!-- Justify-content-between separa el texto del badge -->
+            <label class="form-check-label custom-label w-100 d-flex justify-content-between align-items-center" [for]="'cat-' + cat.id">
               {{ cat.nombre }}
-              <span class="badge bg-secondary ms-2">{{ cat.count }}</span>
+              <span class="badge bg-secondary fw-normal px-2 py-1" style="font-size: 0.75rem;">{{ cat.count }}</span>
             </label>
           </div>
         </li>
@@ -42,7 +44,6 @@
     </ul>
   </div>
 
-  
   <div>
     <button 
       class="btn btn-outline-secondary btn-sm w-100"

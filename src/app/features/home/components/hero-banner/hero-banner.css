@@ -1,7 +1,3 @@
-/* 
-   HERO BANNER
- */
-
 .hero-banner {
   position: relative;
   aspect-ratio: 32/12;
@@ -22,20 +18,20 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .slide-image {
   width: 100%;
   height: 100%;
-  object-fit:fill;
+  object-fit: fill;
   object-position: left center;
 }
-
-/* 
-   SLIDE CONTENT
-    */
 
 .slide-content {
   position: absolute;
@@ -44,7 +40,12 @@
   flex-direction: column;
   justify-content: center;
   padding: var(--padding-xl);
-  background: linear-gradient(90deg, var(--color-overlay-dark) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+  background: linear-gradient(
+    90deg,
+    var(--color-overlay-dark) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    transparent 100%
+  );
   color: var(--color-text-light);
 }
 
@@ -86,10 +87,6 @@
   }
 }
 
-/* 
-   CAROUSEL BUTTONS
-    */
-
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -122,26 +119,27 @@
   right: clamp(8px, 2vw, 20px);
 }
 
-/* 
-   RESPONSIVE
-    */
-
 @media (max-width: 758px) {
-  .slide-image{
+  .slide-image {
     object-position: left center;
     object-fit: fill;
     background-color: #000;
   }
 
   .hero-banner {
-    aspect-ratio: auto;   
+    aspect-ratio: auto;
     height: 300px;
     width: 100%;
   }
 
   .slide-content {
     padding: var(--padding-md);
-    background: linear-gradient(90deg, var(--color-overlay-darker) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+    background: linear-gradient(
+      90deg,
+      var(--color-overlay-darker) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      transparent 100%
+    );
   }
 
   .slide-description {
@@ -150,8 +148,7 @@
 }
 
 @media (max-width: 576px) {
-
-  .slide-image{
+  .slide-image {
     object-fit: fill;
     object-position: left center;
   }
@@ -159,7 +156,7 @@
     aspect-ratio: auto;
     height: 250px;
     width: 100%;
-}
+  }
 
   .slide-content {
     padding: var(--padding-sm);

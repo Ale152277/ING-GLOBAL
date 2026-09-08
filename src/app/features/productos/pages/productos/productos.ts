@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Producto } from '../../../../models/producto.model';
+import { Producto } from '../../models/producto.model';
 import { Categoria } from '../../../../models/categoria.model';
 import { ProductoCard } from '../../components/producto-card/producto-card';
 import { ProductosService } from '../../services/productos.service';
-import { CategoriaService } from '../../../../core/services/categoria.service';
+import { CategoriaService } from '../../services/categoria.service';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { AuthService } from '../../../../core/services/auth.service';
 import { RouterLink } from '@angular/router';
@@ -50,7 +50,7 @@ export class Productos implements OnInit {
       takeUntil(this.destroy$)
     ).subscribe(params => {
       this.currentPage = 1;
-      this.selectedCategoria = +params['categoriaId']; 
+      this.selectedCategoria = params['categoriaId']? +params['categoriaId'] : null; 
       this.cargarProductos();
   });
     

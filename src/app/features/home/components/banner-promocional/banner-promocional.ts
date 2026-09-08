@@ -6,24 +6,19 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-banner-promocional',
   imports: [CommonModule],
   templateUrl: './banner-promocional.html',
-  styleUrl: './banner-promocional.css'
+  styleUrl: './banner-promocional.css',
 })
 export class BannerPromocional {
   constructor(
-    private router : Router,
-    private route: ActivatedRoute
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
-  ){}
-  
-  irAProductos() : void{
-    this.router.navigate(['/productos'])
+  irAProductos(): void {
+    this.router.navigate(['/productos']);
   }
 
-  irAConsultas():void{
-    this.router.navigate(['/consultas'])
+  irAConsultas(): void {
+    this.router.navigate(['/consultas']);
   }
-
-  
-
-
 }

@@ -1,78 +1,44 @@
-/* 
-   PRODUCTO CARD - COMPONENTE REUTILIZABLE
-    */
-
-.producto-card {
-  border: none;
-  border-radius: var(--border-radius-md);
-  overflow: hidden;
-  transition: all var(--transition-base);
-  display: flex;
-  flex-direction: column;
-  background-color: var(--color-white);
+.product-hover {
+  transition: transform var(--transition-base, 0.3s ease), box-shadow 0.3s ease;
 }
 
-.producto-card:hover {
+.product-hover:hover {
   transform: translateY(-4px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* 
-   IMAGEN
-    */
-
-.producto-imagen-container {
-  aspect-ratio: 1;
+.hover-zoom-img {
+  transition: transform var(--transition-base, 0.4s ease);
 }
 
-.producto-imagen {
-  transition: transform var(--transition-base);
-}
-
-.producto-card:hover .producto-imagen {
+.product-hover:hover .hover-zoom-img {
   transform: scale(1.1);
 }
 
-/* 
-   BADGES
-    */
-
-.etiqueta {
-  font-size: 0.7rem;
-  border-radius: var(--border-radius-sm);
-  z-index: 5;
-  background-color: var(--color-primary);
+.product-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity var(--transition-base, 0.3s ease);
 }
 
-.etiqueta-nuevo {
-  background-color: #4CAF50 !important;
+.product-hover:hover .product-overlay {
+  opacity: 1;
 }
 
-.etiqueta-hot {
+.badge-nuevo {
+  background-color: #4CAF50 !important; /* Si prefieres, usa bg-success directo en HTML */
+}
+
+.badge-hot {
   background-color: var(--color-primary) !important;
   animation: pulse 2s infinite;
 }
 
-.etiqueta-stock {
-  background-color: #2196F3 !important;
+.badge-stock {
+  background-color: #2196F3 !important; /* Si prefieres, usa bg-info directo en HTML */
 }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
-}
-
-/* 
-   OVERLAY
-    */
-
-.producto-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  transition: opacity var(--transition-base);
-  z-index: 10;
-}
-
-.producto-card:hover .producto-overlay {
-  opacity: 1;
 }

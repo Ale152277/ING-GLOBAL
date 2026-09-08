@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/home/home';
+import { HomeComponent } from './features/home/pages/home/home';
 import { Productos } from './features/productos/pages/productos/productos';
-import { Nosotros } from './features/nosotros/nosotros/nosotros';
+import { Nosotros } from './features/home/pages/nosotros/nosotros';
 import { Login } from './features/auth/pages/login/login';
 import { Register } from './features/auth/pages/register/register';
 import { AuthGuard } from './core/guards/Auth/auth-guard';
@@ -11,7 +11,7 @@ import { InterfazCarrito } from './features/carrito/pages/interfaz-carrito/inter
 import { ProductosAdmin } from './features/productos-admin/productos-admin';
 import { AdminGuard } from './core/guards/Admin/admin-guard';
 import { Verifyemail } from './features/auth/pages/verifyemail/verifyemail';
-import { Consultas } from './features/consultas/consultas';
+import { Consultas } from './features/consultas/pages/consultas/consultas';
 export const routes: Routes = [
   {
     path: '',

@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Carrito, DetalleCarrito } from '../../../../models/carrito.model';
 import { AuthService } from '../../../../core/services/auth.service';
-import { CarritoService } from '../../service/carrito.service';
-
+import { CarritoService } from '../../services/carrito.service';
 
 @Component({
   selector: 'app-interfaz-carrito',
@@ -12,135 +11,130 @@ import { CarritoService } from '../../service/carrito.service';
   templateUrl: './interfaz-carrito.html',
   styleUrl: './interfaz-carrito.css',
 })
-export class InterfazCarrito implements OnInit{
-
-  carrito : Carrito |null = null;
+export class InterfazCarrito implements OnInit {
+  carrito: Carrito | null = null;
   isloading = false;
   error = '';
   usuarioId: number | null = null;
 
   constructor(
     private carritoService: CarritoService,
-    private authService: AuthService
-  ){}
+    private authService: AuthService,
+  ) {}
 
   ngOnInit(): void {
-      this.cargarCarrito();
+    this.cargarCarrito();
   }
 
-  private cargarCarrito(): void{
+  private cargarCarrito(): void {
     const usuario = this.authService.obtenerUsuario();
-    if(!usuario){
+    if (!usuario) {
       this.error = 'Usuario no autenticado';
       return;
     }
 
-    this.usuarioId= usuario.id
+    this.usuarioId = usuario.id;
     this.isloading = true;
 
     this.carritoService.obtenerCarrito(usuario.id).subscribe({
-      next:(response)=>{
-        if(response.success && response.data){
+      next: (response) => {
+        if (response.success && response.data) {
           this.carrito = response.data;
         }
         this.isloading = false;
       },
-      error:(error)=>{
+      error: (error) => {
         console.error('Error al cargar el carrito:', error);
         this.error = 'Error al cargar el carrito';
         this.isloading = false;
-      }
-    })
+      },
+    });
   }
 
-  obtenerCantidadTotal():number{
+  obtenerCantidadTotal(): number {
     return this.carritoService.obtenerCantidadProductos(this.carrito!);
   }
 
-  obtenerTotal(): number{
+  obtenerTotal(): number {
     return this.carritoService.obtenerTotal(this.carrito!);
   }
 
   formatearPrecio(precio: number): string {
     return new Intl.NumberFormat('es-PE', {
       style: 'currency',
-      currency: 'PEN'
+      currency: 'PEN',
     }).format(precio);
   }
 
-  actualizarCantidad(detalle:DetalleCarrito, incremento: number): void{
-    if(!this.carrito) return;
+  actualizarCantidad(detalle: DetalleCarrito, incremento: number): void {
+    if (!this.carrito) return;
     const nuevaCantidad = detalle.cantidad + incremento;
-    
-    if(nuevaCantidad <= 0){
-      this.eliminarProducto(detalle)
+
+    if (nuevaCantidad <= 0) {
+      this.eliminarProducto(detalle);
     }
 
     detalle.cantidad = nuevaCantidad;
-    detalle.subtotal = detalle.precioUnitario * nuevaCantidad
-    this.carritoService.actualizarBehaviorSubject(this.carrito!)
+    detalle.subtotal = detalle.precioUnitario * nuevaCantidad;
+    this.carritoService.actualizarBehaviorSubject(this.carrito!);
   }
 
-  eliminarProducto(dettalle: DetalleCarrito):void{
-    if(!this.carrito) return;
+  eliminarProducto(dettalle: DetalleCarrito): void {
+    if (!this.carrito) return;
     this.carritoService.eliminarProducto(dettalle.id, this.carrito.id).subscribe({
-      next:()=>{
-        this.carrito!.detalles = this.carrito!.detalles.filter(d => d.id !== dettalle.id);
-        this.carritoService.actualizarBehaviorSubject(this.carrito!)
+      next: () => {
+        this.carrito!.detalles = this.carrito!.detalles.filter((d) => d.id !== dettalle.id);
+        this.carritoService.actualizarBehaviorSubject(this.carrito!);
       },
-      error : (error)=>{
+      error: (error) => {
         console.error('Error al eliminar producto:', error);
-        this.error= 'Error al eliminar el producto'
-      }
-    })
+        this.error = 'Error al eliminar el producto';
+      },
+    });
   }
 
-  vaciarCarrito():void{
-    if(!this.carrito || !confirm ('¿Estás seguro de querer vaciar este carrito?')){
-       return;
+  vaciarCarrito(): void {
+    if (!this.carrito || !confirm('¿Estás seguro de querer vaciar este carrito?')) {
+      return;
     }
     this.carritoService.varciarCarrito(this.carrito.id).subscribe({
-      next:()=>{
+      next: () => {
         this.carrito!.detalles = [];
-        this.carritoService.actualizarBehaviorSubject(this.carrito!)
+        this.carritoService.actualizarBehaviorSubject(this.carrito!);
       },
-      error:(error)=>{
+      error: (error) => {
         console.error('Error al vaciar el carrito:', error);
         this.error = 'Error al vaciar el carrito';
       },
-    })
+    });
   }
 
-
-  Comprar():void{
-    if(!this.carrito || this.carrito.detalles.length === 0){
-      this.error ='el carrito está vacío';
+  Comprar(): void {
+    if (!this.carrito || this.carrito.detalles.length === 0) {
+      this.error = 'el carrito está vacío';
       return;
     }
 
     this.isloading = true;
 
     this.carritoService.enviarWhatsapp(this.carrito.id).subscribe({
-      next:(response)=>{
-        if(response.success){
-          const urlWhtatsapp = this.carritoService.generarURLWhatsapp(this.carrito!)
+      next: (response) => {
+        if (response.success) {
+          const urlWhtatsapp = this.carritoService.generarURLWhatsapp(this.carrito!);
 
           window.open(urlWhtatsapp, '_blank');
-        
-        this.carrito = null;
+
+          this.carrito = null;
+          this.carritoService.limpiarCarritoLocal();
         }
 
         this.isloading = false;
       },
-      error:(error)=>{
+      error: (error) => {
         console.error('Error al enviar el carrito por WhatsApp:', error);
         this.error = 'Error al procesar la compra';
         this.isloading = false;
-      }
-        
-
-
-    })
-
+      },
+    });
   }
 }

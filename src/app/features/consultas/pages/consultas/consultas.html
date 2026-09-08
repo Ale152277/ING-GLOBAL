@@ -1,14 +1,9 @@
 <section class="consultas-page">
-
-  
   <div class="map-bg"></div>
 
-  <div class="container ">
+  <div class="container">
     <div class="row min-vh-100 align-items-center justify-content-center py-5">
-
-      
       <div class="col-lg-5 col-md-12 mb-5 mb-lg-0 pe-lg-5">
-
         <p class="consultas-eyebrow">INGENIERÍA GLOBAL</p>
         <h1 class="consultas-title">CONTÁCTANOS</h1>
         <p class="consultas-subtitle">
@@ -32,13 +27,18 @@
             <div class="dato-icon">
               <i class="fas fa-map-marker-alt"></i>
             </div>
-            <span class="text-white-50" style="font-size: 14px">Jr. Guevara Ochoa 1276, Trujillo</span>
+            <span class="text-white-50" style="font-size: 14px"
+              >Jr. Guevara Ochoa 1276, Trujillo</span
+            >
           </div>
         </div>
 
         @if (nombreUsuario) {
           <div class="consultas-saludo">
-            <small class="text-uppercase" style="font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.35)">
+            <small
+              class="text-uppercase"
+              style="font-size: 10px; letter-spacing: 2px; color: rgba(255, 255, 255, 0.35)"
+            >
               Enviando como
             </small>
             <span class="text-white fw-semibold">
@@ -46,21 +46,17 @@
             </span>
           </div>
         }
-
       </div>
 
-      
       <div class="col-lg-6 col-md-12">
         <div class="consultas-card p-4 p-lg-5">
-
-          
           @if (enviado) {
             <div class="text-center py-4">
               <div class="exito-icono mx-auto mb-4">
                 <i class="fas fa-check fa-2x text-success"></i>
               </div>
               <h4 class="text-white fw-bold mb-2">¡Mensaje enviado!</h4>
-              <p class="mb-4" style="color: rgba(255,255,255,0.5)">
+              <p class="mb-4" style="color: rgba(255, 255, 255, 0.5)">
                 Nos pondremos en contacto contigo pronto.
               </p>
               <button class="btn btn-outline-secondary btn-sm px-4" (click)="nuevaConsulta()">
@@ -69,18 +65,18 @@
             </div>
           }
 
-          
           @if (!enviado) {
             <form (ngSubmit)="enviarConsulta()">
-
               @if (error) {
-                <div class="alert alert-danger d-flex align-items-center gap-2 py-2 mb-4" role="alert">
+                <div
+                  class="alert alert-danger d-flex align-items-center gap-2 py-2 mb-4"
+                  role="alert"
+                >
                   <i class="fas fa-exclamation-circle"></i>
                   <span style="font-size: 13px">{{ error }}</span>
                 </div>
               }
 
-              
               <div class="mb-4">
                 <label class="consultas-label mb-2 d-block">
                   <i class="fas fa-tag me-2"></i>ASUNTO *
@@ -96,7 +92,6 @@
                 />
               </div>
 
-              
               <div class="mb-4 position-relative">
                 <label class="consultas-label mb-2 d-block">
                   <i class="fas fa-comment-alt me-2"></i>MENSAJE *
@@ -114,7 +109,6 @@
                 <small class="form-contador">{{ mensaje.length }}/2000</small>
               </div>
 
-              
               <button
                 type="submit"
                 class="btn btn-danger w-100 py-3 fw-bold btn-enviar"
@@ -127,14 +121,10 @@
                   <i class="fas fa-paper-plane me-2"></i>ENVIAR MENSAJE
                 }
               </button>
-
             </form>
           }
-
         </div>
       </div>
-
     </div>
   </div>
-
 </section>

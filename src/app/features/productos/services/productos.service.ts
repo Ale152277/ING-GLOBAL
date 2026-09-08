@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Producto } from '../../../models/producto.model';
-import { PageResponse, ApiResponse } from '../../../models/api-response.model';
-import { CrearProductoRequest, EditarProductoRequest } from '../../../models/crearProductoRequest';
+import { Producto } from '../models/producto.model';
+import { PageResponse, ApiResponse } from '../../../shared/models/api-response.model';
+import { CrearProductoRequest, EditarProductoRequest } from '../models/crearProductoRequest';
 import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root',

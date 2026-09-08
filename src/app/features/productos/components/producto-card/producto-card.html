@@ -1,46 +1,41 @@
-<div class="producto-card h-100 shadow-sm">
-  <div class="producto-imagen-container position-relative overflow-hidden">
+<div class="card h-100 shadow-sm border-0 product-hover">
+  
+  <div class="position-relative overflow-hidden bg-light" style="aspect-ratio: 1;">
     <img
       [src]="producto.imagen"
       [alt]="producto.nombre"
-      class="w-100 h-100 object-fit-cover producto-imagen"
+      class="w-100 h-100 object-fit-cover hover-zoom-img"
     />
 
     @if (producto.etiqueta) {
       <span
-        class="position-absolute top-0 start-0 m-2 px-2 py-1 text-white text-uppercase fw-bold etiqueta"
-        [ngClass]="'etiqueta-' + producto.etiqueta.toLowerCase()"
+        class="position-absolute top-0 start-0 m-2 px-2 py-1 badge text-uppercase z-3"
+        [ngClass]="'badge-' + producto.etiqueta.toLowerCase()"
       >
         {{ producto.etiqueta }}
       </span>
     }
 
     @if (producto.descuento) {
-      <span class="position-absolute top-0 end-0 m-2 badge bg-danger">
+      <span class="position-absolute top-0 end-0 m-2 badge bg-danger z-3">
         -{{ producto.descuento }}%
       </span>
     }
 
-    <div
-      class="producto-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-    >
+    <div class="product-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center z-2">
       <button
-        class="btn btn-danger btn-sm d-flex align-items-center gap-2"
+        class="btn btn-danger btn-sm d-flex align-items-center gap-2 shadow"
         (click)="onAgregarAlCarrito()"
         [disabled]="isLoading || !usuarioAutenticado"
       >
         @if (isLoading) {
-          <span
-            class="spinner-border spinner-border-sm me-2"
-            role="status"
-            aria-hidden="true"
-          ></span>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           Agregando...
         } @else {
           @if (!usuarioAutenticado) {
-            <i class="fas fa-lock me-2"></i>Inicia sesión para comprar
+            <i class="fas fa-lock"></i>Inicia sesión para comprar
           } @else {
-            <i class="fas fa-shopping-cart me-2"></i>Anadir al carrito
+            <i class="fas fa-shopping-cart"></i>Añadir al carrito
           }
         }
       </button>
@@ -48,9 +43,9 @@
   </div>
 
   <div class="card-body d-flex flex-column">
-    <div class="d-flex justify-content-between text-success" style="font-weight: 700;  " >
-      <p class=" text-uppercase small mb-2">{{ producto.categoriaNombre }}</p>
-      <p class=" text-uppercase small mb-2">{{ producto.marcaNombre }}</p>
+    <div class="d-flex justify-content-between text-success fw-bold">
+      <p class="text-uppercase small mb-2">{{ producto.categoriaNombre }}</p>
+      <p class="text-uppercase small mb-2">{{ producto.marcaNombre }}</p>
     </div>
 
     <h6 class="card-title mb-3">{{ producto.nombre }}</h6>
@@ -71,23 +66,15 @@
     @if (producto.rating) {
       <div class="mb-3">
         <i class="fas fa-star text-warning"></i>
-        <span class="small ms-1">{{ producto.rating }}</span>
+        <span class="small ms-1 fw-medium">{{ producto.rating }}</span>
       </div>
     }
 
     <div class="d-flex gap-2 mt-auto pt-3 border-top">
-      <button
-        class="btn btn-outline-secondary btn-sm flex-grow-1"
-        (click)="onAgregarDeseados()"
-        title="Agregar a deseos"
-      >
+      <button class="btn btn-outline-secondary btn-sm flex-grow-1" (click)="onAgregarDeseados()" title="Agregar a deseos">
         <i class="far fa-heart"></i>
       </button>
-      <button
-        class="btn btn-outline-secondary btn-sm flex-grow-1"
-        (click)="onCompartir()"
-        title="Compartir"
-      >
+      <button class="btn btn-outline-secondary btn-sm flex-grow-1" (click)="onCompartir()" title="Compartir">
         <i class="fas fa-share-alt"></i>
       </button>
     </div>
