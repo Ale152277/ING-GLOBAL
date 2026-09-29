@@ -37,10 +37,17 @@ export class AuthService {
     const token = localStorage.getItem('token');
     const usuarioJson = localStorage.getItem('usuario');
 
-    if (token && token.length > 0) {
-      this.tokenSubject.next(token);
-      this.authenticatedSubject.next(true);
+    if (!token || this.tokenExpirado(token)) {
+      this.limpiarLocalStorage();
+      this.tokenSubject.next(null);
+      this.usuarioSubject.next(null);
+      this.authenticatedSubject.next(false)
+
+      return;
     }
+
+    this.tokenSubject.next(token)
+    this.authenticatedSubject.next(true);
 
     if (usuarioJson) {
       try {
@@ -138,6 +145,22 @@ export class AuthService {
     {
       localStorage.removeItem('token');
       localStorage.removeItem('usuario');
+    }
+  }
+
+  private tokenExpirado (token:string): boolean{
+    try{
+      const decoded: any = jwtDecode(token);
+
+      if(!decoded.exp){
+        return true;
+      }
+      const ahoraEnSegundos = Math.floor(Date.now() / 1000);
+
+      return decoded.exp <= ahoraEnSegundos;
+
+    }catch(error){
+      return true;
     }
   }
 
