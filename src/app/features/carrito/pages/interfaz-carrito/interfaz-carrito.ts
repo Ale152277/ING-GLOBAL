@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Carrito, DetalleCarrito } from '../../../../models/carrito.model';
-import { AuthService } from '../../../../core/services/auth.service';
 import { CarritoService } from '../../services/carrito.service';
 
 @Component({
@@ -15,11 +14,9 @@ export class InterfazCarrito implements OnInit {
   carrito: Carrito | null = null;
   isloading = false;
   error = '';
-  usuarioId: number | null = null;
 
   constructor(
     private carritoService: CarritoService,
-    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -27,16 +24,10 @@ export class InterfazCarrito implements OnInit {
   }
 
   private cargarCarrito(): void {
-    const usuario = this.authService.obtenerUsuario();
-    if (!usuario) {
-      this.error = 'Usuario no autenticado';
-      return;
-    }
-
-    this.usuarioId = usuario.id;
+    
     this.isloading = true;
 
-    this.carritoService.obtenerCarrito(usuario.id).subscribe({
+    this.carritoService.obtenerCarrito().subscribe({
       next: (response) => {
         if (response.success && response.data) {
           this.carrito = response.data;

@@ -58,12 +58,11 @@ export class ProductoCard implements OnInit {
   onAgregarAlCarrito(): void{
     if(this.requiereLogin()) return;
     this.isLoading = true;
-    const usuario = this.authService.obtenerUsuario();
 
     const request = this.presentacion ? 
     {presentacionId : this.presentacion.id, cantidad: 1}:{productoId: this.producto.id, cantidad:1};
 
-    this.carritoService.agregarProducto(usuario.id, request).subscribe({
+    this.carritoService.agregarProducto(request).subscribe({
       next:()=>{
         this.isLoading= false;
         this.agregarAlCarrito.emit(this.producto)

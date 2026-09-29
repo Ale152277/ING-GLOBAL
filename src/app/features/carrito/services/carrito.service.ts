@@ -16,13 +16,13 @@ export class CarritoService {
 
   constructor(private http: HttpClient) {}
 
-  obtenerCarrito(usuarioId: number): Observable<ApiResponse<Carrito>> {
-    return this.http.get<ApiResponse<Carrito>>(`${this.apiUrl}/${usuarioId}`);
+  obtenerCarrito(): Observable<ApiResponse<Carrito>> {
+    return this.http.get<ApiResponse<Carrito>>(this.apiUrl);
   }
 
-  agregarProducto(usuarioId: number, request: AgregarAlCarrito): Observable<ApiResponse<Carrito>> {
+  agregarProducto(request: AgregarAlCarrito): Observable<ApiResponse<Carrito>> {
     return this.http
-      .post<ApiResponse<Carrito>>(`${this.apiUrl}/${usuarioId}/agregar`, request)
+      .post<ApiResponse<Carrito>>(`${this.apiUrl}/agregar`, request)
       .pipe(
         tap((response) => {
           if (response.data) {

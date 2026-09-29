@@ -36,7 +36,7 @@ export class Header implements OnInit, OnDestroy {
       if (token) {
         const usuario = this.authService.obtenerUsuario();
         this.nombreUsuario = usuario?.nombreCompleto || 'Usuario';
-        this.cargarCarrito(usuario?.id);
+        this.cargarCarrito();
       } else {
         this.nombreUsuario = 'Guest';
       }
@@ -66,10 +66,9 @@ export class Header implements OnInit, OnDestroy {
     this.cantidadDeseos = 0;
   }
 
-  private cargarCarrito(usuarioId?: number): void {
-    if (!usuarioId) return;
+  private cargarCarrito(): void {
     this.carritoService
-      .obtenerCarrito(usuarioId)
+      .obtenerCarrito()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
