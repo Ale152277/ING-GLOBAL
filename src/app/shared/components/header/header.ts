@@ -78,6 +78,10 @@ export class Header implements OnInit, OnDestroy {
             this.cantidadCarrito = 0;
           }
         },
+
+        error: () =>{
+          this.cantidadCarrito = 0;
+        }
       });
   }
 

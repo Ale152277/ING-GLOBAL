@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { Carrito, DetalleCarrito } from '../../../../models/carrito.model';
 import { CarritoService } from '../../services/carrito.service';
-
+import { Router } from '@angular/router';
+import { VentaService } from '../../../ventas/venta.service';
+import { ConfirmarPedidoModal } from '../../components/confirmar-pedido-modal/confirmar-pedido-modal';
 @Component({
   selector: 'app-interfaz-carrito',
-  imports: [CommonModule],
+  imports: [CommonModule, ConfirmarPedidoModal],
   templateUrl: './interfaz-carrito.html',
   styleUrl: './interfaz-carrito.css',
 })
@@ -14,9 +15,13 @@ export class InterfazCarrito implements OnInit {
   carrito: Carrito | null = null;
   isloading = false;
   error = '';
+  mensajeExito = '';
+  mostrarConfirmacionPedido = false;
 
   constructor(
     private carritoService: CarritoService,
+    private ventaService: VentaService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -63,11 +68,25 @@ export class InterfazCarrito implements OnInit {
 
     if (nuevaCantidad <= 0) {
       this.eliminarProducto(detalle);
+      return;
     }
 
-    detalle.cantidad = nuevaCantidad;
-    detalle.subtotal = detalle.precioUnitario * nuevaCantidad;
-    this.carritoService.actualizarBehaviorSubject(this.carrito!);
+    this.carritoService.actualizarCantidad(
+      detalle.id,
+      this.carrito.id,
+      nuevaCantidad
+    )
+    .subscribe({
+      next: (response) =>{
+        if(response.success && response.data){
+          this.carrito = response.data
+        }
+      },
+      error: (error) => {
+        console.error('Error al actualizar la cantidad', error);
+        this.error = 'No se pudo actualizar la cantidad'  
+      },
+    })
   }
 
   eliminarProducto(dettalle: DetalleCarrito): void {
@@ -127,5 +146,49 @@ export class InterfazCarrito implements OnInit {
         this.isloading = false;
       },
     });
+  }
+
+  realizarPedido():void{
+    if(!this.carrito || this.carrito.detalles.length === 0){
+      this.error = 'El carrito está vacio';
+      return;
+    }
+
+    this.isloading = true;
+    this.error= '';
+    this.mensajeExito = '';
+
+    this.ventaService.crearVenta().subscribe({
+      next: (response) =>{
+        if(response.success && response.data){
+          this.mostrarConfirmacionPedido = false;
+          this.mensajeExito = response.message ||  `Pedido #${response.data.id} realizado con éxito`;
+        
+          this.carrito = null;
+          this.carritoService.limpiarCarritoLocal()
+        }
+         this.isloading = false
+        
+      },
+
+      error: (error) =>{
+        console.error("Error al crear el pedido", error);
+        this.error = error.error?.message || "No pudimos crear el pedido"
+        this.isloading = false
+      }
+      
+    })
+  }
+
+  solicitarConfirmacionPedido(): void{
+    if(!this.carrito || this.carrito.detalles.length ===0){
+      this.error = "El carrito está vacio"
+      return;
+    }
+    this.mostrarConfirmacionPedido = true;
+  }
+  
+  cancelarPedido():void {
+    this.mostrarConfirmacionPedido = false;
   }
 }

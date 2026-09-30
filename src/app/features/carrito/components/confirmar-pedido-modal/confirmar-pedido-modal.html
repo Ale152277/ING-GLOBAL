@@ -1,0 +1,62 @@
+<div class="modal-backdrop-custom">
+  <div class="modal-dialog modal-dialog-centered modal-container">
+    <div class="modal-content shadow">
+
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Confirmar pedido
+        </h5>
+
+        <button
+          type="button"
+          class="btn-close"
+          [disabled]="procesando"
+          (click)="cancelarPedido()"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <p class="mb-3">
+          ¿Deseas confirmar tu pedido con los productos seleccionados?
+        </p>
+
+        <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
+          <span>Total del pedido</span>
+
+          <strong class="text-primary fs-5">
+            {{ formatearPrecio(total) }}
+          </strong>
+        </div>
+
+        <small class="text-muted d-block mt-3">
+          Al confirmar, se registrará el pedido y se actualizará el stock disponible.
+        </small>
+      </div>
+
+      <div class="modal-footer gap-3">
+        <button
+          class="btn btn-outline-secondary"
+          [disabled]="procesando"
+          (click)="cancelarPedido()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          class="btn btn-primary "
+          [disabled]="procesando"
+          (click)="confirmarPedido()"
+        >
+          @if (procesando) {
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            Procesando...
+          } @else {
+            <i class="fas fa-check me-2"></i>
+            Confirmar pedido
+          }
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
