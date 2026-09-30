@@ -16,8 +16,8 @@ export class CarritoService {
 
   constructor(private http: HttpClient) {}
 
-  obtenerCarrito(): Observable<ApiResponse<Carrito>> {
-    return this.http.get<ApiResponse<Carrito>>(this.apiUrl);
+  obtenerCarrito(): Observable<ApiResponse<Carrito | null>> {
+    return this.http.get<ApiResponse<Carrito | null>>(this.apiUrl);
   }
 
   agregarProducto(request: AgregarAlCarrito): Observable<ApiResponse<Carrito>> {

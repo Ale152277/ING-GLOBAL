@@ -29,7 +29,7 @@ export class InterfazCarrito implements OnInit {
 
     this.carritoService.obtenerCarrito().subscribe({
       next: (response) => {
-        if (response.success && response.data) {
+        if (response.success) {
           this.carrito = response.data;
         }
         this.isloading = false;

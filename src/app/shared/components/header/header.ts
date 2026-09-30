@@ -42,13 +42,13 @@ export class Header implements OnInit, OnDestroy {
       }
     });
 
-    this.carritoService.carrito$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(carrito => {
-      if(carrito){
+    this.carritoService.carrito$.pipe(takeUntil(this.destroy$)).subscribe((carrito) => {
+      if (carrito) {
         this.cantidadCarrito = this.carritoService.obtenerCantidadProductos(carrito);
+      } else {
+        this.cantidadCarrito = 0;
       }
-    })
+    });
   }
 
   ngOnDestroy(): void {
@@ -74,9 +74,10 @@ export class Header implements OnInit, OnDestroy {
         next: (response) => {
           if (response.data) {
             this.cantidadCarrito = this.carritoService.obtenerCantidadProductos(response.data);
+          } else {
+            this.cantidadCarrito = 0;
           }
         },
-        error:()=> this.cantidadCarrito = 0
       });
   }
 
@@ -99,7 +100,6 @@ export class Header implements OnInit, OnDestroy {
     }
     this.router.navigate(['/cuenta/lista-deseos']);
   }
- 
 
   togglePerfil(): void {
     this.perfilAbierto = !this.perfilAbierto;
