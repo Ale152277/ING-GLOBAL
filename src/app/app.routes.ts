@@ -12,6 +12,7 @@ import { ProductosAdmin } from './features/productos-admin/productos-admin';
 import { AdminGuard } from './core/guards/Admin/admin-guard';
 import { Verifyemail } from './features/auth/pages/verifyemail/verifyemail';
 import { Consultas } from './features/consultas/pages/consultas/consultas';
+import { MisPedidos } from './features/ventas/pages/mis-pedidos/mis-pedidos';
 export const routes: Routes = [
   {
     path: '',
@@ -76,6 +77,14 @@ export const routes: Routes = [
       component: ProductosAdmin,
     }
   ]
+
+  
+},
+
+{
+  path: 'pedidos',
+  component: MisPedidos,
+  canActivate: [AuthGuard]
 },
 
   {
