@@ -5,6 +5,7 @@ import { CarritoService } from '../../services/carrito.service';
 import { Router } from '@angular/router';
 import { VentaService } from '../../../ventas/venta.service';
 import { ConfirmarPedidoModal } from '../../components/confirmar-pedido-modal/confirmar-pedido-modal';
+import { WhatsappService } from '../../services/whatsapp.service';
 @Component({
   selector: 'app-interfaz-carrito',
   imports: [CommonModule, ConfirmarPedidoModal],
@@ -21,7 +22,8 @@ export class InterfazCarrito implements OnInit {
   constructor(
     private carritoService: CarritoService,
     private ventaService: VentaService,
-    private router: Router
+    private router: Router,
+    private whatsappService: WhatsappService
   ) {}
 
   ngOnInit(): void {
@@ -130,7 +132,7 @@ export class InterfazCarrito implements OnInit {
     this.carritoService.enviarWhatsapp(this.carrito.id).subscribe({
       next: (response) => {
         if (response.success) {
-          const urlWhtatsapp = this.carritoService.generarURLWhatsapp(this.carrito!);
+          const urlWhtatsapp = this.whatsappService.generarUrl(this.carrito!);
 
           window.open(urlWhtatsapp, '_blank');
 

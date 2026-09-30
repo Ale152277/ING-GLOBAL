@@ -84,36 +84,5 @@ export class CarritoService {
     this.carritoSubjetc.next(null);
   }
 
-  generarURLWhatsapp(carrito: Carrito, numeroEmpresa: string = '51973306855'): string {
-    let mensaje = '*Mi carrito de compras*\n\n';
-
-    if (carrito.detalles && carrito.detalles.length > 0) {
-      carrito.detalles.forEach((detalle, index) => {
-        const nombre =
-          detalle.producto?.nombre || detalle.presentacion?.nombreProducto || 'Producto';
-
-        const extra = detalle.presentacion
-          ? `Presentacion: 
-        ${detalle.presentacion.tipoPresentacion || ''} 
-        ${detalle.presentacion.cantidadBase} 
-        ${detalle.presentacion.tipoUnidad || ''}\n`
-          : '';
-
-        mensaje += `${index + 1}. ${nombre}\n`;
-        mensaje += extra;
-        mensaje += `   Cantidad: ${detalle.cantidad}\n`;
-        mensaje += `   Precio Unitario: S/ ${detalle.precioUnitario.toFixed(2)}\n`;
-        if (detalle.descuento > 0) {
-          mensaje += `Descuento: ${detalle.descuento}%\n`;
-        }
-        mensaje += `Subtotal: S/ ${detalle.subtotal.toFixed(2)}\n\n`;
-      });
-    }
-    const total = this.obtenerTotal(carrito);
-    mensaje += `*Total: S/ ${total.toFixed(2)}*\n`;
-    mensaje += '\nPor favor confirmar mi pedido';
-
-    const urlWhtatsapp = `https://wa.me/${numeroEmpresa}?text=${encodeURIComponent(mensaje)}`;
-    return urlWhtatsapp;
-  }
+  
 }
