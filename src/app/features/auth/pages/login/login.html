@@ -1,29 +1,24 @@
 <div class="login-container d-flex align-items-center justify-content-center min-vh-100">
-  <div class="login-card card shadow-lg" style="max-width: 400px; width: 100%;">
-    
+  <div class="login-card card shadow-lg" style="max-width: 400px; width: 100%">
+    <a routerLink="/" class="btn btn-link text-decoration-none mb-3">
+      <i class="fas fa-arrow-left me-2"></i>
+      Volver a la tienda
+    </a>
     <div class="card-header bg-primary text-white text-center py-4">
-      <h3 class="mb-0">Iniciar Sesión</h3>
-      <small>Ingeniera Global E-Commerce</small>
+      <h3 class="mb-0">BIENVENIDO</h3>
     </div>
 
     <div class="card-body p-4">
-      
       @if (error) {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <i class="fas fa-exclamation-circle"></i> {{ error }}
-          <button 
-            type="button" 
-            class="btn-close" 
-            (click)="error = ''"
-          ></button>
+          <button type="button" class="btn-close" (click)="error = ''"></button>
         </div>
       }
 
       @if (cuentaNoVerificada) {
         <div class="alert alert-warning" role="alert">
-          <p class="mb-2 fw-bold">
-            <i class="fas fa-envelope me-1"></i> Cuenta no verificada
-          </p>
+          <p class="mb-2 fw-bold"><i class="fas fa-envelope me-1"></i> Cuenta no verificada</p>
           <p class="small mb-3">
             {{ error }} Revisa tu bandeja de entrada o solicita un nuevo enlace.
           </p>
@@ -34,8 +29,11 @@
             </div>
           }
 
-          <button class="btn btn-warning btn-sm w-100"
-            (click)="reenviarVerificacion()" [disabled]="reenvioLoading">
+          <button
+            class="btn btn-warning btn-sm w-100"
+            (click)="reenviarVerificacion()"
+            [disabled]="reenvioLoading"
+          >
             @if (reenvioLoading) {
               <span class="spinner-border spinner-border-sm me-1"></span> Enviando...
             } @else {
@@ -46,11 +44,10 @@
       }
 
       <form (ngSubmit)="login()" class="login-form">
-        
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input 
-            type="email" 
+          <input
+            type="email"
             class="form-control form-control-lg"
             id="email"
             placeholder="tu@email.com"
@@ -58,13 +55,13 @@
             name="email"
             required
             [disabled]="isLoading"
-          >
+          />
         </div>
 
         <div class="mb-3">
           <label for="password" class="form-label">Contraseña</label>
           <div class="input-group">
-            <input 
+            <input
               [type]="showPassword ? 'text' : 'password'"
               class="form-control form-control-lg"
               id="password"
@@ -73,9 +70,9 @@
               name="contraseña"
               required
               [disabled]="isLoading"
-            >
-            <button 
-              class="btn btn-outline-secondary" 
+            />
+            <button
+              class="btn btn-outline-secondary"
               type="button"
               (click)="togglePasswordVisibility()"
               [disabled]="isLoading"
@@ -85,27 +82,25 @@
           </div>
         </div>
 
-        <div class="mb-3 ">
-          <div class="form-check ">
-            <input 
-              class="form-check-input shadow-sm rounded border " 
-              type="checkbox" 
+        <div class="mb-3">
+          <div class="form-check">
+            <input
+              class="form-check-input shadow-sm rounded border"
+              type="checkbox"
               id="remember"
               [disabled]="isLoading"
-            >
-            <label class="form-check-label" for="remember">
-              Recuérdame
-            </label>
+            />
+            <label class="form-check-label" for="remember"> Recuérdame </label>
           </div>
         </div>
 
-        <button 
-          type="submit" 
-          class="btn btn-primary btn-lg w-100 mb-3"
-          [disabled]="isLoading"
-        >
+        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3" [disabled]="isLoading">
           @if (isLoading) {
-            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
             Cargando...
           } @else {
             <i class="fas fa-sign-in-alt me-2"></i>
@@ -115,15 +110,13 @@
 
         <div class="text-center">
           <small class="text-muted">
-            ¿No tienes cuenta? 
+            ¿No tienes cuenta?
             <a href="javascript:void(0)" (click)="irARegistro()" class="text-primary fw-bold">
               Regístrate aquí
             </a>
           </small>
         </div>
-
       </form>
-
     </div>
 
     <div class="card-footer bg-light text-center py-3">
@@ -132,7 +125,5 @@
         Acceso seguro con encriptación SSL
       </small>
     </div>
-
   </div>
 </div>
-

@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { response } from 'express';
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

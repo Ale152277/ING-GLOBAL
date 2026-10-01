@@ -13,85 +13,99 @@ import { AdminGuard } from './core/guards/Admin/admin-guard';
 import { Verifyemail } from './features/auth/pages/verifyemail/verifyemail';
 import { Consultas } from './features/consultas/pages/consultas/consultas';
 import { MisPedidos } from './features/ventas/pages/mis-pedidos/mis-pedidos';
+import { PublicLayout } from './layouts/public-layout/public-layout';
+
+
 export const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-  },
 
-  {
-    path: 'productos',
-    component: Productos,
-  },
-
-  {
-    path: 'nosotros',
-    component: Nosotros,
-  },
-
-  {
-    path : 'consultas',
-    component: Consultas,
-  },
-
+  // AUTENTICACIÓN
   {
     path: 'auth',
     children: [
       {
         path: 'login',
         component: Login,
-        canActivate: [GuestGuard]  // Solo si NO estás logueado
+        canActivate: [GuestGuard],
       },
       {
         path: 'registro',
         component: Register,
-        canActivate: [GuestGuard]  // Solo si NO estás logueado
-      }
-    ]
+        canActivate: [GuestGuard],
+      },
+    ],
   },
 
+
+  // ADMINISTRACIÓN
   {
-    path: 'verificar-email',
-    component: Verifyemail
+    path: 'admin',
+    canActivate: [AdminGuard],
+    children: [
+      {
+        path: 'productos',
+        component: ProductosAdmin,
+      },
+    ],
   },
 
+
+  // TIENDA / CLIENTE
   {
-    path: 'cuenta',
-    component: Perfil,
-    canActivate: [AuthGuard]  // Solo si ESTÁS logueado
-    // Componentes: perfil, direcciones, etc
+    path: '',
+    component: PublicLayout,
+
+    children: [
+
+      {
+        path: '',
+        component: HomeComponent,
+      },
+
+      {
+        path: 'productos',
+        component: Productos,
+      },
+
+      {
+        path: 'nosotros',
+        component: Nosotros,
+      },
+
+      {
+        path: 'consultas',
+        component: Consultas,
+      },
+
+      {
+        path: 'verificar-email',
+        component: Verifyemail,
+      },
+
+      {
+        path: 'cuenta',
+        component: Perfil,
+        canActivate: [AuthGuard],
+      },
+
+      {
+        path: 'carrito',
+        component: InterfazCarrito,
+        canActivate: [AuthGuard],
+      },
+
+      {
+        path: 'pedidos',
+        component: MisPedidos,
+        canActivate: [AuthGuard],
+      },
+
+    ],
   },
 
-  {
-    path: 'carrito',
-    component: InterfazCarrito,
-    canActivate: [AuthGuard]  // Solo si ESTÁS logueado
-  },
-
-  {
-  path: 'admin',
-  canActivate: [AdminGuard],
-  children: [
-    {
-      path: 'productos',
-      component: ProductosAdmin,
-    }
-  ]
-
-  
-},
-
-{
-  path: 'pedidos',
-  component: MisPedidos,
-  canActivate: [AuthGuard]
-},
-
+  // RUTA DESCONOCIDA
   {
     path: '**',
     redirectTo: '',
   },
-  
 
- 
 ];

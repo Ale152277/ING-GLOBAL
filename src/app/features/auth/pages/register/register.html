@@ -1,9 +1,12 @@
 @if (!registroCompletado) {
   <div class="registro-container d-flex align-items-center justify-content-center min-vh-100">
     <div class="registro-card card shadow-lg" style="max-width: 500px; width: 100%">
+      <a routerLink="/" class="btn btn-link text-decoration-none mb-3">
+        <i class="fas fa-arrow-left me-2"></i>
+        Volver a la tienda
+      </a>
       <div class="card-header bg-success text-white text-center py-4">
-        <h3 class="mb-0">Crear Cuenta</h3>
-        <small>Ingeniera Global E-Commerce</small>
+        <h3 class="mb-0">CREAR CUENTA</h3>
       </div>
 
       <div class="card-body p-4">
@@ -125,15 +128,15 @@
               ></span>
               Registrando...
             } @else {
-              <i class="fas fa-user-plus me-2"></i>
-              Crear Cuenta
+              <i class=" me-2"></i>
+              REGISTRARSE
             }
           </button>
 
           <div class="text-center">
             <small class="text-muted">
               <a href="javascript:void(0)" (click)="irAlLogin()" class="text-success fw-bold">
-                Inicia sesión aquí
+                Iniciar sesión
               </a>
             </small>
           </div>
