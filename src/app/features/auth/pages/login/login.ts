@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
-import { response } from 'express';
 @Component({
   selector: 'app-login',
   imports: [CommonModule, FormsModule,RouterLink],

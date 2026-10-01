@@ -166,7 +166,7 @@
         <p class="text-muted small mb-2">¿No recibiste el correo?</p>
 
         @if (reenvioMensaje) {
-          <div class="alert alter-success py-2 small">
+          <div class="alert alert-success py-2 small">
             <i class="fas fa-check-circle me-1"></i>{{ reenvioMensaje }}
           </div>
         }
@@ -177,7 +177,7 @@
           [disabled]="reenvioLoading"
         >
           @if (reenvioLoading) {
-            <span class="spinner-botder spinner-border-sm me-2"></span> Enviando...
+            <span class="spinner-border spinner-border-sm me-2"></span> Enviando...
           } @else {
             <i class="fas fa-redo me-2"></i> Reenviar correo de verificación
           }
