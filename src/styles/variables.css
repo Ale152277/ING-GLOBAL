@@ -25,6 +25,23 @@
   --color-text-primary: #000000;
   --color-text-secondary: #888888;
   --color-text-light: #ffffff;
+
+  /* Estados */
+--color-success: #198754;
+--color-warning: #ffc107;
+--color-danger: #dc3545;
+--color-info: #0d6efd;
+
+/* Superficies */
+--color-surface: var(--color-white);
+--color-background: var(--color-gray-light);
+
+/* Administración */
+--color-admin-sidebar: var(--color-gray-dark);
+--color-admin-sidebar-text: var(--color-white);
+--color-admin-sidebar-muted: #c7ccd3;
+--color-admin-background: #f5f6f8;
+--color-admin-border: #e4e7eb;
 }
 
 /* 

@@ -1,0 +1,20 @@
+<header class="admin-topbar">
+  <div>
+    <h5 class="mb-0">Panel administrativo</h5>
+  </div>
+
+  <div class="admin-user">
+    <div class="text-end">
+      <strong>
+        {{ identificadorUsuario }}
+      </strong>
+
+      <small> Administrador </small>
+    </div>
+
+    <button type="button" class="btn btn-outline-danger btn-sm" (click)="cerrarSesion()">
+      <i class="fas fa-right-from-bracket me-1"></i>
+      Cerrar sesión
+    </button>
+  </div>
+</header>

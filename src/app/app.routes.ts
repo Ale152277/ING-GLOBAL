@@ -14,7 +14,7 @@ import { Verifyemail } from './features/auth/pages/verifyemail/verifyemail';
 import { Consultas } from './features/consultas/pages/consultas/consultas';
 import { MisPedidos } from './features/ventas/pages/mis-pedidos/mis-pedidos';
 import { PublicLayout } from './layouts/public-layout/public-layout';
-
+import { AdminLayout } from './layouts/admin-layout/admin-layout';
 
 export const routes: Routes = [
 
@@ -39,11 +39,17 @@ export const routes: Routes = [
   // ADMINISTRACIÓN
   {
     path: 'admin',
+    component: AdminLayout,
     canActivate: [AdminGuard],
     children: [
       {
-        path: 'productos',
-        component: ProductosAdmin,
+        path: '',
+        redirectTo: 'productos',
+        pathMatch: 'full',
+      },
+      {
+      path: 'productos',
+      component: ProductosAdmin,
       },
     ],
   },

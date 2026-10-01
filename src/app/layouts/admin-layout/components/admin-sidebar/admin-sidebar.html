@@ -1,0 +1,51 @@
+<aside class="admin-sidebar d-flex flex-column min-vh-100">
+  <div class="d-flex align-items-center gap-3 p-4 border-bottom">
+    <img src="/assets/logo.jpg"  alt="Ingeniería Global" class="admin-logo" style="width: 45px; height: auto;" />
+
+    <div>
+      <strong class="d-block"> Ingeniería Global </strong>
+
+      <small class="admin-muted"> Administración </small>
+    </div>
+  </div>
+
+  <nav class="d-flex flex-column gap-2 p-3 flex-grow-1">
+    <a
+      routerLink="/admin"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="admin-nav-link d-flex align-items-center gap-3 text-decoration-none rounded px-3 py-2"
+    >
+      <i class="fas fa-chart-line"></i>
+      <span>Dashboard</span>
+    </a>
+
+    <a
+      routerLink="/admin/pedidos"
+      routerLinkActive="active"
+      class="admin-nav-link d-flex align-items-center gap-3 text-decoration-none rounded px-3 py-2"
+    >
+      <i class="fas fa-box"></i>
+      <span>Pedidos</span>
+    </a>
+
+    <a
+      routerLink="/admin/productos"
+      routerLinkActive="active"
+      class="admin-nav-link d-flex align-items-center gap-3 text-decoration-none rounded px-3 py-2"
+    >
+      <i class="fas fa-boxes-stacked"></i>
+      <span>Productos</span>
+    </a>
+  </nav>
+
+  <div class="p-3 border-top">
+    <a
+      routerLink="/"
+      class="admin-nav-link d-flex align-items-center gap-3 text-decoration-none rounded px-3 py-2"
+    >
+      <i class="fas fa-store"></i>
+      <span>Ver tienda</span>
+    </a>
+  </div>
+</aside>
