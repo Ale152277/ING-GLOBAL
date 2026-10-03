@@ -1,0 +1,9 @@
+.admin-nav-link {
+  color: #006eff;
+}
+
+.admin-nav-link.active {
+  background-color: #e8f1ff;
+  color: #006eff;
+  font-weight: 600;
+}
