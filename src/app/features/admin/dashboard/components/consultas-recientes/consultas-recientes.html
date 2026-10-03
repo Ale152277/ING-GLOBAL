@@ -1,0 +1,103 @@
+<div class="card border-0 shadow-sm h-100 dashboard-card">
+
+  <div class="card-body p-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+      <h5 class="fw-bold mb-0">
+        Consultas recientes
+      </h5>
+
+      <button
+        type="button"
+        class="btn btn-link btn-sm text-decoration-none"
+        disabled
+      >
+        Ver todos
+        <i class="fas fa-arrow-right ms-1"></i>
+      </button>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+      <table class="table align-middle mb-0">
+
+        <thead class="table-light">
+
+          <tr>
+            <th>Cliente</th>
+            <th>Asunto</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          @for (consulta of consultas; track consulta.id) {
+
+            <tr>
+
+              <td>
+                <strong class="d-block">
+                  {{ consulta.nombreCliente }}
+                </strong>
+
+                <small class="text-muted">
+                  {{ consulta.email }}
+                </small>
+              </td>
+
+
+              <td>
+                {{ consulta.asunto }}
+              </td>
+
+
+              <td>
+                {{ consulta.fecha }}
+              </td>
+
+
+              <td>
+
+                <span
+                  class="consulta-badge"
+                  [class]="
+                    'consulta-badge ' +
+                    obtenerClaseEstado(consulta.estado)
+                  "
+                >
+                  {{ consulta.estado }}
+                </span>
+
+              </td>
+
+            </tr>
+
+          } @empty {
+
+            <tr>
+              <td
+                colspan="4"
+                class="text-center text-muted py-4"
+              >
+                No existen consultas recientes.
+              </td>
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

@@ -15,6 +15,7 @@ import { Consultas } from './features/consultas/pages/consultas/consultas';
 import { MisPedidos } from './features/ventas/pages/mis-pedidos/mis-pedidos';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
+import { AdminDashboard } from './features/admin/dashboard/pages/admin-dashboard/admin-dashboard';
 
 export const routes: Routes = [
 
@@ -44,18 +45,17 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'productos',
-        pathMatch: 'full',
+        component: AdminDashboard,
       },
       {
-      path: 'productos',
-      component: ProductosAdmin,
+        path: 'productos',
+        component: ProductosAdmin,
       },
     ],
   },
 
 
-  // TIENDA / CLIENTE
+  // TIENDA-CLIENTE
   {
     path: '',
     component: PublicLayout,

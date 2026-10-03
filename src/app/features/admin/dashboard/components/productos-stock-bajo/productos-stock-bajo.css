@@ -1,0 +1,40 @@
+.dashboard-card {
+  border-radius: var(--border-radius-lg);
+}
+
+.producto-imagen,
+.producto-imagen-sin-imagen {
+  width: 48px;
+  height: 48px;
+
+  object-fit: contain;
+
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-gray-light);
+}
+
+.sku {
+  font-size: var(--font-size-sm);
+  color: var(--color-primary-dark);
+}
+
+.stock-badge {
+  display: inline-block;
+
+  min-width: 36px;
+  padding: 0.3rem 0.5rem;
+
+  border-radius: var(--border-radius-md);
+
+  font-weight: var(--font-weight-medium);
+}
+
+.stock-critico {
+  color: var(--color-white);
+  background-color: var(--color-danger);
+}
+
+.stock-bajo {
+  color: var(--color-black);
+  background-color: var(--color-warning);
+}

@@ -1,0 +1,101 @@
+<div class="row g-4">
+  <div class="col-12 col-xl-7">
+    <div class="card border-0 shadow-sm h-100 dashboard-summary-card">
+      <div class="card-body p-4">
+        <h5 class="fw-bold mb-4">Pedidos</h5>
+
+        <div class="row g-0">
+          <div class="col-md-4">
+            <div class="summary-item d-flex align-items-center gap-3">
+              <div class="summary-icon summary-icon-orders">
+                <i class="fas fa-cart-shopping"></i>
+              </div>
+
+              <div>
+                <span class="text-muted d-block"> Totales </span>
+
+                <strong class="summary-value">
+                  {{ pedidosTotales }}
+                </strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="summary-item summary-divider d-flex align-items-center gap-3">
+              <div class="summary-icon summary-icon-pending">
+                <i class="fas fa-clock"></i>
+              </div>
+
+              <div>
+                <span class="text-muted d-block"> Pendientes </span>
+
+                <strong class="summary-value">
+                  {{ pedidosPendientes }}
+                </strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="summary-item summary-divider d-flex align-items-center gap-3">
+              <div class="summary-icon summary-icon-completed">
+                <i class="fas fa-circle-check"></i>
+              </div>
+
+              <div>
+                <span class="text-muted d-block"> Completados </span>
+
+                <strong class="summary-value">
+                  {{ pedidosCompletados }}
+                </strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-xl-5">
+    <div class="card border-0 shadow-sm h-100 dashboard-summary-card">
+      <div class="card-body p-4">
+        <h5 class="fw-bold mb-4">Productos</h5>
+
+        <div class="row g-0">
+          <div class="col-md-6">
+            <div class="summary-item d-flex align-items-center gap-3">
+              <div class="summary-icon summary-icon-products">
+                <i class="fas fa-box"></i>
+              </div>
+
+              <div>
+                <span class="text-muted d-block"> Activos </span>
+
+                <strong class="summary-value">
+                  {{ productosActivos }}
+                </strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="summary-item summary-divider d-flex align-items-center gap-3">
+              <div class="summary-icon summary-icon-stock">
+                <i class="fas fa-triangle-exclamation"></i>
+              </div>
+
+              <div>
+                <span class="text-muted d-block"> Stock bajo </span>
+
+                <strong class="summary-value">
+                  {{ productosStockBajo }}
+                </strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

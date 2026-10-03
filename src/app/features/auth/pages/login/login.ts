@@ -38,8 +38,15 @@ export class Login {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
         if (response.success) {
-            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/productos';
-            this.router.navigateByUrl(returnUrl);
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] ;
+            
+            if(returnUrl){
+              this.router.navigateByUrl(returnUrl);
+            }else if(this.authService.isAdmin()){
+              this.router.navigate(['/admin']);
+            }else{
+              this.router.navigate(['/']);
+            }
           
         } else {
           this.error = response.message || 'error al iniciar sesión';

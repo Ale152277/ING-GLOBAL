@@ -1,0 +1,29 @@
+.dashboard-card {
+  border-radius: var(--border-radius-lg);
+}
+
+.chart-container {
+  min-height: 260px;
+}
+
+.chart-column {
+  min-width: 0;
+}
+
+.chart-track {
+  height: 210px;
+}
+
+.chart-bar {
+  min-height: 4px;
+
+  background-color: var(--color-primary-light);
+
+  border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
+
+  transition: var(--transition-base);
+}
+
+.chart-bar:hover {
+  background-color: var(--color-primary);
+}
