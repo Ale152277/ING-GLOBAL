@@ -166,7 +166,7 @@ export class MisPedidos implements OnInit {
       case 'CONFIRMADA':
         return 'bg-primary';
 
-      case 'COMPLETADA':
+      case 'COMPLETA':
         return 'bg-success';
 
       case 'CANCELADA':
