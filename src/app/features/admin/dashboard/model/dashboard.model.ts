@@ -3,7 +3,7 @@ export interface PedidoMes {
   total: number;
 }
 
-export type EstadoPedidoDashboard = 'PENDIENTE' | 'CONFIRMADA' | 'COMPLETADA' | 'CANCELADA';
+export type EstadoPedidoDashboard = 'PENDIENTE' | 'CONFIRMADA' | 'COMPLETA' | 'CANCELADA';
 
 export interface PedidoReciente {
   id: number;
@@ -30,4 +30,17 @@ export interface ConsultaReciente {
   asunto: string;
   fecha: string;
   estado: EstadoConsultaDashboard;
+}
+
+export interface AdminDashboardData{
+  pedidosTotales: number;
+  pedidosPendientes: number;
+  pedidosCompletados: number;
+
+  productosActivos: number;
+  productosStockBajo: number;
+
+  pedidosPorMes: PedidoMes[];
+  pedidosRecientes: PedidoReciente[];
+  productosConStockBajo: ProductoStockBajo[];
 }

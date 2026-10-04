@@ -17,7 +17,7 @@ export class PedidosRecientes {
       case 'CONFIRMADA':
         return 'estado-confirmada';
 
-      case 'COMPLETADA':
+      case 'COMPLETA':
         return 'estado-completada';
 
       case 'CANCELADA':
