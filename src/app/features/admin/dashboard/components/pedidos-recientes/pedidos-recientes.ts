@@ -34,4 +34,17 @@ export class PedidosRecientes {
       currency: 'PEN',
     }).format(precio);
   }
+
+  formatearFecha(fecha: string): string{
+
+    if(!fecha){
+      return '-'
+    }
+    const [fechaParte] = fecha.split('T');
+
+  const [anio, mes, dia] = fechaParte.split('-');
+
+    return `${dia}/${mes}/${anio}`;
+
+  }
 }
