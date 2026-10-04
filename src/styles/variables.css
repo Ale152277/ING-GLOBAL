@@ -42,6 +42,17 @@
 --color-admin-sidebar-muted: #c7ccd3;
 --color-admin-background: #f5f6f8;
 --color-admin-border: #e4e7eb;
+--color-admin-sidebar: #111827;
+--color-admin-sidebar-active: #ef233c;
+--color-admin-sidebar-active-shadow: rgba(239, 35, 60, 0.22);
+--color-admin-sidebar-text: var(--color-white);
+--color-admin-sidebar-muted: #cbd5e1;
+
+--color-admin-sidebar-hover: rgba(255, 255, 255, 0.08);
+--color-admin-sidebar-border: rgba(255, 255, 255, 0.08);
+
+--color-admin-background: #f5f6f8;
+--color-admin-border: #e4e7eb;
 }
 
 /* 

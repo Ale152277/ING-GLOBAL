@@ -1,9 +1,67 @@
+.admin-sidebar {
+   width: 250px;
+  height: 100vh;
+
+  flex-shrink: 0;
+
+  position: sticky;
+  top: 0;
+
+  overflow-y: auto;
+
+  background-color: var(--color-admin-sidebar);
+  color: var(--color-admin-sidebar-text);
+}
+
+.admin-logo {
+  width: 44px;
+  height: 44px;
+
+  object-fit: contain;
+
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-white);
+  padding: 3px;
+}
+
+.admin-muted {
+  color: var(--color-admin-sidebar-muted);
+}
+
 .admin-nav-link {
-  color: #006eff;
+  min-height: 44px;
+
+  color: var(--color-admin-sidebar-muted);
+
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.admin-nav-link i {
+  width: 20px;
+
+  text-align: center;
+
+  color: inherit;
+}
+
+.admin-nav-link:hover {
+  color: var(--color-admin-sidebar-text);
+
+  background-color: var(--color-admin-sidebar-hover);
+
+  transform: translateX(2px);
 }
 
 .admin-nav-link.active {
-  background-color: #e8f1ff;
-  color: #006eff;
-  font-weight: 600;
+  color: var(--color-admin-sidebar-text);
+  background-color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.admin-sidebar .border-top,
+.admin-sidebar .border-bottom {
+  border-color: var(--color-admin-sidebar-border) !important;
 }
