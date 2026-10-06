@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { ApiResponse } from '../../../../shared/models/api-response.model';
 import { Pagina } from '../../../../models/venta.model';
-import { AdminPedido, EstadoPedidoAdmin } from '../model/admin-order.model';
+import { AdminPedido, EstadoPedidoAdmin, AdminPedidoDetalle } from '../model/admin-order.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,5 +31,9 @@ export class AdminOrdersService {
 
   actualizarEstado(id: number, estado: EstadoPedidoAdmin): Observable<ApiResponse<AdminPedido>> {
     return this.http.patch<ApiResponse<AdminPedido>>(`${this.apiUrl}/${id}/estado`, { estado });
+  }
+
+  obtenerPedidoPorId(id: number): Observable<ApiResponse<AdminPedidoDetalle>> {
+    return this.http.get<ApiResponse<AdminPedidoDetalle>>(`${this.apiUrl}/${id}`);
   }
 }

@@ -1,11 +1,14 @@
-<div class="modal-backdrop-custom ">
-  <div class="modal-dialog modal-dialog-centered modal-container bg-light border border-black rounded">
-    <div class="modal-content p-4 shadow">
+<div class="modal-backdrop-custom">
+  <div class="modal-container">
+    <div class="checkout-modal bg-white rounded shadow">
+      <div class="checkout-header d-flex justify-content-between align-items-start">
+        <div>
+          <span class="checkout-step text-primary fw-semibold"> Finalizar pedido </span>
 
-      <div class="modal-header">
-        <h5 class="modal-title">
-          Confirmar pedido
-        </h5>
+          <h4 class="fw-bold mb-1 mt-1">Datos de compra</h4>
+
+          <p class="text-muted mb-0">Confirma dónde recibirás tu pedido y cómo deseas pagar.</p>
+        </div>
 
         <button
           type="button"
@@ -15,48 +18,215 @@
         ></button>
       </div>
 
-      <div class="modal-body">
-        <p class="mb-3">
-          ¿Deseas confirmar tu pedido con los productos seleccionados?
-        </p>
+      <form #checkoutForm="ngForm" (ngSubmit)="confirmarPedido()">
+        <div class="checkout-body">
+          <!-- ENTREGA -->
+          <section class="checkout-section">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <div class="checkout-section-icon">
+                <i class="fas fa-truck"></i>
+              </div>
 
-      <div class="d-flex justify-content-between align-items-center p-3 bg-light border border-info">
-          <span>Total del pedido</span>
+              <div>
+                <h6 class="fw-bold mb-0">Datos de entrega</h6>
 
-          <strong class="text-primary fs-5">
-            {{ formatearPrecio(total) }}
-          </strong>
+                <small class="text-muted"> Información de la persona que recibirá el pedido </small>
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-12 col-md-7">
+                <label class="form-label fw-semibold"> Nombre del receptor </label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nombreReceptor"
+                  [(ngModel)]="nombreReceptor"
+                  maxlength="100"
+                  required
+                />
+              </div>
+
+              <div class="col-12 col-md-5">
+                <label class="form-label fw-semibold"> Teléfono </label>
+
+                <input
+                  type="tel"
+                  class="form-control"
+                  name="telefonoEntrega"
+                  [(ngModel)]="telefonoEntrega"
+                  maxlength="20"
+                  required
+                />
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-semibold"> Dirección de entrega </label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  name="direccionEntrega"
+                  [(ngModel)]="direccionEntrega"
+                  maxlength="255"
+                  required
+                />
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-semibold">
+                  Referencia
+                  <span class="text-muted fw-normal"> (opcional) </span>
+                </label>
+
+                <textarea
+                  class="form-control"
+                  name="referenciaEntrega"
+                  [(ngModel)]="referenciaEntrega"
+                  maxlength="255"
+                  rows="2"
+                  placeholder="Ej. Frente al parque, casa de portón negro"
+                ></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="checkout-section border-top pt-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <div class="checkout-section-icon">
+                <i class="fas fa-wallet"></i>
+              </div>
+
+              <div>
+                <h6 class="fw-bold mb-0">Método de pago</h6>
+
+                <small class="text-muted"> Selecciona cómo deseas realizar el pago </small>
+              </div>
+            </div>
+
+            <div class="row g-2">
+              <div class="col-6">
+                <input
+                  class="btn-check"
+                  type="radio"
+                  name="metodoPago"
+                  id="pago-yape"
+                  value="YAPE"
+                  [(ngModel)]="metodoPago"
+                  required
+                />
+
+                <label class="payment-option" for="pago-yape">
+                  <i class="fas fa-mobile-alt"></i>
+
+                  <span>Yape</span>
+                </label>
+              </div>
+
+              <div class="col-6">
+                <input
+                  class="btn-check"
+                  type="radio"
+                  name="metodoPago"
+                  id="pago-plin"
+                  value="PLIN"
+                  [(ngModel)]="metodoPago"
+                />
+
+                <label class="payment-option" for="pago-plin">
+                  <i class="fas fa-mobile-alt"></i>
+
+                  <span>Plin</span>
+                </label>
+              </div>
+
+              <div class="col-6">
+                <input
+                  class="btn-check"
+                  type="radio"
+                  name="metodoPago"
+                  id="pago-transferencia"
+                  value="TRANSFERENCIA"
+                  [(ngModel)]="metodoPago"
+                />
+
+                <label class="payment-option" for="pago-transferencia">
+                  <i class="fas fa-building-columns"></i>
+
+                  <span>Transferencia</span>
+                </label>
+              </div>
+
+              <div class="col-6">
+                <input
+                  class="btn-check"
+                  type="radio"
+                  name="metodoPago"
+                  id="pago-contra-entrega"
+                  value="CONTRA_ENTREGA"
+                  [(ngModel)]="metodoPago"
+                />
+
+                <label class="payment-option" for="pago-contra-entrega">
+                  <i class="fas fa-money-bill-wave"></i>
+
+                  <span>Contra entrega</span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="checkout-total mt-4">
+            <div>
+              <small class="text-muted d-block"> Total a pagar </small>
+
+              <span class="fw-semibold">
+                {{ formatearPrecio(total) }}
+              </span>
+            </div>
+
+            <div class="text-end">
+
+              <strong class="fs-4 text-primary">
+                {{ formatearPrecio(total) }}
+              </strong>
+            </div>
+          </section>
+
+          <div class="alert alert-light border mt-3 mb-0 small text-muted">
+            <i class="fas fa-info-circle me-2"></i>
+
+            Al confirmar el pedido se registrarán los datos de entrega y se reservará el stock de
+            los productos.
+          </div>
         </div>
 
-        <small class="text-muted d-block mt-3 mb-3">
-          Al confirmar, se registrará el pedido y se actualizará el stock disponible.
-        </small>
-      </div>
+        <div class="checkout-footer d-flex justify-content-end gap-2">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            [disabled]="procesando"
+            (click)="cancelarPedido()"
+          >
+            Volver
+          </button>
 
-      <div class="modal-footer gap-3">
-        <button
-          class="btn btn-outline-secondary"
-          [disabled]="procesando"
-          (click)="cancelarPedido()"
-        >
-          Cancelar
-        </button>
-
-        <button
-          class="btn btn-primary "
-          [disabled]="procesando"
-          (click)="confirmarPedido()"
-        >
-          @if (procesando) {
-            <span class="spinner-border spinner-border-sm me-2"></span>
-            Procesando...
-          } @else {
-            <i class="fas fa-check me-2"></i>
-            Confirmar pedido
-          }
-        </button>
-      </div>
-
+          <button
+            type="submit"
+            class="btn btn-primary px-4"
+            [disabled]="procesando || checkoutForm.invalid"
+          >
+            @if (procesando) {
+              <span class="spinner-border spinner-border-sm me-2"></span>
+              Procesando...
+            } @else {
+              <i class="fas fa-check me-2"></i>
+              Confirmar pedido
+            }
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

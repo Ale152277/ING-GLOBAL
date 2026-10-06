@@ -9,7 +9,9 @@ import { Marca } from '../../../../models/marca.model';
   selector: 'app-producto-modal',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './producto-modal.html'
+  templateUrl: './producto-modal.html',
+  styleUrl: './producto-modal.css',
+
 })
 export class ProductoModal implements OnChanges {
 

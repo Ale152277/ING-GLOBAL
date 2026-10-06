@@ -1,17 +1,45 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminPedido, EstadoPedidoAdmin } from '../model/admin-order.model';
 import { AdminOrdersService } from '../services/admin-orders.service';
+import { PedidoDetalleModel } from '../components/pedido-detalle-model/pedido-detalle-model';
+import { AdminPedido, AdminPedidoDetalle, EstadoPagoAdmin, EstadoPedidoAdmin } from '../model/admin-order.model';
+
 @Component({
   selector: 'app-admin-orders',
-  imports: [],
+  imports: [PedidoDetalleModel],
   templateUrl: './admin-orders.html',
   styleUrl: './admin-orders.css',
 })
 export class AdminOrders implements OnInit {
   pedidos: AdminPedido[] = [];
+  pedidoDetalle: AdminPedidoDetalle | null = null;
 
   cargando = false;
+  cargandoDetalle = false;
   error = '';
+
+  verPedido(id: number): void {
+    this.cargandoDetalle = true;
+
+    this.adminOrdersService.obtenerPedidoPorId(id).subscribe({
+      next: (response) => {
+        this.cargandoDetalle = false;
+
+        if (response.success && response.data) {
+          this.pedidoDetalle = response.data;
+        }
+      },
+
+      error: (error) => {
+        this.cargandoDetalle = false;
+
+        console.error('Error al obtener el pedido:', error);
+      },
+    });
+  }
+
+  cerrarDetalle(): void {
+  this.pedidoDetalle = null;
+}
 
   constructor(private adminOrdersService: AdminOrdersService) {}
 

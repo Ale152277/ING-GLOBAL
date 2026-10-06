@@ -37,3 +37,13 @@ export interface FiltrosVenta {
   precioMin?: number | null;
   precioMax?: number | null;
 }
+
+export type MetodoPago = 'YAPE' | 'PLIN' | 'TRANSFERENCIA' | 'CONTRA_ENTREGA';
+
+export interface CrearVentaRequest {
+  nombreReceptor: string;
+  telefonoEntrega: string;
+  direccionEntrega: string;
+  referenciaEntrega?: string;
+  metodoPago: MetodoPago;
+}

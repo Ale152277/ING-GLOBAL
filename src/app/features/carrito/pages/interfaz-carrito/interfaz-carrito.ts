@@ -6,6 +6,10 @@ import { Router } from '@angular/router';
 import { VentaService } from '../../../ventas/venta.service';
 import { ConfirmarPedidoModal } from '../../components/confirmar-pedido-modal/confirmar-pedido-modal';
 import { WhatsappService } from '../../services/whatsapp.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Usuario } from '../../../../models/usuario.model';
+import { CrearVentaRequest } from '../../../../models/venta.model';
+
 @Component({
   selector: 'app-interfaz-carrito',
   imports: [CommonModule, ConfirmarPedidoModal],
@@ -19,14 +23,18 @@ export class InterfazCarrito implements OnInit {
   mensajeExito = '';
   mostrarConfirmacionPedido = false;
 
+  usuario: Usuario | null = null;
+
   constructor(
     private carritoService: CarritoService,
     private ventaService: VentaService,
     private router: Router,
-    private whatsappService: WhatsappService
+    private whatsappService: WhatsappService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.usuario = this.authService.obtenerUsuario() as Usuario | null;
     this.cargarCarrito();
   }
 
@@ -150,7 +158,7 @@ export class InterfazCarrito implements OnInit {
     });
   }
 
-  realizarPedido():void{
+  realizarPedido(request: CrearVentaRequest):void{
     if(!this.carrito || this.carrito.detalles.length === 0){
       this.error = 'El carrito está vacio';
       return;
@@ -160,7 +168,7 @@ export class InterfazCarrito implements OnInit {
     this.error= '';
     this.mensajeExito = '';
 
-    this.ventaService.crearVenta().subscribe({
+    this.ventaService.crearVenta(request).subscribe({
       next: (response) =>{
         if(response.success && response.data){
           this.mostrarConfirmacionPedido = false;

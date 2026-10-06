@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../../shared/models/api-response.model';
-import { Venta, FiltrosVenta, Pagina } from '../../models/venta.model';
+import { Venta, FiltrosVenta, Pagina, CrearVentaRequest } from '../../models/venta.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +14,8 @@ export class VentaService {
 
   constructor(private http: HttpClient) {}
 
-  crearVenta(): Observable<ApiResponse<Venta>> {
-    return this.http.post<ApiResponse<Venta>>(this.apiUrl, {});
+  crearVenta(request: CrearVentaRequest): Observable<ApiResponse<Venta>> {
+    return this.http.post<ApiResponse<Venta>>(this.apiUrl, request);
   }
 
   obtenerMisVentas(

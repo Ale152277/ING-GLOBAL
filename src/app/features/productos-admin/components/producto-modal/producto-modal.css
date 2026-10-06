@@ -1,0 +1,96 @@
+.producto-modal {
+  border: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.producto-modal-header {
+  padding: 1.25rem 1.5rem;
+
+  border-bottom: 0;
+
+  background-color: var(--color-admin-sidebar);
+  color: var(--color-admin-sidebar-text);
+}
+
+.producto-modal-subtitle {
+  color: var(--color-admin-sidebar-muted);
+}
+
+.producto-modal-icon {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  background-color: var(--color-admin-sidebar-active);
+  color: white;
+
+  font-size: 1.1rem;
+}
+
+.producto-modal-body {
+  padding: 1.5rem;
+
+  background-color: white;
+}
+
+.producto-modal-body .form-label {
+  margin-bottom: 0.4rem;
+
+  font-weight: 600;
+  color: #374151;
+}
+
+.producto-modal-body .form-label i {
+  width: 18px;
+
+  text-align: center;
+  color: var(--color-admin-sidebar-active);
+}
+
+.producto-modal-body .form-control,
+.producto-modal-body .form-select {
+  min-height: 42px;
+
+  border-color: var(--color-admin-border);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.producto-modal-body textarea.form-control {
+  min-height: auto;
+}
+
+.producto-modal-body .form-control:focus,
+.producto-modal-body .form-select:focus {
+  border-color: var(--color-admin-sidebar-active);
+
+  box-shadow: 0 0 0 0.2rem var(--color-admin-sidebar-active-shadow);
+}
+
+.producto-modal-body .input-group-text {
+  border-color: var(--color-admin-border);
+
+  background-color: var(--color-admin-background);
+}
+
+.producto-modal-body .btn-group .btn {
+  min-width: 120px;
+}
+
+.producto-modal-footer {
+  padding: 1rem 1.5rem;
+
+  border-top: 1px solid var(--color-admin-border);
+
+  background-color: var(--color-admin-background);
+}

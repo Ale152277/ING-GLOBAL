@@ -217,7 +217,8 @@
       <app-confirmar-pedido-modal
         [total]="obtenerTotal()"
         [procesando]="isloading"
-        (confirmar)="realizarPedido()"
+        [usuario]="usuario"
+        (confirmar)="realizarPedido($event)"
         (cancelar)="cancelarPedido()"
       />
     }
