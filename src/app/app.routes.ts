@@ -16,9 +16,8 @@ import { MisPedidos } from './features/ventas/pages/mis-pedidos/mis-pedidos';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { AdminDashboard } from './features/admin/dashboard/pages/admin-dashboard/admin-dashboard';
-
+import { AdminOrders } from './features/admin/orders/admin-orders/admin-orders';
 export const routes: Routes = [
-
   // AUTENTICACIÓN
   {
     path: 'auth',
@@ -36,7 +35,6 @@ export const routes: Routes = [
     ],
   },
 
-
   // ADMINISTRACIÓN
   {
     path: 'admin',
@@ -51,9 +49,12 @@ export const routes: Routes = [
         path: 'productos',
         component: ProductosAdmin,
       },
+      {
+        path: 'pedidos',
+        component: AdminOrders,
+      },
     ],
   },
-
 
   // TIENDA-CLIENTE
   {
@@ -61,7 +62,6 @@ export const routes: Routes = [
     component: PublicLayout,
 
     children: [
-
       {
         path: '',
         component: HomeComponent,
@@ -104,7 +104,6 @@ export const routes: Routes = [
         component: MisPedidos,
         canActivate: [AuthGuard],
       },
-
     ],
   },
 
@@ -113,5 +112,4 @@ export const routes: Routes = [
     path: '**',
     redirectTo: '',
   },
-
 ];

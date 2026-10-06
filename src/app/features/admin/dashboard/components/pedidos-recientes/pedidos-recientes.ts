@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { EstadoPedidoDashboard, PedidoReciente } from '../../model/dashboard.model';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-pedidos-recientes',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './pedidos-recientes.html',
   styleUrl: './pedidos-recientes.css',
 })

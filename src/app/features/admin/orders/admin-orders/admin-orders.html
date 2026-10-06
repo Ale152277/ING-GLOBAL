@@ -1,0 +1,123 @@
+<section class="container-fluid px-0">
+  <div class="mb-4">
+    <h1 class="h2 fw-bold mb-1">Pedidos</h1>
+
+    <p class="text-muted mb-0">Gestión de pedidos realizados por los clientes</p>
+  </div>
+
+  @if (error) {
+    <div class="alert alert-danger">
+      {{ error }}
+    </div>
+  }
+
+  <div class="card border-1 shadow-sm">
+    <div class="card-body p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Lista de pedidos</h5>
+      </div>
+
+      @if (cargando) {
+        <div class="text-center py-5">
+          <div class="spinner-border text-danger" role="status"></div>
+        </div>
+      } @else {
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Pedido</th>
+                <th>Cliente</th>
+                <th>Contacto</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (pedido of pedidos; track pedido.id) {
+                <tr>
+                  <td class="fw-semibold">#{{ pedido.id }}</td>
+
+                  <td>
+                    <div class="fw-semibold">
+                      {{ pedido.cliente }}
+                    </div>
+
+                    <small class="text-muted">
+                      {{ pedido.email }}
+                    </small>
+                  </td>
+
+                  <td>
+                    {{ pedido.telefono || '-' }}
+                  </td>
+
+                  <td>
+                    {{ formatearFecha(pedido.fechaVenta) }}
+                  </td>
+
+                  <td class="fw-semibold">
+                    {{ formatearPrecio(pedido.total) }}
+                  </td>
+
+                  <td>
+                    {{ pedido.estado }}
+                  </td>
+
+                  <td>
+                    @if (pedido.estado === 'PENDIENTE') {
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-success me-2"
+                        (click)="cambiarEstado(pedido, 'CONFIRMADA')"
+                      >
+                        Confirmar
+                      </button>
+
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-danger"
+                        (click)="cambiarEstado(pedido, 'CANCELADA')"
+                      >
+                        Cancelar
+                      </button>
+                    }
+
+                    @if (pedido.estado === 'CONFIRMADA') {
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-success me-2"
+                        (click)="cambiarEstado(pedido, 'COMPLETA')"
+                      >
+                        Completar
+                      </button>
+
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-danger"
+                        (click)="cambiarEstado(pedido, 'CANCELADA')"
+                      >
+                        Cancelar
+                      </button>
+                    }
+
+                    @if (pedido.estado === 'COMPLETA' || pedido.estado === 'CANCELADA') {
+                      <span class="text-muted small"> Sin acciones pendientes </span>
+                    }
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="7" class="text-center text-muted py-4">No existen pedidos.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+</section>
