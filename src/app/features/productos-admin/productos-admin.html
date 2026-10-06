@@ -18,9 +18,7 @@
   }
 
   <div class="card shadow-sm">
-    <div class="card-header bg-light border-bottom">
-      <h5 class="mb-0"><i class="fas fa-list me-2"></i>Listado de Productos</h5>
-    </div>
+   
     <div class="card-body p-0">
       @if (isLoading) {
         <div class="text-center p-5">
@@ -36,14 +34,14 @@
           <table class="table table-hover mb-0">
             <thead class="table-light">
               <tr>
-                <th>N°</th>
-                <th style="width: 5%">Imagen</th>
-                <th>Nombre</th>
-                <th>SKU</th>
-                <th>Precio</th>
+                <th class="text-center">N°</th>
+                <th class="text-center" style="width: 5%">Imagen</th>
+                <th class="text-center">Producto</th>
+                <th class="text-center">SKU</th>
+                <th class="text-center">Precio</th>
                 <th style="width: 5%">Stock</th>
-                <th>Estado</th>
-                <th style="width: 15%">Acciones</th>
+                <th class="text-center">Estado</th>
+                <th class="text-center" style="width: 15%">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -57,8 +55,8 @@
 
               @for (producto of productos; track producto.id; let i = $index) {
                 <tr>
-                  <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
-                  <td>
+                  <td class="text-center">{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+                  <td class="text-center">
                     @if(producto.imagen){
                       <img [src]="producto.imagen"
                            alt="{{producto.nombre}}"
@@ -68,18 +66,18 @@
                     }
                   </td>
                   
-                  <td>
+                  <td style="max-width: 250px;">
                     <strong>{{ producto.nombre }}</strong>
                     <br />
                     <small class="text-muted">
                       <i class="fas fa-tag"></i> {{ producto.etiqueta || 'Sin etiqueta' }}
                     </small>
                   </td>
-                  <td>
+                  <td class="text-center">
                     <code class="bg-light p-2 rounded">{{ producto.sku }}</code>
                   </td>
-                  <td>
-                    <strong class="text-success">${{ producto.precio | number: '1.2-2' }}</strong>
+                  <td class="text-center">
+                    <strong class="text-success">{{ formatearPrecio(producto.precio ) }}</strong>
                     @if (producto.descuento > 0) {
                       <span class="badge bg-warning ms-1"> -{{ producto.descuento }}% </span>
                     }
@@ -96,13 +94,13 @@
                       {{ producto.stock }}
                     </span>
                   </td>
-                  <td>
+                  <td class="text-center">
                     @if (producto.estado === 'ACTIVO') {
-                      <span class="badge bg-success me-2">
+                      <span class="badge bg-success me-2 mb-2">
                         <i class="fas fa-circle"></i> Activo
                       </span>
-                      <button class="btn btn-sm btn-warning" (click)="cambiarEstado(producto)" title="Desactivar producto" [disabled]="isLoading">
-                        <i class="fas fa-ban"></i> Desactivar
+                      <button class="btn btn-sm btn-warning " (click)="cambiarEstado(producto)" title="Desactivar producto" [disabled]="isLoading">
+                         Desactivar
                       </button>
                     } @else {
                       <span class="badge bg-danger me-2 mb-2">
@@ -113,13 +111,11 @@
                       </button>
                     }
                   </td>
-                  <td>
+                  <td class="text-center">
                     <button class="btn btn-sm btn-warning me-1" (click)="abrirModalEditar(producto)" title="Editar producto" [disabled]="isLoading">
                       <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-sm btn-danger" (click)="eliminarProducto(producto)" title="Eliminar producto" [disabled]="isLoading">
-                      <i class="fas fa-trash"></i>
-                    </button>
+                   
                   </td>
                 </tr>
               }

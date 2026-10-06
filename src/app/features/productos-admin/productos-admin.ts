@@ -208,4 +208,13 @@ export class ProductosAdmin implements OnInit {
       this.cargarProductos();
     }
   }
+
+  formatearPrecio(precio: number): string {
+    return new Intl.NumberFormat('es-PE', {
+      style: 'currency',
+      currency: 'PEN',
+    }).format(precio);
+  }
 }
+
+
