@@ -58,18 +58,6 @@
             <small class="text-muted">{{ totalProductos }} artículos</small>
           </div>
 
-          @if (isAdmin) {
-            <div>
-              <a
-                routerLink="/admin/productos"
-                class="btn btn-danger text-decoration-none btn-lg rounded-pill"
-                style="font-weight: 600"
-              >
-                EDITAR</a
-              >
-            </div>
-          }
-
           <div class="d-flex gap-2 align-items-center">
             <label class="text-muted small mb-0">Ordenar por:</label>
             <select
