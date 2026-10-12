@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
@@ -19,6 +19,7 @@ export class Header implements OnInit, OnDestroy {
   nombreUsuario = 'Guest';
   perfilAbierto = false;
   menuAbierto = false;
+  esAdmin = false;
 
   private destroy$ = new Subject<void>();
 
@@ -35,10 +36,19 @@ export class Header implements OnInit, OnDestroy {
       this.usuarioAutenticado = !!token;
       if (token) {
         const usuario = this.authService.obtenerUsuario();
+        this.esAdmin = this.authService.isAdmin();
+
+        if (!this.esAdmin) {
+          this.cargarCarrito();
+        } else {
+          this.cantidadCarrito = 0;
+        }
         this.nombreUsuario = usuario?.nombreCompleto || 'Usuario';
         this.cargarCarrito();
       } else {
         this.nombreUsuario = 'Guest';
+        this.esAdmin = false;
+        this.cantidadCarrito = 0;
       }
     });
 
@@ -58,10 +68,17 @@ export class Header implements OnInit, OnDestroy {
 
   private cargarDatos(): void {
     this.usuarioAutenticado = this.authService.isAuthenticatedSync();
+
     if (this.usuarioAutenticado) {
       const usuario = this.authService.obtenerUsuario();
+
       this.nombreUsuario = usuario?.nombreCompleto || 'Usuario';
+      this.esAdmin = this.authService.isAdmin();
+    } else {
+      this.nombreUsuario = 'Guest';
+      this.esAdmin = false;
     }
+
     this.cantidadCarrito = 0;
     this.cantidadDeseos = 0;
   }
@@ -79,17 +96,22 @@ export class Header implements OnInit, OnDestroy {
           }
         },
 
-        error: () =>{
+        error: () => {
           this.cantidadCarrito = 0;
-        }
+        },
       });
   }
 
   logout(): void {
-    this.authService.logout();
-    this.nombreUsuario = 'Guest';
-    this.router.navigate(['/auth/login']);
-  }
+  this.authService.logout();
+
+  this.nombreUsuario = 'Guest';
+  this.usuarioAutenticado = false;
+  this.esAdmin = false;
+  this.perfilAbierto = false;
+
+  this.router.navigate(['/auth/login']);
+}
 
   irAlCarrito(): void {
     if (!this.usuarioAutenticado) {
@@ -124,6 +146,11 @@ export class Header implements OnInit, OnDestroy {
   abrirWhatsapp(): void {
     const urlWhatsapp = `https://wa.me/51973306855`;
     window.open(urlWhatsapp, '_blank'); // Abre en nueva pestaña
+  }
+
+  @HostListener('document:click')
+  cerrarPerfilAlHacerClickFuera(): void{
+    this.perfilAbierto= false;
   }
 
   abrirMaps(): void {

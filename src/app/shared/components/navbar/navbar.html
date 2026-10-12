@@ -1,119 +1,253 @@
-
 <nav class="navbar-desktop bg-white border-bottom d-none d-lg-block">
   <div class="container-fluid px-4">
-    <div
-      class="d-flex gap-5 w-100 justify-content-center align-items-center"
-      style="flex-wrap: wrap"
-    >
-      
-      <div class="btn-group">
+    <div class="d-flex gap-5 w-100 justify-content-center align-items-center flex-wrap">
+      <div
+        class="btn-group"
+        routerLinkActive="nav-active"
+        [routerLinkActiveOptions]="{ exact: false }"
+      >
         <a
           [routerLink]="['/productos']"
-          class="btn btn-danger d-flex align-items-center gap-2"
-          style="padding: 16px 20px"
+          class="btn nav-main-btn d-flex align-items-center gap-2 px-3 py-3"
         >
-          <i class="fas fa-boxes-stacked" style="font-size: 20px;"></i>
-          <span style="font-weight: bold;"> Productos</span>
+          <i class="fas fa-boxes-stacked fs-5"></i>
+
+          <span class="fw-semibold"> Productos </span>
         </a>
 
         <button
           type="button"
-          class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+          class="btn nav-main-btn dropdown-toggle dropdown-toggle-split"
           data-bs-toggle="dropdown"
+          aria-expanded="false"
         >
-          <span class="visually-hidden">Toggle Dropdown</span>
+          <span class="visually-hidden"> Categorías </span>
         </button>
 
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" [routerLink]="'/productos' " [queryParams]="{categoriaId: 1}">CCTV</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:2}">Control de Acesso y Asistencia</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:3}">Alarmas contra incendios</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:4}">Alarmas contra incendios</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:5}">Alarmas contra Robo</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:6}">Networking</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:7}">Radios Moviles</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:8}">Video Porteros e Intercomunicadores</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:9}">Automatizacion</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:10}">Almacenamiento</a></li>
-          <li><a class="dropdown-item" [routerLink]="'/productos'" [queryParams]="{categoriaId:11}">Fuentes, transformadores y UPS</a></li>
+        <ul class="dropdown-menu shadow border-0">
+          <li>
+            <a
+              class="dropdown-item"
+              [routerLink]="['/productos']"
+              [queryParams]="{ categoriaId: 1 }"
+            >
+              CCTV
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item"
+              [routerLink]="['/productos']"
+              [queryParams]="{ categoriaId: 2 }"
+            >
+              Control de Acceso y Asistencia
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item"
+              [routerLink]="['/productos']"
+              [queryParams]="{ categoriaId: 3 }"
+            >
+              Alarmas contra Incendio
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item"
+              [routerLink]="['/productos']"
+              [queryParams]="{ categoriaId: 4 }"
+            >
+              Alarmas contra Robo
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item"
+              [routerLink]="['/productos']"
+              [queryParams]="{ categoriaId: 5 }"
+            >
+              Networking
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item"
+              [routerLink]="['/productos']"
+              [queryParams]="{ categoriaId: 6 }"
+            >
+              Radios Móviles
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item"
+              [routerLink]="['/productos']"
+              [queryParams]="{ categoriaId: 7 }"
+            >
+              Video Porteros e Intercomunicadores
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item"
+              [routerLink]="['/productos']"
+              [queryParams]="{ categoriaId: 8 }"
+            >
+              Automatización
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item"
+              [routerLink]="['/productos']"
+              [queryParams]="{ categoriaId: 9 }"
+            >
+              Almacenamiento
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item"
+              [routerLink]="['/productos']"
+              [queryParams]="{ categoriaId: 10 }"
+            >
+              Fuentes, Transformadores y UPS
+            </a>
+          </li>
         </ul>
       </div>
 
-      
-      <a [routerLink]="['/distribuidores']" class="navbar-link d-flex align-items-center gap-2">
-        <i class="fas fa-handshake" style="font-size: 20px;"></i>
-        <span>Distribuidores (próximamente)</span>
+      <span
+        class="navbar-link-disabled d-flex align-items-center gap-2 text-muted"
+        title="Próximamente"
+      >
+        <i class="fas fa-handshake fs-5"></i>
+
+        <span> Distribuidores </span>
+
+        <small class="badge text-bg-light border"> Próximamente </small>
+      </span>
+
+      <a
+        [routerLink]="['/consultas']"
+        routerLinkActive="nav-active-link"
+        class="navbar-link d-flex align-items-center gap-2"
+      >
+        <i class="fas fa-headset fs-5"></i>
+
+        <span> Consultas </span>
       </a>
 
-      
-      <a [routerLink]="['/consultas']" class="navbar-link d-flex align-items-center gap-2">
-        <i class="fas fa-headset" style="font-size: 20px;"></i>
-        <span>Consultas</span>
-      </a>
-
-      
       <div class="btn-group">
-        <a
-          [routerLink]="['/productos']"
-          class="btn d-flex align-items-center gap-2"
-          style="padding: 16px 20px"
-        >
-          <i class="fas fa-tags "style="font-size: 20px;"></i>
-          <span>Marcas</span>
-        </a>
         <button
           type="button"
-          class="btn dropdown-toggle dropdown-toggle-split"
+          class="btn nav-main-btn d-flex align-items-center gap-2 px-3 py-3"
           data-bs-toggle="dropdown"
-        ></button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMarcas">
-          <li><a class="dropdown-item" [routerLink]="['/productos'] ">HikVision</a></li>
-          <li><a class="dropdown-item" [routerLink]="['/productos'] ">Dalhua</a></li>
+          aria-expanded="false"
+        >
+          <i class="fas fa-tags fs-5"></i>
+
+          <span> Marcas </span>
+        </button>
+
+        <button
+          type="button"
+          class="btn nav-main-btn dropdown-toggle dropdown-toggle-split"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <span class="visually-hidden"> Marcas </span>
+        </button>
+
+        <ul class="dropdown-menu shadow border-0">
+          <li>
+            <span class="dropdown-item-text text-muted"> Hikvision </span>
+          </li>
+
+          <li>
+            <span class="dropdown-item-text text-muted"> Dahua </span>
+          </li>
         </ul>
       </div>
 
-      
-      <a [routerLink]="['/nosotros']" class="navbar-link d-flex align-items-center gap-2">
-        <i class="fas fa-circle-info" style="font-size: 20px;" ></i>
-        <span>Nosotros</span>
+      <a
+        [routerLink]="['/nosotros']"
+        routerLinkActive="nav-active-link"
+        class="navbar-link d-flex align-items-center gap-2"
+      >
+        <i class="fas fa-circle-info fs-5"></i>
+
+        <span> Nosotros </span>
       </a>
     </div>
   </div>
 </nav>
 
-
 <div class="sidebar-menu" [class.open]="menuAbierto">
   <div class="sidebar-content">
-    <button  class="btn-close-menu" (click)="cerrarMenu()">   <i class="fa fa-times" aria-hidden="true"></i></button>
-  
+    <button class="btn-close-menu" type="button" (click)="cerrarMenu()" aria-label="Cerrar menú">
+      <i class="fa fa-times"></i>
+    </button>
 
     <div class="sidebar-search mb-4">
-      <input type="text" class="form-control" placeholder="Buscar..." style="border-radius: 4px" />
+      <input type="text" class="form-control" placeholder="Buscar..." />
     </div>
 
-    <a [routerLink]="['/productos']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
+    <a
+      [routerLink]="['/productos']"
+      routerLinkActive="sidebar-link-active"
+      (click)="cerrarMenu()"
+      class="sidebar-link"
+    >
       <i class="fas fa-boxes-stacked"></i>
-      <span>Productos</span>
+
+      <span> Productos </span>
     </a>
-    <a [routerLink]="['/descuentos']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
-      <i class="fas fa-percent"></i>
-      <span>Descuentos</span>
-    </a>
-    <a [routerLink]="['/distribuidores']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
-      <i class="fas fa-handshake"></i>
-      <span>Distribuidores</span>
-    </a>
-    <a [routerLink]="['/consultas']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
+
+    <a
+      [routerLink]="['/consultas']"
+      routerLinkActive="sidebar-link-active"
+      (click)="cerrarMenu()"
+      class="sidebar-link"
+    >
       <i class="fas fa-headset"></i>
-      <span>Consultas</span>
+
+      <span> Consultas </span>
     </a>
-    <a [routerLink]="['/productos']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
+
+    <div class="sidebar-link text-muted">
+      <i class="fas fa-handshake"></i>
+
+      <span> Distribuidores </span>
+
+      <small class="ms-auto"> Próximamente </small>
+    </div>
+
+    <div class="sidebar-link text-muted">
       <i class="fas fa-tags"></i>
-      <span>Marcas</span>
-    </a>
-    <a [routerLink]="['/nosotros']" (click)="cerrarMenu()" class="sidebar-link d-flex align-items-center gap-2">
+
+      <span> Marcas </span>
+    </div>
+
+    <a
+      [routerLink]="['/nosotros']"
+      routerLinkActive="sidebar-link-active"
+      (click)="cerrarMenu()"
+      class="sidebar-link"
+    >
       <i class="fas fa-circle-info"></i>
-      <span>Nosotros</span>
+
+      <span> Nosotros </span>
     </a>
   </div>
 </div>

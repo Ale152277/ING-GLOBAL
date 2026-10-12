@@ -7,7 +7,6 @@ import { ProductoCard } from '../../components/producto-card/producto-card';
 import { ProductosService } from '../../services/productos.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
-import { AuthService } from '../../../../core/services/auth.service';
 import { RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 @Component({
@@ -31,7 +30,6 @@ export class Productos implements OnInit {
   totalPages: number = 0;
   totalProductos: number = 0;
 
-  isAdmin : boolean = false;
 
   private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
@@ -39,12 +37,10 @@ export class Productos implements OnInit {
   constructor(
     private productoService: ProductosService,
     private categoriaService: CategoriaService,
-    private authService: AuthService,
     private route:ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.isAdmin = this.authService.isAdmin();
 
      this.route.queryParams.pipe(
       takeUntil(this.destroy$)

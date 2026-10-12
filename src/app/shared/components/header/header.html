@@ -1,147 +1,195 @@
-<header class="header-top py-3 bg-white">
+<header class="bg-white border-bottom py-3">
   <div class="container-fluid px-4">
     <div class="row align-items-center">
-      <div class="col-lg-2 col-md-3 col-6 me-auto">
-        <a routerLink="[/]" class="d-flex align-items-center gap-3 text-decoration-none">
-          <img
-            src="/assets/logo.jpg"
-            alt="INGENIERIA GLOBAL"
-            class="logo-img"
-            style="height: 60px; width: auto"
-          />
+      <div class="col-lg-3 col-md-4 col-6">
+        <a [routerLink]="['/']" class="d-flex align-items-center gap-3 text-decoration-none">
+          <img src="/assets/logo.jpg" alt="INGENIERIA GLOBAL" class="logo-img" />
+
           <div class="d-none d-sm-block">
-            <h5 class="mb-0 fw-bold text-dark" style="font-size: 13px">INGENIERIA GLOBAL</h5>
-            <small class="text-muted" style="font-size: 10px">Proyectos Integrales</small>
+            <h6 class="mb-0 fw-bold text-dark">INGENIERIA GLOBAL</h6>
+
+            <small class="text-muted"> Proyectos Integrales </small>
           </div>
         </a>
       </div>
-
-      
-      <div class="col-lg-4 d-none d-lg-block">
+      <div class="col-lg-5 d-none d-lg-block">
         <div class="input-group">
           <input
             type="text"
-            class="form-control"
+            class="form-control py-2"
             placeholder="Buscar..."
             aria-label="Buscar"
-            style="border-radius: 4px 0 0 4px"
           />
-          <button
-            class="btn btn-danger search-btn"
-            type="button"
-            style="padding: 0.5rem 1rem; border-radius: 0 4px 4px 0"
-          >
-            <i class="fas fa-magnifying-glass text-white"></i>
+
+          <button class="btn btn-danger px-3" type="button" aria-label="Buscar productos">
+            <i class="fas fa-magnifying-glass"></i>
           </button>
         </div>
       </div>
-
-      
-      <div class="col-lg-5 col-md-5 col-6">
-        <div class="d-flex justify-content-end gap-3 gap-lg-5 align-items-center">
-          @if (usuarioAutenticado) {
-            
-            <div class="position-relative header-icon">
-              <a
-                [routerLink]="['/carrito']"
-                class="text-decoration-none d-flex align-items-center gap-2"
+      <div class="col-lg-4 col-md-8 col-6">
+        <div class="d-flex justify-content-end align-items-center gap-4">
+          @if (usuarioAutenticado && !esAdmin) {
+            <a
+              [routerLink]="['/carrito']"
+              class="header-action text-decoration-none d-flex align-items-center gap-2"
+            >
+              <div
+                class="header-icon-circle position-relative  rounded-circle d-flex align-items-center justify-content-center"
               >
-                <div class="icon-circle">
-                  <img src="/assets/cart-shop.png" alt="Carrito" width="21" height="20" />
-                  @if (cantidadCarrito > 0) {
-                    <span
-                      class="cantidad-carrito badge bg-danger position-absolute top-0 start-100 translate-middle rounded-circle"
-                    >
-                      {{ cantidadCarrito }}
-                    </span>
-                  }
-                </div>
-                <div class="d-flex flex-column gap-2 d-none d-md-flex">
-                  <small class="text-dark" style="font-size: 12px; font-weight: 500"
-                    >Mi carrito</small
+                <img src="/assets/cart-shop.png" alt="Carrito" class="header-action-img" />
+
+                @if (cantidadCarrito > 0) {
+                  <span
+                    class="cantidad-carrito badge bg-danger position-absolute top-0 start-100 translate-middle rounded-circle"
                   >
-                  <small class="text-muted" style="font-size: 11px">Ver carro</small>
-                </div>
-              </a>
-            </div>
-          } @else {
+                    {{ cantidadCarrito }}
+                  </span>
+                }
+              </div>
+
+              <div class="d-none d-md-flex flex-column">
+                <span class="fw-semibold text-dark"> Mi carrito </span>
+
+                <small class="text-muted"> Ver carro </small>
+              </div>
+            </a>
+          }
+          @else if (!usuarioAutenticado) {
             <a
               [routerLink]="['/auth/login']"
-              class="text-decoration-none d-flex align-items-center gap-2"
+              class="header-action text-decoration-none d-flex align-items-center gap-2"
             >
-              <div class="icon-circle">
-                <img src="/assets/cart-shop.png" alt="Carrito" width="20" height="20" />
+              <div
+                class="header-icon-circle bg-light rounded-circle d-flex align-items-center justify-content-center"
+              >
+                <img src="/assets/cart-shop.png" alt="Carrito" class="header-action-img" />
               </div>
-              <div class="d-flex flex-column gap-2 d-none d-md-flex">
-                <small class="text-dark" style="font-size: 12px; font-weight: 500"
-                  >Mi carrito</small
-                >
-                <small class="color: #dc3545" style="font-size: 7px"
-                  >Iniciar sesión para ver tu carrito</small
-                >
+
+              <div class="d-none d-md-flex flex-column">
+                <span class="fw-semibold text-dark"> Mi carrito </span>
+
+                <small class="text-danger"> Inicia sesión </small>
               </div>
             </a>
           }
-
-          
-          
           @if (usuarioAutenticado) {
-            <div class="dropdown header-icon d-none d-sm-flex">
+            <div class="dropdown" (click)="$event.stopPropagation()">
               <button
-                class="btn btn-sm d-flex align-items-center gap-2 text-decoration-none"
-                d
                 type="button"
+                class="btn border-0 p-0 d-flex align-items-center gap-2"
                 (click)="togglePerfil()"
-                id="dropdownUser"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                style="background-color: transparent; border: none; padding: 0"
+                [attr.aria-expanded]="perfilAbierto"
               >
-                <div class="icon-circle">
-                  <img src="/assets/user.png" alt="Usuario" width="22" height="21" />
+                <div
+                  class="header-icon-circle bg-light rounded-circle d-flex align-items-center justify-content-center"
+                >
+                  <img src="/assets/user.png" alt="Usuario" class="header-action-img" />
                 </div>
-                <div class="d-flex flex-column gap-0 d-none d-lg-flex">
-                  <small class="text-dark" style="font-size: 12px; font-weight: 500">{{
-                    nombreUsuario
-                  }}</small>
-                  <small class="text-muted" style="font-size: 11px">Mi cuenta</small>
+
+                <div class="d-none d-lg-flex flex-column text-start">
+                  <span class="fw-semibold text-dark header-user-name">
+                    {{ nombreUsuario }}
+                  </span>
+
+                  <small class="text-muted">
+                    {{ esAdmin ? 'Administrador' : 'Mi cuenta' }}
+                  </small>
                 </div>
               </button>
+
               <ul
-                class="dropdown-menu dropdown-menu-end"
+                class="dropdown-menu dropdown-menu-end shadow border-0 mt-2"
                 [ngClass]="{ show: perfilAbierto }"
-                aria-labelledby="dropdownUser"
-                style="min-width: 180px"
               >
-                <li><a class="dropdown-item" href="/cuenta/perfil">Mi Perfil</a></li>
-                <li><a class="dropdown-item" href="/cuenta/direcciones">Mis Direcciones</a></li>
-                <li><a class="dropdown-item" [routerLink]="['/pedidos']">Mis Pedidos</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#" (click)="logout()">Cerrar Sesión</a></li>
+                <li>
+                  <a
+                    class="dropdown-item d-flex align-items-center gap-2 py-2"
+                    [routerLink]="['/cuenta']"
+                    (click)="cerrarPerfil()"
+                  >
+                    <i class="fas fa-user"></i>
+                    Mi Perfil
+                  </a>
+                </li>
+
+                @if (esAdmin) {
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2 py-2"
+                      [routerLink]="['/admin']"
+                      (click)="cerrarPerfil()"
+                    >
+                      <i class="fas fa-gauge-high"></i>
+                      Panel administrativo
+                    </a>
+                  </li>
+                } @else {
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2 py-2"
+                      href="/cuenta/direcciones"
+                      (click)="cerrarPerfil()"
+                    >
+                      <i class="fas fa-location-dot"></i>
+                      Mis Direcciones
+                    </a>
+                  </li>
+
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2 py-2"
+                      [routerLink]="['/pedidos']"
+                      (click)="cerrarPerfil()"
+                    >
+                      <i class="fas fa-box"></i>
+                      Mis Pedidos
+                    </a>
+                  </li>
+                }
+
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+
+                <li>
+                  <button
+                    type="button"
+                    class="dropdown-item d-flex align-items-center gap-2 py-2"
+                    (click)="logout()"
+                  >
+                    <i class="fas fa-right-from-bracket"></i>
+                    Cerrar sesión
+                  </button>
+                </li>
               </ul>
             </div>
-          } @else {
+          }
+
+          @else {
             <a
-              [routerLink]="['auth/login']"
-              class="text-decoration-none d-flex align-items-center gap-2 header-icon d-none d-sm-flex"
+              [routerLink]="['/auth/login']"
+              class="header-action text-decoration-none d-none d-sm-flex align-items-center gap-2"
             >
-              <div class="icon-circle">
-                <img src="/assets/user.png" alt="Usuario" width="20" height="20" />
+              <div
+                class="header-icon-circle bg-light rounded-circle d-flex align-items-center justify-content-center"
+              >
+                <img src="/assets/user.png" alt="Usuario" class="header-action-img" />
               </div>
-              <div class="d-flex flex-column gap-2 d-none d-lg-flex">
-                <small class="text-dark" style="font-size: 12px; font-weight: 500">Guest</small>
-                <small class="text-muted" style="font-size: 11px">Mi cuenta</small>
+
+              <div class="d-none d-lg-flex flex-column">
+                <span class="fw-semibold text-dark"> Invitado </span>
+
+                <small class="text-muted"> Mi cuenta </small>
               </div>
             </a>
           }
 
-          
           <button
             class="btn btn-hamburger d-lg-none"
             (click)="toggleMenu()"
             [class.active]="menuAbierto"
             type="button"
-            aria-label="Menu"
+            aria-label="Abrir menú"
           >
             <span></span>
             <span></span>
@@ -152,24 +200,19 @@
     </div>
   </div>
 </header>
-<app-navbar 
-  [menuAbierto]="menuAbierto" 
-  (menuCerrado)="menuAbierto = false">
-</app-navbar>
 
+<app-navbar [menuAbierto]="menuAbierto" (menuCerrado)="menuAbierto = false"> </app-navbar>
 
-<div class="contact-bar bg-blue py-3  " style="background-color: #000000">
+<div class="bg-black py-3">
   <div class="container-fluid px-4">
-    <div class="d-flex align-items-center gap-2 flex-wrap">
-    <i class="fas fa-location-dot text-white fs-6"></i>
-      <small class="fw-semibold text-white" style="font-size: 13px" (click)="abrirMaps()"
-        >Jr. Guevara Ochoa 1276, Trujillo 13001</small
-      >
-     
+    <button
+      type="button"
+      class="btn p-0 border-0 text-white fw-semibold d-flex align-items-center gap-2"
+      (click)="abrirMaps()"
+    >
+      <i class="fas fa-location-dot"></i>
 
-      
-    </div>
+      <small> Jr. Guevara Ochoa 1276, Trujillo 13001 </small>
+    </button>
   </div>
 </div>
-
-
