@@ -14,13 +14,13 @@ export class HeroBanner {
   slides = [
     {
       id: 1,
-      image: 'assets/Banners/banner-7.jpeg',
+      image: 'assets/Banners/banner-8.jpeg',
       title: 'SOLUCIONES INTEGRALES TI',
       description: 'Soluciones Integrales de Infraestructura, Redes y Comunicaciones',
     },
     {
       id: 2,
-      image: 'assets/Banners/banner-8.jpeg',
+      image: 'assets/Banners/banner-7.jpeg',
       title: 'SEGURIDAD ELECTRÓNICA',
       description:
         'Sistemas de CCTV, Control de Acceso, Sistemas Contra Incendio, Sistemas anti-intrusión',
@@ -29,7 +29,7 @@ export class HeroBanner {
       id: 3,
       image: 'assets/Banners/banner-9.jpeg',
       title: 'SERVICIOS DE TELECOMUNICACIONES',
-      description: 'Radio enlaces en VHF, UHF, Wireless LAN y Microondas',
+      description: 'Radio enlaces en VHF, UHF, Wireless LAN',
     },
     {
       id: 4,
@@ -40,7 +40,7 @@ export class HeroBanner {
     {
       id: 5,
       image: 'assets/Banners/banner-11.jpeg',
-      title: 'CLIENTES',
+      title: '',
       description: '',
     },
   ];

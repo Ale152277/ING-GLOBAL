@@ -1,44 +1,47 @@
-.product-hover {
-  transition: transform var(--transition-base, 0.3s ease), box-shadow 0.3s ease;
+.product-card {
+  overflow: hidden;
+
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+
+  box-shadow: none;
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.btn-guest{
+  background-color: #f7c9c9a8;
+
+}
+.product-card:hover {
+  transform: translateY(-2px);
+  border-color: #c4c9cf;
 }
 
-.product-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+.product-image-wrapper {
+  height: 210px;
+  border-bottom: 1px solid #eceff1;
 }
 
-.hover-zoom-img {
-  transition: transform var(--transition-base, 0.4s ease);
+.product-image {
+  width: 100%;
+  height: 100%;
+
+  padding: 1.25rem;
+
+  object-fit: contain;
 }
 
-.product-hover:hover .hover-zoom-img {
-  transform: scale(1.1);
-}
+.product-title {
+  min-height: 62px;
 
-.product-overlay {
-  background-color: rgba(0, 0, 0, 0.6);
-  opacity: 0;
-  transition: opacity var(--transition-base, 0.3s ease);
-}
+  font-size: 0.95rem;
+  line-height: 1.35;
 
-.product-hover:hover .product-overlay {
-  opacity: 1;
-}
+  display: -webkit-box;
+  overflow: hidden;
 
-.badge-nuevo {
-  background-color: #4CAF50 !important; /* Si prefieres, usa bg-success directo en HTML */
-}
-
-.badge-hot {
-  background-color: var(--color-primary) !important;
-  animation: pulse 2s infinite;
-}
-
-.badge-stock {
-  background-color: #2196F3 !important; /* Si prefieres, usa bg-info directo en HTML */
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }

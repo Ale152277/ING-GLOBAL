@@ -1,19 +1,27 @@
-<div class="productos-page py-4">
-  <div class="container">
+<section class="productos-page py-4">
+  <div class="container-fluid px-3 px-xl-5">
     <nav aria-label="breadcrumb" class="mb-4">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="/" class="text-decoration-none">Inicio</a>
+        </li>
         <li class="breadcrumb-item active">Productos</li>
       </ol>
     </nav>
 
-    <div class="row g-4">
-      <div class="col-lg-3">
-        <div class="sidebar">
+    <div class="catalog-layout">
+      <aside class="catalog-sidebar">
+        <div class="catalog-filter">
           <div class="mb-4">
-            <h6 class="fw-bold mb-3">Buscar</h6>
-            <div class="input-group">
+            <label for="buscarProducto" class="form-label fw-semibold"> Buscar </label>
+
+            <div class="input-group input-group-sm">
+              <span class="input-group-text bg-white">
+                <i class="fas fa-magnifying-glass text-muted"></i>
+              </span>
+
               <input
+                id="buscarProducto"
                 type="text"
                 class="form-control"
                 placeholder="Nombre o SKU"
@@ -23,53 +31,54 @@
             </div>
           </div>
 
-          <div class="mb-4">
-            <h6 class="fw-bold mb-3">Categorías</h6>
-            <ul class="list-unstyled">
-              @for (cat of categorias; track cat.id) {
-                <li class="mb-2">
-                  <div class="form-check">
-                    <input
-                      type="radio"
-                      class="form-check-input"
-                      [id]="'cat-' + cat.id"
-                      name="categoria"
-                      [value]="cat.id === 0 ? null : cat.id"
-                      [(ngModel)]="selectedCategoria"
-                      (change)="onCategoriaChange()"
-                    />
-                    <label class="form-check-label" [for]="'cat-' + cat.id">
-                      {{ cat.nombre }}
-                    </label>
-                  </div>
-                </li>
-              }
-            </ul>
+          <h6 class="fw-bold mb-3">Categorías</h6>
+
+          <div class="d-flex flex-column">
+            @for (cat of categorias; track cat.id) {
+              <label
+                class="category-option d-flex align-items-start gap-2 py-2"
+                [for]="'cat-' + cat.id"
+              >
+                <input
+                  type="radio"
+                  class="form-check-input mt-1"
+                  [id]="'cat-' + cat.id"
+                  name="categoria"
+                  [value]="cat.id === 0 ? null : cat.id"
+                  [(ngModel)]="selectedCategoria"
+                  (change)="onCategoriaChange()"
+                />
+
+                <span>{{ cat.nombre }}</span>
+              </label>
+            }
           </div>
         </div>
-      </div>
+      </aside>
 
-      <div class="col-lg-9">
+      <main class="catalog-main">
         <div
-          class="productos-header d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom"
+          class="catalog-toolbar d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4"
         >
           <div>
-            <h4 class="mb-0">Productos</h4>
-            <small class="text-muted">{{ totalProductos }} artículos</small>
+            <span class="fw-semibold"> Todos los productos </span>
+
+            <span class="text-muted"> · {{ totalProductos }} artículos </span>
           </div>
 
-          <div class="d-flex gap-2 align-items-center">
-            <label class="text-muted small mb-0">Ordenar por:</label>
+          <div class="d-flex align-items-center gap-2">
+            <label for="ordenProductos" class="small text-muted text-nowrap"> Ordenar por: </label>
+
             <select
+              id="ordenProductos"
               class="form-select form-select-sm"
-              style="max-width: 200px"
               [(ngModel)]="ordernadoPor"
               (change)="onOrdenamiento()"
             >
               <option value="destacados">Destacados</option>
-              <option value="menor-precio">Menor Precio</option>
-              <option value="mayor-precio">Mayor Precio</option>
-              <option value="mas-vendidos">Más Vendidos</option>
+              <option value="menor-precio">Menor precio</option>
+              <option value="mayor-precio">Mayor precio</option>
+              <option value="mas-vendidos">Más vendidos</option>
               <option value="nuevos">Nuevos</option>
             </select>
           </div>
@@ -77,57 +86,61 @@
 
         @if (isLoading) {
           <div class="text-center py-5">
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Cargando...</span>
-            </div>
+            <div class="spinner-border text-danger"></div>
           </div>
         }
 
-        <div class="row g-4 mb-5">
-          @if (productosPaginados.length > 0) {
+        @if (!isLoading) {
+          <div class="products-grid">
             @for (producto of productosPaginados; track producto.id) {
-              <div class="col-sm-6 col-md-4">
-                <app-producto-card
-                  [producto]="producto"
-                  (agregarAlCarrito)="onAgregarCarrito($event)"
-                  (agregarDeseados)="onAgregarDeseos($event)"
-                  (compartir)="onCompartir($event)"
-                ></app-producto-card>
-              </div>
+              <app-producto-card
+                [producto]="producto"
+                (agregarAlCarrito)="onAgregarCarrito($event)"
+                (agregarDeseados)="onAgregarDeseos($event)"
+                (compartir)="onCompartir($event)"
+              >
+              </app-producto-card>
             }
-          } @else {
-            <div class="col-12 text-center py-5">
-              <p class="text-muted">No hay productos que coincidan con tu búsqueda</p>
-            </div>
-          }
-        </div>
-
+          </div>
+        }
         @if (totalPages > 1) {
-          <nav aria-label="Page navigation" class="d-flex justify-content-center">
-            <ul class="pagination">
+          <nav class="d-flex justify-content-center mt-5" aria-label="Paginación de productos">
+            <ul class="pagination mb-0">
               <li class="page-item" [class.disabled]="currentPage === 1">
-                <a class="page-link" href="javascript:void(0)" (click)="irAPagina(currentPage - 1)">
+                <button
+                  type="button"
+                  class="page-link"
+                  (click)="irAPagina(currentPage - 1)"
+                  [disabled]="currentPage === 1"
+                  aria-label="Página anterior"
+                >
                   <i class="fas fa-chevron-left"></i>
-                </a>
+                </button>
               </li>
 
               @for (pagina of getPaginasDisponibles(); track pagina) {
                 <li class="page-item" [class.active]="pagina === currentPage">
-                  <a class="page-link" href="javascript:void(0)" (click)="irAPagina(pagina)">
+                  <button type="button" class="page-link" (click)="irAPagina(pagina)">
                     {{ pagina }}
-                  </a>
+                  </button>
                 </li>
               }
 
               <li class="page-item" [class.disabled]="currentPage === totalPages">
-                <a class="page-link" href="javascript:void(0)" (click)="irAPagina(currentPage + 1)">
+                <button
+                  type="button"
+                  class="page-link"
+                  (click)="irAPagina(currentPage + 1)"
+                  [disabled]="currentPage === totalPages"
+                  aria-label="Página siguiente"
+                >
                   <i class="fas fa-chevron-right"></i>
-                </a>
+                </button>
               </li>
             </ul>
           </nav>
         }
-      </div>
+      </main>
     </div>
   </div>
-</div>
+</section>

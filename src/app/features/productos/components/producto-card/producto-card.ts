@@ -33,6 +33,9 @@ export class ProductoCard implements OnInit {
   get usuarioAutenticado():boolean{
     return this.authService.isAuthenticatedSync();
   }
+  get esAdmin(): boolean {
+  return this.authService.isAdmin();
+}
 
   get precioFinal(): number{
     if(this.producto.descuento){
