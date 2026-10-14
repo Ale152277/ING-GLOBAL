@@ -1,173 +1,232 @@
 @if (!registroCompletado) {
-  <div class="registro-container d-flex align-items-center justify-content-center min-vh-100">
-    <div class="registro-card card shadow-lg" style="max-width: 500px; width: 100%">
-      <a routerLink="/" class="btn btn-link text-decoration-none mb-3">
-        <i class="fas fa-arrow-left me-2"></i>
-        Volver a la tienda
-      </a>
-      <div class="card-header bg-success text-white text-center py-4">
-        <h3 class="mb-0">CREAR CUENTA</h3>
-      </div>
+  <div class="auth-page">
+    <div class="auth-background">
+      <video class="auth-bg-video" autoplay [muted]="true" loop playsinline preload="auto">
+        <source src="/assets/videos/auth-bg.webm" type="video/webm" />
+      </video>
 
-      <div class="card-body p-4">
-        @if (error) {
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-circle"></i> Inténtelo nuevamente
-            <button type="button" class="btn-close" (click)="error = ''"></button>
-          </div>
-        }
+      <div class="auth-bg-overlay"></div>
+    </div>
 
-        @if (success) {
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle"></i> {{ success }}
-          </div>
-        }
-
-        <form (ngSubmit)="registro()" class="registro-form">
-          <div class="mb-3">
-            <label for="nombreCompleto" class="form-label">Nombre Completo</label>
-            <input
-              type="text"
-              class="form-control"
-              id="nombreCompleto"
-              placeholder="Tu nombre completo"
-              [(ngModel)]="nombreCompleto"
-              name="nombreCompleto"
-              required
-              [disabled]="isLoading"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              placeholder="tu@email.com"
-              [(ngModel)]="email"
-              name="email"
-              required
-              [disabled]="isLoading"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="telefono" class="form-label">Teléfono</label>
-            <input
-              type="tel"
-              class="form-control"
-              id="telefono"
-              placeholder="987654321"
-              [(ngModel)]="telefono"
-              name="telefono"
-              required
-              [disabled]="isLoading"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="direccion" class="form-label">Dirección</label>
-            <input
-              type="text"
-              class="form-control"
-              id="direccion"
-              placeholder="Tu dirección"
-              [(ngModel)]="direccion"
-              name="direccion"
-              required
-              [disabled]="isLoading"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="contraseña" class="form-label">Contraseña</label>
-            <div class="input-group">
-              <input
-                [type]="showPassword ? 'text' : 'password'"
-                class="form-control"
-                id="contraseña"
-                placeholder="••••••••"
-                [(ngModel)]="password"
-                name="contraseña"
-                required
-                [disabled]="isLoading"
-              />
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                (click)="togglePasswordVisibility()"
-                [disabled]="isLoading"
-              >
-                <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-              </button>
-            </div>
-            <small class="text-muted">Mínimo 8 caracteres</small>
-          </div>
-
-          <div class="mb-3">
-            <label for="contraseñaConfirm" class="form-label">Confirmar Contraseña</label>
-            <input
-              [type]="showPassword ? 'text' : 'password'"
-              class="form-control"
-              id="contraseñaConfirm"
-              placeholder="••••••••"
-              [(ngModel)]="passwordconfirm"
-              name="contraseñaConfirm"
-              required
-              [disabled]="isLoading"
-            />
-          </div>
-
-          <button type="submit" class="btn btn-success btn-lg w-100 mb-3" [disabled]="isLoading">
-            @if (isLoading) {
-              <span
-                class="spinner-border spinner-border-sm me-2"
-                role="status"
-                aria-hidden="true"
-              ></span>
-              Registrando...
-            } @else {
-              <i class=" me-2"></i>
-              REGISTRARSE
-            }
-          </button>
-
-          <div class="text-center">
-            <small class="text-muted">
-              <a href="javascript:void(0)" (click)="irAlLogin()" class="text-success fw-bold">
-                Iniciar sesión
+    <div class="auth-content d-flex align-items-center justify-content-center py-4 px-3">
+      <div class="auth-card card border-0 shadow-lg overflow-hidden">
+        <div class="row g-0 h-100">
+          <div class="col-lg-6">
+            <div class="auth-form h-100 d-flex flex-column justify-content-center p-4 p-xl-5">
+              <a routerLink="/" class="auth-back-link text-decoration-none fw-semibold mb-4">
+                <i class="fas fa-arrow-left me-2"></i>
+                Volver a la tienda
               </a>
-            </small>
+
+              <div class="mb-4">
+
+                <h2 class="fw-bold mb-2">Crear cuenta</h2>
+                <p class="text-muted mb-0">Completa tus datos para registrarte.</p>
+              </div>
+
+              @if (error) {
+                <div class="alert alert-danger d-flex align-items-center gap-2">
+                  <i class="fas fa-circle-exclamation"></i>
+                  <span class="flex-grow-1">{{ error }}</span>
+
+                  <button type="button" class="btn-close" (click)="error = ''"></button>
+                </div>
+              }
+
+              <form (ngSubmit)="registro()">
+                <div class="mb-3">
+                  <label for="nombreCompleto" class="form-label fw-semibold">
+                    Nombre completo
+                  </label>
+
+                  <input
+                    type="text"
+                    id="nombreCompleto"
+                    class="form-control"
+                    placeholder="Tu nombre completo"
+                    [(ngModel)]="nombreCompleto"
+                    name="nombreCompleto"
+                    required
+                    [disabled]="isLoading"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="email" class="form-label fw-semibold"> Correo electrónico </label>
+
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control"
+                    placeholder="nombre@correo.com"
+                    [(ngModel)]="email"
+                    name="email"
+                    required
+                    [disabled]="isLoading"
+                  />
+                </div>
+
+                <div class="row g-3 mb-3">
+                  <div class="col-md-5">
+                    <label for="telefono" class="form-label fw-semibold"> Teléfono </label>
+
+                    <input
+                      type="tel"
+                      id="telefono"
+                      class="form-control"
+                      placeholder="987654321"
+                      [(ngModel)]="telefono"
+                      name="telefono"
+                      required
+                      [disabled]="isLoading"
+                    />
+                  </div>
+
+                  <div class="col-md-7">
+                    <label for="direccion" class="form-label fw-semibold"> Dirección </label>
+
+                    <input
+                      type="text"
+                      id="direccion"
+                      class="form-control"
+                      placeholder="Tu dirección"
+                      [(ngModel)]="direccion"
+                      name="direccion"
+                      required
+                      [disabled]="isLoading"
+                    />
+                  </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                  <div class="col-md-6">
+                    <label for="contraseña" class="form-label fw-semibold"> Contraseña </label>
+
+                    <div class="input-group">
+                      <input
+                        [type]="showPassword ? 'text' : 'password'"
+                        id="contraseña"
+                        class="form-control"
+                        placeholder="Mínimo 8 caracteres"
+                        [(ngModel)]="password"
+                        name="contraseña"
+                        required
+                        [disabled]="isLoading"
+                      />
+
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        (click)="togglePasswordVisibility()"
+                      >
+                        <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="contraseñaConfirm" class="form-label fw-semibold">
+                      Confirmar contraseña
+                    </label>
+
+                    <input
+                      [type]="showPassword ? 'text' : 'password'"
+                      id="contraseñaConfirm"
+                      class="form-control"
+                      placeholder="Repite tu contraseña"
+                      [(ngModel)]="passwordconfirm"
+                      name="contraseñaConfirm"
+                      required
+                      [disabled]="isLoading"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-danger btn-lg w-100 mb-4"
+                  [disabled]="isLoading"
+                >
+                  @if (isLoading) {
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Creando cuenta...
+                  } @else {
+                    Crear cuenta
+                  }
+                </button>
+
+                <div class="text-center">
+                  <span class="text-muted">¿Ya tienes una cuenta?</span>
+
+                  <button
+                    type="button"
+                    class="btn btn-link text-danger fw-semibold text-decoration-none p-0 ms-1"
+                    (click)="irAlLogin()"
+                  >
+                    Iniciar sesión
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
+
+          <div class="col-lg-6 d-none d-lg-block">
+            <div class="auth-visual h-100 position-relative overflow-hidden">
+              <img
+                src="/assets/Banners/banner-13.jpg"
+                alt="Soluciones tecnológicas"
+                class="auth-visual-image"
+              />
+
+              <div class="auth-visual-overlay"></div>
+
+              <div class="auth-visual-content position-absolute bottom-0 start-0 p-5 text-white">
+                <span class="badge rounded-pill text-bg-light text-dark mb-3">
+                  Ingeniería Global
+                </span>
+
+                <h3 class="fw-bold">Tecnología para proteger y conectar lo que importa</h3>
+
+                <p class="text-white-50 mb-0">
+                  Accede a nuestras soluciones de seguridad, conectividad y equipamiento.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 } @else {
-  <div class="d-flex align-items-center justify-content-center min-vh-100">
-    <div class="card shadow-lg text-center" style="max-width: 480px; width: 100%">
-      <div class="card-body p-5">
-        <div class="mb-4">
-          <i class="fas fa-envelope-open-text text-danger" style="font-size: 4rem"></i>
-        </div>
+  <div class="auth-page">
+    <div class="auth-background">
+      <video class="auth-bg-video" autoplay [muted]="true" loop playsinline>
+        <source src="/assets/videos/auth-bg.webm" type="video/webm" />
+      </video>
 
-        <h4 class="fw-bold mb-2">¡Revisa tu correo!</h4>
+      <div class="auth-bg-overlay"></div>
+    </div>
+
+    <div class="auth-content d-flex align-items-center justify-content-center p-3">
+      <div
+        class="card border-0 shadow-lg text-center p-4 p-md-5"
+        style="max-width: 500px; width: 100%"
+      >
+        <i class="fas fa-envelope-open-text text-danger display-4 mb-4"></i>
+
+        <h3 class="fw-bold mb-3">¡Revisa tu correo!</h3>
+
         <p class="text-muted mb-1">Enviamos un enlace de verificación a:</p>
-        <p class="">{{ emailRegistrado }}</p>
 
-        <p class="fw-bold text-danger mb-4">
-          Haz clic en el enlace del correo para activar tu cuenta. El enlace expira en
-          <strong>24 horas</strong>.
+        <p class="fw-semibold">
+          {{ emailRegistrado }}
         </p>
 
-        <hr class="my-4" />
-
-        <p class="text-muted small mb-2">¿No recibiste el correo?</p>
+        <p class="small text-muted mb-4">El enlace expira en 24 horas.</p>
 
         @if (reenvioMensaje) {
-          <div class="alert alert-success py-2 small">
-            <i class="fas fa-check-circle me-1"></i>{{ reenvioMensaje }}
+          <div class="alert alert-success small">
+            {{ reenvioMensaje }}
           </div>
         }
 
@@ -177,15 +236,14 @@
           [disabled]="reenvioLoading"
         >
           @if (reenvioLoading) {
-            <span class="spinner-border spinner-border-sm me-2"></span> Enviando...
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            Enviando...
           } @else {
-            <i class="fas fa-redo me-2"></i> Reenviar correo de verificación
+            Reenviar correo
           }
         </button>
 
-        <button class="btn btn-danger w-100" (click)="irAlLogin()">
-          <i class="fas fa-sign-in-alt me-2"></i> Ir al Login
-        </button>
+        <button class="btn btn-danger w-100" (click)="irAlLogin()">Ir a iniciar sesión</button>
       </div>
     </div>
   </div>

@@ -7,11 +7,10 @@ import { ProductoCard } from '../../components/producto-card/producto-card';
 import { ProductosService } from '../../services/productos.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
-import { RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-productos',
-  imports: [CommonModule, FormsModule, ProductoCard, RouterLink],
+  imports: [CommonModule, FormsModule, ProductoCard],
   templateUrl: './productos.html',
   styleUrl: './productos.css',
 })
