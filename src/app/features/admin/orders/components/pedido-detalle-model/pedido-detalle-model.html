@@ -1,5 +1,5 @@
 <div class="modal-backdrop-admin">
-  <div class="pedido-modal bg-white rounded shadow">
+  <div class="pedido-modal shadow-lg">
     <div class="d-flex justify-content-between align-items-start p-4 border-bottom">
       <div>
         <small class="text-muted"> Detalle del pedido </small>
@@ -9,6 +9,7 @@
         <span class="text-muted">
           {{ formatearFecha(pedido.fechaVenta) }}
         </span>
+        <span class="pedido-estado-badge ms-2"> {{ pedido.estado }} </span>
       </div>
 
       <button type="button" class="btn-close" (click)="cerrarModal()"></button>
@@ -89,7 +90,7 @@
             </div>
           </div>
         } @else {
-          <div class="alert alert-light border mb-0">
+          <div class="admin-info-box mb-0">
             Este pedido fue registrado antes de incorporar los datos de entrega al checkout.
           </div>
         }
@@ -128,7 +129,7 @@
 
         <div class="table-responsive">
           <table class="table align-middle">
-            <thead class="table-light">
+            <thead class="">
               <tr>
                 <th>Producto</th>
                 <th>SKU</th>
@@ -172,9 +173,7 @@
       <div class="d-flex justify-content-end align-items-center gap-4 pt-3 border-top">
         <span class="text-muted"> Total del pedido </span>
 
-        <strong class="fs-4 text-primary">
-          {{ formatearPrecio(pedido.total) }}
-        </strong>
+        <strong class="fs-4 text-danger"> {{ formatearPrecio(pedido.total) }} </strong>
       </div>
     </div>
   </div>

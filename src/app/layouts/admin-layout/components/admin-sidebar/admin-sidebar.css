@@ -1,5 +1,5 @@
 .admin-sidebar {
-   width: 250px;
+  width: 260px;
   height: 100vh;
 
   flex-shrink: 0;
@@ -13,14 +13,18 @@
   color: var(--color-admin-sidebar-text);
 }
 
+.admin-brand {
+  border-bottom: 1px solid var(--color-admin-sidebar-border);
+}
+
 .admin-logo {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
 
   object-fit: contain;
 
-  border-radius: var(--border-radius-md);
-  background-color: var(--color-white);
+  border-radius: 8px;
+  background-color: #fff;
   padding: 3px;
 }
 
@@ -28,40 +32,43 @@
   color: var(--color-admin-sidebar-muted);
 }
 
+.admin-section-title {
+  color: #64748b;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+}
+
 .admin-nav-link {
   min-height: 44px;
+
+  border-radius: 8px;
 
   color: var(--color-admin-sidebar-muted);
 
   transition:
-    background-color var(--transition-fast),
-    color var(--transition-fast),
-    transform var(--transition-fast);
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .admin-nav-link i {
   width: 20px;
-
   text-align: center;
-
-  color: inherit;
 }
 
 .admin-nav-link:hover {
-  color: var(--color-admin-sidebar-text);
-
+  color: #fff;
   background-color: var(--color-admin-sidebar-hover);
-
-  transform: translateX(2px);
 }
 
 .admin-nav-link.active {
-  color: var(--color-admin-sidebar-text);
-  background-color: var(--color-primary);
-  font-weight: var(--font-weight-medium);
+  color: #fff;
+  background-color: var(--color-admin-sidebar-active);
+  font-weight: 600;
 }
 
-.admin-sidebar .border-top,
-.admin-sidebar .border-bottom {
-  border-color: var(--color-admin-sidebar-border) !important;
+.admin-sidebar-footer {
+  border-top: 1px solid var(--color-admin-sidebar-border);
 }

@@ -1,18 +1,19 @@
-<div class="card border-1 shadow-sm h-100 dashboard-card">
+<div class="card border-0 shadow-sm dashboard-card">
   <div class="card-body p-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h5 class="fw-bold mb-0">Pedidos recientes</h5>
+      <div>
+        <h5 class="fw-bold mb-1">Pedidos recientes</h5>
 
-      <a routerLink="/admin/pedidos" class="btn btn-link btn-sm text-decoration-none">
-        Ver todos
-        <i class="fas fa-arrow-right ms-1"></i>
-      </a>
+        <small class="text-muted"> Últimas ventas registradas </small>
+      </div>
+
+      <a routerLink="/admin/pedidos" class="btn btn-sm btn-outline-danger"> Ver todos </a>
     </div>
 
     <div class="table-responsive">
-      <table class="table align-middle mb-0">
-        <thead class="table-light">
-          <tr>
+      <table class="table table-hover align-middle mb-0">
+        <thead>
+          <tr class="text-muted small">
             <th>Pedido</th>
             <th>Cliente</th>
             <th>Fecha</th>
@@ -30,7 +31,7 @@
                 {{ pedido.cliente }}
               </td>
 
-              <td>
+              <td class="text-muted">
                 {{ formatearFecha(pedido.fecha) }}
               </td>
 

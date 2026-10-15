@@ -1,16 +1,16 @@
 .dashboard-card {
-  border-radius: var(--border-radius-lg);
+  border-radius: 10px;
 }
 
 .estado-badge {
   display: inline-block;
 
-  padding: 0.35rem 0.65rem;
+  padding: 0.3rem 0.6rem;
 
-  border-radius: var(--border-radius-md);
+  border-radius: 6px;
 
   font-size: 0.75rem;
-  font-weight: var(--font-weight-medium);
+  font-weight: 600;
 }
 
 .estado-pendiente {

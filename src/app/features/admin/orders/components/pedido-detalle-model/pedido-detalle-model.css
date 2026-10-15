@@ -9,12 +9,48 @@
 
   padding: 1rem;
 
-  background-color: rgba(15, 23, 42, 0.55);
+  background-color: rgba(0, 0, 0, 0.72);
 }
 
 .pedido-modal {
   width: min(900px, 100%);
-  max-height: 92vh;
+  max-height: 90vh;
 
   overflow-y: auto;
+
+  color: var(--color-admin-text);
+  background-color: var(--color-admin-surface);
+
+  border: 1px solid var(--color-admin-border);
+  border-radius: 12px;
+
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.45);
+}
+
+.pedido-modal .border-top,
+.pedido-modal .border-bottom {
+  border-color: var(--color-admin-border) !important;
+}
+
+.pedido-estado-badge {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+
+  color: #cbd5e1;
+  background-color: var(--color-admin-background);
+  border: 1px solid var(--color-admin-border);
+  border-radius: 6px;
+
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.admin-info-box {
+  padding: 1rem;
+
+  color: var(--color-admin-muted);
+  background-color: var(--color-admin-background);
+
+  border: 1px solid var(--color-admin-border);
+  border-radius: 8px;
 }

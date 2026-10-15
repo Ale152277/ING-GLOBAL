@@ -1,22 +1,37 @@
 .admin-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
   min-height: 72px;
-  padding: 0 var(--spacing-md);
 
-  background-color: var(--color-surface);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+
+  background-color: var(--color-admin-surface);
+
   border-bottom: 1px solid var(--color-admin-border);
 }
 
-.admin-user {
+.admin-avatar {
+  width: 40px;
+  height: 40px;
+
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: var(--color-admin-sidebar-active);
+  background-color: rgba(255, 31, 53, 0.12);
 }
 
-.admin-user small {
-  display: block;
-  color: var(--color-text-secondary);
+.admin-user-name {
+  max-width: 220px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: var(--color-admin-text);
+
+  font-size: 0.9rem;
 }

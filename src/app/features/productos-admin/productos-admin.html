@@ -1,121 +1,176 @@
-<div class="container-fluid py-4">
-  <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+<section class="container-fluid px-0">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
     <div>
-      <h1 class="h2 mb-0"><i class=" me-2 text-primary"></i>Panel de Administración</h1>
-      <p class="text-muted mb-0">Gestionar productos del catálogo</p>
+      <h1 class="h3 fw-bold mb-1">Productos</h1>
+
+      <p class="text-muted mb-0">Gestiona los productos disponibles en el catálogo</p>
     </div>
-    <button class="btn btn-primary btn-lg" (click)="abrirModalCrear()">
-      <i class="fas fa-plus me-2"></i>Agregar Producto
+
+    <button type="button" class="btn btn-danger" (click)="abrirModalCrear()">
+      <i class="fas fa-plus me-2"></i>
+      Agregar producto
     </button>
   </div>
 
   @if (mensaje) {
-    <div class="alert alert-{{ mensaje.tipo }} alert-dismissible fade show d-flex align-items-center" role="alert">
-      <i class="fas" [ngClass]="mensaje.tipo === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'" style="font-size: 1.5rem; margin-right: 1rem"></i>
-      <div>{{ mensaje.texto }}</div>
-      <button type="button" class="btn-close" (click)="mensaje = null"></button>
+    <div class="alert alert-{{ mensaje.tipo }} alert-dismissible fade show" role="alert">
+      <i
+        class="fas me-2"
+        [ngClass]="mensaje.tipo === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'"
+      ></i>
+
+      {{ mensaje.texto }}
+
+      <button type="button" class="btn-close btn-close-white" (click)="mensaje = null"></button>
     </div>
   }
 
-  <div class="card shadow-sm">
-   
+  <div class="card border-0 shadow-sm products-admin-card">
+    <div class="card-header border-bottom p-4">
+      <div>
+        <h5 class="fw-bold mb-1">Lista de productos</h5>
+
+        <small class="text-muted"> Productos mostrados: {{ productos.length }} </small>
+      </div>
+    </div>
+
     <div class="card-body p-0">
       @if (isLoading) {
-        <div class="text-center p-5">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Cargando...</span>
-          </div>
-          <p class="text-muted mt-2">Cargando productos...</p>
-        </div>
-      }
+        <div class="text-center py-5">
+          <div class="spinner-border text-danger" role="status"></div>
 
-      @if (!isLoading) {
+          <p class="text-muted small mt-3 mb-0">Cargando productos...</p>
+        </div>
+      } @else {
         <div class="table-responsive">
-          <table class="table table-hover mb-0">
-            <thead class="table-light">
+          <table class="table table-hover align-middle mb-0 admin-products-table">
+            <thead>
               <tr>
-                <th class="text-center">N°</th>
-                <th class="text-center" style="width: 5%">Imagen</th>
-                <th class="text-center">Producto</th>
-                <th class="text-center">SKU</th>
-                <th class="text-center">Precio</th>
-                <th style="width: 5%">Stock</th>
-                <th class="text-center">Estado</th>
-                <th class="text-center" style="width: 15%">Acciones</th>
+                <th>#</th>
+                <th>Imagen</th>
+                <th>Producto</th>
+                <th>SKU</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th class="text-end">Acciones</th>
               </tr>
             </thead>
-            <tbody>
-              @if (productos.length === 0) {
-                <tr>
-                  <td colspan="7" class="text-center py-4 text-muted">
-                    <i class="fas fa-inbox me-2"></i>No hay productos disponibles
-                  </td>
-                </tr>
-              }
 
+            <tbody>
               @for (producto of productos; track producto.id; let i = $index) {
                 <tr>
-                  <td class="text-center">{{ (currentPage - 1) * pageSize + i + 1 }}</td>
-                  <td class="text-center">
-                    @if(producto.imagen){
-                      <img [src]="producto.imagen"
-                           alt="{{producto.nombre}}"
-                           style="width: 50px; height: 50px; object-fit: fill; border-radius: 6px;">
-                    }@else {
-                      <i class="fas fa-image text-muted"></i>
+                  <td class="text-muted">
+                    {{ (currentPage - 1) * pageSize + i + 1 }}
+                  </td>
+
+                  <td>
+                    @if (producto.imagen) {
+                      <img
+                        [src]="producto.imagen"
+                        [alt]="producto.nombre"
+                        class="product-admin-image"
+                      />
+                    } @else {
+                      <div
+                        class="product-admin-image  d-flex align-items-center justify-content-center"
+                      >
+                        <i class="fas fa-image text-muted"></i>
+                      </div>
                     }
                   </td>
-                  
-                  <td style="max-width: 250px;">
-                    <strong>{{ producto.nombre }}</strong>
-                    <br />
+
+                  <td class="product-name-column">
+                    <strong class="d-block">
+                      {{ producto.nombre }}
+                    </strong>
+
                     <small class="text-muted">
-                      <i class="fas fa-tag"></i> {{ producto.etiqueta || 'Sin etiqueta' }}
+                      {{ producto.etiqueta || 'Sin etiqueta' }}
                     </small>
                   </td>
-                  <td class="text-center">
-                    <code class="bg-light p-2 rounded">{{ producto.sku }}</code>
+
+                  <td>
+                    <span class="sku-badge">
+                      {{ producto.sku }}
+                    </span>
                   </td>
-                  <td class="text-center">
-                    <strong class="text-success">{{ formatearPrecio(producto.precio ) }}</strong>
+
+                  <td>
+                    <strong class="d-block">
+                      {{ formatearPrecio(producto.precio) }}
+                    </strong>
+
                     @if (producto.descuento > 0) {
-                      <span class="badge bg-warning ms-1"> -{{ producto.descuento }}% </span>
+                      <small class="text-danger"> -{{ producto.descuento }}% descuento </small>
                     }
                   </td>
+
                   <td>
                     <span
+                      class="stock-badge "
                       [ngClass]="{
-                        'text-success fw-bold': producto.stock > 10,
-                        'text-warning fw-bold': producto.stock > 0 && producto.stock <= 10,
-                        'text-danger fw-bold': producto.stock <= 0,
+                        'stock-disponible': producto.stock > 10,
+                        'stock-bajo': producto.stock > 0 && producto.stock <= 10,
+                        'stock-agotado': producto.stock <= 0,
                       }"
                     >
-                      <i class="fas" [ngClass]="producto.stock > 0 ? 'fa-check-circle' : 'fa-times-circle'"></i>
                       {{ producto.stock }}
                     </span>
                   </td>
-                  <td class="text-center">
+
+                  <td>
                     @if (producto.estado === 'ACTIVO') {
-                      <span class="badge bg-success me-2 mb-2">
-                        <i class="fas fa-circle"></i> Activo
-                      </span>
-                      <button class="btn btn-sm btn-warning " (click)="cambiarEstado(producto)" title="Desactivar producto" [disabled]="isLoading">
-                         Desactivar
-                      </button>
+                      <span class="badge text-bg-success mb-2"> Activo </span>
+
+                      <div>
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-outline-secondary"
+                          (click)="cambiarEstado(producto)"
+                          [disabled]="isLoading"
+                        >
+                          Desactivar
+                        </button>
+                      </div>
                     } @else {
-                      <span class="badge bg-danger me-2 mb-2">
-                        <i class="fas fa-ban"></i> Inactivo
-                      </span>
-                      <button class="btn btn-sm btn-success" (click)="cambiarEstado(producto)" title="Activar producto" [disabled]="isLoading">
-                        <i class="fas fa-check"></i> Activar
-                      </button>
+                      <span class="badge text-bg-danger mb-2"> Inactivo </span>
+
+                      <div>
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-outline-success"
+                          (click)="cambiarEstado(producto)"
+                          [disabled]="isLoading"
+                        >
+                          Activar
+                        </button>
+                      </div>
                     }
                   </td>
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-warning me-1" (click)="abrirModalEditar(producto)" title="Editar producto" [disabled]="isLoading">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                   
+
+                  <td>
+                    <div class="d-flex justify-content-end">
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-light border"
+                        (click)="abrirModalEditar(producto)"
+                        [disabled]="isLoading"
+                        title="Editar producto"
+                      >
+                        <i class="fas fa-pen"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="8" class="text-center py-5">
+                    <i class="fas fa-box-open fs-2 text-muted d-block mb-3"></i>
+
+                    <strong class="d-block"> No hay productos disponibles </strong>
+
+                    <small class="text-muted"> Los productos registrados aparecerán aquí. </small>
                   </td>
                 </tr>
               }
@@ -126,24 +181,36 @@
     </div>
 
     @if (!isLoading && totalPages > 1) {
-      <div class="card-footer bg-light">
+      <div class="card-footer border-top py-3">
         <nav aria-label="Paginación">
-          <ul class="pagination mb-0 justify-content-center">
+          <ul class="pagination pagination-sm mb-0 justify-content-center">
             <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
-              <button class="page-link" (click)="cambiarPagina(currentPage - 1)" [disabled]="currentPage === 1">
-                <i class="fas fa-chevron-left me-1"></i>Anterior
+              <button
+                type="button"
+                class="page-link"
+                (click)="cambiarPagina(currentPage - 1)"
+                [disabled]="currentPage === 1"
+              >
+                <i class="fas fa-chevron-left"></i>
               </button>
             </li>
 
             @for (page of [].constructor(totalPages); track $index; let i = $index) {
               <li class="page-item" [ngClass]="{ active: i + 1 === currentPage }">
-                <button class="page-link" (click)="cambiarPagina(i + 1)">{{ i + 1 }}</button>
+                <button type="button" class="page-link" (click)="cambiarPagina(i + 1)">
+                  {{ i + 1 }}
+                </button>
               </li>
             }
 
             <li class="page-item" [ngClass]="{ disabled: currentPage === totalPages }">
-              <button class="page-link" (click)="cambiarPagina(currentPage + 1)" [disabled]="currentPage === totalPages">
-                Siguiente<i class="fas fa-chevron-right ms-1"></i>
+              <button
+                type="button"
+                class="page-link"
+                (click)="cambiarPagina(currentPage + 1)"
+                [disabled]="currentPage === totalPages"
+              >
+                <i class="fas fa-chevron-right"></i>
               </button>
             </li>
           </ul>
@@ -151,7 +218,7 @@
       </div>
     }
   </div>
-</div>
+</section>
 
 @if (mostrarModal) {
   <app-producto-modal
@@ -162,6 +229,6 @@
     [bloqueado]="subiendoImagen || isLoading"
     (cerrar)="cerrarModal()"
     (guardar)="ejecutarGuardado($event)"
-    (errorValidacion)="mostrarMensaje('danger', $event)">
-  </app-producto-modal>
+    (errorValidacion)="mostrarMensaje('danger', $event)"
+  />
 }

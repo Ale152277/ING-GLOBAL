@@ -1,0 +1,118 @@
+.admin-layout {
+  color: var(--color-admin-text);
+  background-color: var(--color-admin-background);
+}
+
+.admin-layout .admin-content {
+  background-color: var(--color-admin-background);
+}
+
+.admin-layout h1,
+.admin-layout h2,
+.admin-layout h3,
+.admin-layout h4,
+.admin-layout h5,
+.admin-layout h6,
+.admin-layout strong {
+  color: var(--color-admin-text);
+}
+
+.admin-layout .text-muted {
+  color: var(--color-admin-muted) !important;
+}
+
+.admin-layout .card {
+  color: var(--color-admin-text);
+  background-color: var(--color-admin-surface);
+
+  border: 1px solid var(--color-admin-border) !important;
+
+  box-shadow: none !important;
+}
+
+.admin-layout .card-header,
+.admin-layout .card-footer {
+  color: var(--color-admin-text);
+  background-color: var(--color-admin-surface);
+
+  border-color: var(--color-admin-border);
+}
+
+.admin-layout .table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--color-admin-text);
+
+  --bs-table-border-color: var(--color-admin-border);
+
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.035);
+  --bs-table-hover-color: var(--color-admin-text);
+
+  margin-bottom: 0;
+}
+
+.admin-layout .table thead th {
+  color: #cbd5e1;
+  background-color: var(--color-admin-surface-alt);
+
+  border-color: var(--color-admin-border);
+}
+
+.admin-layout .table td {
+  color: var(--color-admin-text);
+  border-color: var(--color-admin-border);
+}
+
+.admin-layout .btn-light {
+  color: #e2e8f0;
+  background-color: transparent;
+
+  border-color: #64748b;
+}
+
+.admin-layout .btn-light:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+
+.admin-layout .page-link {
+  color: #cbd5e1;
+  background-color: var(--color-admin-surface);
+
+  border-color: var(--color-admin-border);
+}
+
+.admin-layout .page-link:hover {
+  color: #ffffff;
+  background-color: var(--color-admin-surface-alt);
+}
+
+.admin-layout .page-item.active .page-link {
+  color: #ffffff;
+
+  background-color: var(--color-admin-sidebar-active);
+  border-color: var(--color-admin-sidebar-active);
+}
+
+
+.admin-layout .form-control,
+.admin-layout .form-select {
+  color: var(--color-admin-text);
+
+  background-color: var(--color-admin-background);
+  border-color: var(--color-admin-border);
+}
+
+.admin-layout .form-control:focus,
+.admin-layout .form-select:focus {
+  color: var(--color-admin-text);
+
+  background-color: var(--color-admin-background);
+  border-color: var(--color-admin-sidebar-active);
+
+  box-shadow: 0 0 0 0.2rem rgba(255, 31, 53, 0.12);
+}
+
+.admin-layout .form-control::placeholder {
+  color: #64748b;
+}

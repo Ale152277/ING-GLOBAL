@@ -1,5 +1,5 @@
 .dashboard-card {
-  border-radius: var(--border-radius-lg);
+  border-radius: 10px;
 }
 
 .producto-imagen,

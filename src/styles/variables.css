@@ -37,22 +37,25 @@
 --color-background: var(--color-gray-light);
 
 /* Administración */
---color-admin-sidebar: var(--color-gray-dark);
---color-admin-sidebar-text: var(--color-white);
---color-admin-sidebar-muted: #c7ccd3;
---color-admin-background: #f5f6f8;
---color-admin-border: #e4e7eb;
---color-admin-sidebar: #111827;
---color-admin-sidebar-active: #ef233c;
---color-admin-sidebar-active-shadow: rgba(239, 35, 60, 0.22);
---color-admin-sidebar-text: var(--color-white);
---color-admin-sidebar-muted: #cbd5e1;
+/* Administración */
+--color-admin-sidebar: #081321;
+--color-admin-background: #0d1b2a;
 
---color-admin-sidebar-hover: rgba(255, 255, 255, 0.08);
+--color-admin-surface: #122238;
+--color-admin-surface-alt: #172a42;
+
+--color-admin-border: #2a3d56;
+
+--color-admin-text: #f8fafc;
+--color-admin-muted: #94a3b8;
+
+--color-admin-sidebar-active: #ff1f35;
+
+--color-admin-sidebar-hover: rgba(255, 255, 255, 0.07);
 --color-admin-sidebar-border: rgba(255, 255, 255, 0.08);
 
---color-admin-background: #f5f6f8;
---color-admin-border: #e4e7eb;
+--color-admin-sidebar-text: #ffffff;
+--color-admin-sidebar-muted: #cbd5e1;
 }
 
 /* 

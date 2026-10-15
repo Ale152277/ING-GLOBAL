@@ -110,4 +110,22 @@ export class AdminOrders implements OnInit {
 
     return `${dia}/${mes}/${anio}`;
   }
+  obtenerClaseEstado(estado: EstadoPedidoAdmin): string {
+  switch (estado) {
+    case 'PENDIENTE':
+      return 'estado-pendiente';
+
+    case 'CONFIRMADA':
+      return 'estado-confirmada';
+
+    case 'COMPLETA':
+      return 'estado-completada';
+
+    case 'CANCELADA':
+      return 'estado-cancelada';
+
+    default:
+      return '';
+  }
+}
 }

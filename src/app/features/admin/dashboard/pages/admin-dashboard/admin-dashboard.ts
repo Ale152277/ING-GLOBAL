@@ -6,7 +6,6 @@ import { PedidoMes, PedidoReciente , ConsultaReciente, ProductoStockBajo} from '
 import { ProductosStockBajo } from '../../components/productos-stock-bajo/productos-stock-bajo';
 import { ConsultasRecientes } from '../../components/consultas-recientes/consultas-recientes';
 import { AdminDashboardService } from '../../services/admin-dashboard.service';
-import { response } from 'express';
 
 @Component({
   selector: 'app-admin-dashboard',

@@ -1,8 +1,6 @@
-<!-- Se aplica shadow-sm, bg-white, y sticky-lg-top directo en el contenedor -->
 <div class="bg-white p-4 rounded shadow-sm sticky-lg-top" style="top: 20px; height: fit-content; z-index: 1020;">
   
   <div class="mb-4">
-    <!-- El borde inferior y color se manejan con utilidades de Bootstrap -->
     <h6 class="fw-bold mb-3 pb-2 border-bottom border-2 border-primary text-dark" style="font-size: 0.95rem;">
       <i class="fas fa-search me-2"></i>Buscar
     </h6>
@@ -22,7 +20,6 @@
     <ul class="list-unstyled">
       @for (cat of categorias; track cat.id) {
         <li class="mb-2">
-          <!-- Alineación con Flexbox nativo de Bootstrap -->
           <div class="form-check d-flex align-items-center">
             <input 
               type="radio" 
