@@ -14,19 +14,27 @@ export class PagoService {
 
   constructor(private http: HttpClient) {}
 
-  obtenerPago(pagoId: Number): Observable<ApiResponse<Pago>> {
+  obtenerPago(pagoId: number): Observable<ApiResponse<Pago>> {
     return this.http.get<ApiResponse<Pago>>(`${this.apiUrl}/${pagoId}`);
   }
 
-  obtenerPagosDeVenta(ventaId: Number): Observable<ApiResponse<Pago[]>> {
+  obtenerPagosDeVenta(ventaId: number): Observable<ApiResponse<Pago[]>> {
     return this.http.get<ApiResponse<Pago[]>>(`${this.apiUrl}/venta/${ventaId}`);
   }
 
-  subirComprobante(pagoId: Number, archivo: File): Observable<ApiResponse<Pago>> {
-    const formData = new FormData();
+  obtenerComprobante(pagoId: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${pagoId}/comprobante`, {
+      responseType: 'blob',
+    });
+  }
 
+  subirComprobante(pagoId: number, archivo: File): Observable<ApiResponse<Pago>> {
+    const formData = new FormData();
     formData.append('archivo', archivo);
 
-    return this.http.post<ApiResponse<Pago>>(`${this.apiUrl}/${pagoId}/comprobante`, formData);
+    return this.http.post<ApiResponse<Pago>>(
+      `${this.apiUrl}/${pagoId}/comprobante`,
+      formData,
+    );
   }
 }
