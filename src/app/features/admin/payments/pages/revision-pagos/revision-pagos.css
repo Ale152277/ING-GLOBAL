@@ -1,25 +1,30 @@
-.admin-payment-card {
+.admin-payment-card,
+.filtros-card {
   border-radius: 12px;
   overflow: hidden;
 }
 
-.table thead th {
-  padding: 14px 16px;
+.filtros-card {
+  background: rgba(255, 255, 255, 0.04);
+}
 
-  background: #f5f6f8;
-  color: #555c65;
-
+.form-label {
   font-size: 0.82rem;
   font-weight: 600;
+}
 
+.table thead th {
+  padding: 14px 16px;
+  background: #f5f6f8;
+  color: #555c65;
+  font-size: 0.82rem;
+  font-weight: 600;
   white-space: nowrap;
 }
 
 .table tbody td {
   padding: 16px;
-
-  border-color: #eceef1;
-
+  border-color: rgba(255, 255, 255, 0.08);
   font-size: 0.9rem;
 }
 
@@ -33,4 +38,71 @@
   background: #496c56;
   border-color: #496c56;
   color: #fff;
+}
+
+.payment-status {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.estado-en-revision {
+  background: rgba(60, 126, 214, 0.16);
+  color: #7fb0ef;
+}
+
+.estado-pagado {
+  background: rgba(78, 148, 98, 0.17);
+  color: #83c596;
+}
+
+.estado-rechazado {
+  background: rgba(185, 72, 72, 0.17);
+  color: #e28e8e;
+}
+
+.estado-pendiente {
+  background: rgba(205, 155, 56, 0.16);
+  color: #dcb96e;
+}
+
+.estado-expirado,
+.estado-reembolsado {
+  background: rgba(140, 145, 154, 0.18);
+  color: #b9bdc5;
+}
+
+.rejection-detail-row td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: rgba(185, 72, 72, 0.08);
+  color: #d9a1a1;
+}
+
+.rejection-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1055;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.58);
+}
+
+.rejection-modal {
+  width: min(520px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 24px;
+  background: #132536;
+  color: #fff;
+}
+
+.rejection-modal .form-control {
+  min-height: 110px;
+  resize: vertical;
 }
