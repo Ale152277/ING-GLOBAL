@@ -1,12 +1,6 @@
 <section class="container-fluid px-0">
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
-    <div>
-      <p class="admin-section-label">Catálogo</p>
-      <h1 class="h3 fw-bold mb-1">Productos</h1>
-      <p class="text-muted mb-0">
-        Gestiona disponibilidad, stock y presentación del catálogo.
-      </p>
-    </div>
+    
 
     <button type="button" class="btn btn-danger" (click)="abrirModalCrear()">
       Agregar producto
@@ -20,22 +14,6 @@
     </div>
   }
 
-  <div class="admin-summary-grid product-summary mb-4">
-    <div class="admin-summary-card">
-      <small>Mostrados</small>
-      <strong>{{ productos.length }}</strong>
-    </div>
-
-    <div class="admin-summary-card">
-      <small>Stock bajo</small>
-      <strong>{{ productosStockBajo }}</strong>
-    </div>
-
-    <div class="admin-summary-card">
-      <small>Agotados</small>
-      <strong>{{ productosAgotados }}</strong>
-    </div>
-  </div>
 
   <app-producto-tabla
     [productos]="productos"
