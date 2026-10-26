@@ -1,21 +1,18 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 import { Categoria } from '../../models/categoria.model';
 import { Marca } from '../../models/marca.model';
 import { Producto } from '../productos/models/producto.model';
-import { CategoriaService } from '../productos/services/categoria.service';
-import { MarcaService } from '../productos/services/marca.service';
-import { ProductosService } from '../productos/services/productos.service';
 import {
   ProductoGuardarEvento,
   ProductoModal,
 } from './components/producto-modal/producto-modal';
+import { ProductoTabla } from './components/producto-tabla/producto-tabla';
 import { ProductoAdminService } from './services/producto-admin.service';
 
 @Component({
   selector: 'app-productos-admin',
-  imports: [CommonModule, ProductoModal],
+  imports: [ProductoModal, ProductoTabla],
   templateUrl: './productos-admin.html',
   styleUrl: './productos-admin.css',
 })
@@ -37,12 +34,7 @@ export class ProductosAdmin implements OnInit {
 
   mensaje: { tipo: 'success' | 'danger' | 'info'; texto: string } | null = null;
 
-  constructor(
-    private productosService: ProductosService,
-    private categoriaService: CategoriaService,
-    private marcaService: MarcaService,
-    private productoAdminService: ProductoAdminService,
-  ) {}
+  constructor(private productoAdminService: ProductoAdminService) {}
 
   ngOnInit(): void {
     this.cargarProductos();
@@ -62,7 +54,7 @@ export class ProductosAdmin implements OnInit {
   cargarProductos(): void {
     this.isLoading = true;
 
-    this.productosService.obtenerTodosParaAdmin(this.currentPage, this.pageSize).subscribe({
+    this.productoAdminService.obtenerProductos(this.currentPage, this.pageSize).subscribe({
       next: (response) => {
         if (response.success && response.data) {
           this.productos = response.data.content;
@@ -159,33 +151,18 @@ export class ProductosAdmin implements OnInit {
     this.cargarProductos();
   }
 
-  formatearPrecio(precio: number): string {
-    return new Intl.NumberFormat('es-PE', {
-      style: 'currency',
-      currency: 'PEN',
-    }).format(precio);
-  }
-
   mostrarMensaje(tipo: 'success' | 'danger' | 'info', texto: string): void {
     this.mensaje = { tipo, texto };
     setTimeout(() => (this.mensaje = null), 3000);
   }
 
   private cargarCatalogos(): void {
-    this.categoriaService.obtenerTodas().subscribe({
-      next: (response) => {
-        if (response.success && response.data) {
-          this.categorias = response.data;
-        }
+    this.productoAdminService.obtenerCatalogos().subscribe({
+      next: ({ categorias, marcas }) => {
+        this.categorias = categorias;
+        this.marcas = marcas;
       },
-    });
-
-    this.marcaService.obtenerTodas().subscribe({
-      next: (response) => {
-        if (response.success && response.data) {
-          this.marcas = response.data;
-        }
-      },
+      error: () => this.mostrarMensaje('danger', 'No se pudieron cargar categorías y marcas.'),
     });
   }
 }
