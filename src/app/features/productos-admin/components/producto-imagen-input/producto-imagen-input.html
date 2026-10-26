@@ -1,0 +1,50 @@
+<div class="image-input">
+  <div class="image-mode">
+    <button
+      type="button"
+      [class.active]="modo === 'url'"
+      [disabled]="bloqueado"
+      (click)="cambiarModo('url')"
+    >
+      URL
+    </button>
+
+    <button
+      type="button"
+      [class.active]="modo === 'archivo'"
+      [disabled]="bloqueado"
+      (click)="cambiarModo('archivo')"
+    >
+      Archivo
+    </button>
+  </div>
+
+  @if (modo === 'url') {
+    <label for="productoImagenUrl" class="form-label">URL de la imagen</label>
+    <input
+      id="productoImagenUrl"
+      type="text"
+      class="form-control"
+      [value]="url"
+      [disabled]="bloqueado"
+      placeholder="https://ejemplo.com/imagen.jpg"
+      (input)="actualizarUrl($event)"
+    />
+  } @else {
+    <label for="productoImagenArchivo" class="form-label">Archivo de imagen</label>
+    <input
+      id="productoImagenArchivo"
+      type="file"
+      class="form-control"
+      accept="image/jpeg,image/jpg,image/png"
+      [disabled]="bloqueado"
+      (change)="seleccionarArchivo($event)"
+    />
+
+    <small>JPG o PNG, máximo 5 MB.</small>
+  }
+
+  @if (previsualizacion) {
+    <img [src]="previsualizacion" alt="Previsualización del producto" />
+  }
+</div>
