@@ -20,23 +20,6 @@
     </div>
   }
 
-  <div class="admin-summary-grid product-summary mb-4">
-    <div class="admin-summary-card">
-      <small>Mostrados</small>
-      <strong>{{ productos.length }}</strong>
-    </div>
-
-    <div class="admin-summary-card">
-      <small>Stock bajo</small>
-      <strong>{{ productosStockBajo }}</strong>
-    </div>
-
-    <div class="admin-summary-card">
-      <small>Agotados</small>
-      <strong>{{ productosAgotados }}</strong>
-    </div>
-  </div>
-
   <app-producto-tabla
     [productos]="productos"
     [cargando]="isLoading"
