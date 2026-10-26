@@ -1,17 +1,24 @@
-.orders-card {
+.orders-card,
+.filters-card {
   border-radius: 10px;
   overflow: hidden;
 }
 
+.filters-card {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.form-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
 .admin-orders-table th {
   padding: 0.9rem 1rem;
-
   color: #cbd5e1;
   background-color: var(--color-admin-surface-alt);
-
   font-size: 0.8rem;
   font-weight: 600;
-
   white-space: nowrap;
 }
 
@@ -19,33 +26,87 @@
   padding: 1rem;
 }
 
-.estado-badge {
+.estado-badge,
+.pago-badge {
   display: inline-block;
-
   padding: 0.35rem 0.65rem;
-
   border-radius: 6px;
-
   font-size: 0.75rem;
   font-weight: 600;
+  white-space: nowrap;
 }
 
-.estado-pendiente {
-  color: #856404;
-  background-color: rgba(255, 193, 7, 0.2);
+.estado-pendiente,
+.pago-pendiente {
+  color: #d6af55;
+  background-color: rgba(255, 193, 7, 0.14);
 }
 
-.estado-confirmada {
-  color: #0d6efd;
+.estado-confirmada,
+.pago-en-revision {
+  color: #74a7ec;
   background-color: rgba(13, 110, 253, 0.12);
 }
 
-.estado-completada {
-  color: #198754;
-  background-color: rgba(25, 135, 84, 0.12);
+.estado-completada,
+.pago-pagado {
+  color: #77bd91;
+  background-color: rgba(25, 135, 84, 0.14);
 }
 
-.estado-cancelada {
-  color: #dc3545;
-  background-color: rgba(220, 53, 69, 0.12);
+.estado-cancelada,
+.pago-rechazado {
+  color: #df818a;
+  background-color: rgba(220, 53, 69, 0.13);
+}
+
+.pago-expirado,
+.pago-reembolsado,
+.pago-no-registrado {
+  color: #adb5bd;
+  background-color: rgba(173, 181, 189, 0.12);
+}
+
+.admin-toast {
+  position: fixed;
+  top: 88px;
+  right: 24px;
+  z-index: 1080;
+  width: min(390px, calc(100vw - 32px));
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: #1a2d3f;
+  color: #f8fafc;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  animation: toast-enter 0.28s ease-out;
+}
+
+.admin-toast.toast-success {
+  border-left: 4px solid #5f9d73;
+}
+
+.admin-toast.toast-error {
+  border-left: 4px solid #c95f68;
+}
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-toast {
+    top: 76px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+  }
 }
