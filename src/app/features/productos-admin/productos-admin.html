@@ -1,12 +1,14 @@
 <section class="container-fluid px-0">
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
     <div>
+      <span class="section-eyebrow">Catálogo</span>
       <h1 class="h3 fw-bold mb-1">Productos</h1>
-
-      <p class="text-muted mb-0">Gestiona los productos disponibles en el catálogo</p>
+      <p class="text-muted mb-0">
+        Gestiona disponibilidad, stock y presentación del catálogo.
+      </p>
     </div>
 
-    <button type="button" class="btn btn-danger" (click)="abrirModalCrear()">
+    <button type="button" class="btn add-product-button" (click)="abrirModalCrear()">
       <i class="fas fa-plus me-2"></i>
       Agregar producto
     </button>
@@ -25,12 +27,82 @@
     </div>
   }
 
+  <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 g-3 mb-4">
+    <div class="col">
+      <div class="summary-card">
+        <div class="summary-icon summary-total">
+          <i class="fas fa-boxes-stacked"></i>
+        </div>
+        <div>
+          <span class="summary-label">Mostrados</span>
+          <strong class="summary-value">{{ productos.length }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="summary-card">
+        <div class="summary-icon summary-active">
+          <i class="fas fa-circle-check"></i>
+        </div>
+        <div>
+          <span class="summary-label">Activos</span>
+          <strong class="summary-value">{{ productosActivos }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="summary-card">
+        <div class="summary-icon summary-inactive">
+          <i class="fas fa-circle-pause"></i>
+        </div>
+        <div>
+          <span class="summary-label">Inactivos</span>
+          <strong class="summary-value">{{ productosInactivos }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="summary-card">
+        <div class="summary-icon summary-low">
+          <i class="fas fa-triangle-exclamation"></i>
+        </div>
+        <div>
+          <span class="summary-label">Stock bajo</span>
+          <strong class="summary-value">{{ productosStockBajo }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="summary-card">
+        <div class="summary-icon summary-empty">
+          <i class="fas fa-box-open"></i>
+        </div>
+        <div>
+          <span class="summary-label">Agotados</span>
+          <strong class="summary-value">{{ productosAgotados }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="card border-0 shadow-sm products-admin-card">
     <div class="card-header border-bottom p-4">
-      <div>
-        <h5 class="fw-bold mb-1">Lista de productos</h5>
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+        <div>
+          <h5 class="fw-bold mb-1">Lista de productos</h5>
+          <small class="text-muted">
+            Página {{ currentPage }} de {{ totalPages || 1 }} · {{ productos.length }} producto(s) mostrados
+          </small>
+        </div>
 
-        <small class="text-muted"> Productos mostrados: {{ productos.length }} </small>
+        <span class="catalog-hint">
+          <i class="fas fa-circle-info me-2"></i>
+          Los indicadores corresponden a esta página
+        </span>
       </div>
     </div>
 
@@ -38,7 +110,6 @@
       @if (isLoading) {
         <div class="text-center py-5">
           <div class="spinner-border text-danger" role="status"></div>
-
           <p class="text-muted small mt-3 mb-0">Cargando productos...</p>
         </div>
       } @else {
@@ -47,7 +118,6 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>Imagen</th>
                 <th>Producto</th>
                 <th>SKU</th>
                 <th>Precio</th>
@@ -60,34 +130,44 @@
             <tbody>
               @for (producto of productos; track producto.id; let i = $index) {
                 <tr>
-                  <td class="text-muted">
-                    {{ (currentPage - 1) * pageSize + i + 1 }}
-                  </td>
-
                   <td>
-                    @if (producto.imagen) {
-                      <img
-                        [src]="producto.imagen"
-                        [alt]="producto.nombre"
-                        class="product-admin-image"
-                      />
-                    } @else {
-                      <div
-                        class="product-admin-image  d-flex align-items-center justify-content-center"
-                      >
-                        <i class="fas fa-image text-muted"></i>
-                      </div>
-                    }
+                    <span class="product-index">
+                      {{ (currentPage - 1) * pageSize + i + 1 }}
+                    </span>
                   </td>
 
                   <td class="product-name-column">
-                    <strong class="d-block">
-                      {{ producto.nombre }}
-                    </strong>
+                    <div class="product-info">
+                      @if (producto.imagen) {
+                        <img
+                          [src]="producto.imagen"
+                          [alt]="producto.nombre"
+                          class="product-admin-image"
+                        />
+                      } @else {
+                        <div class="product-admin-image product-image-placeholder">
+                          <i class="fas fa-image"></i>
+                        </div>
+                      }
 
-                    <small class="text-muted">
-                      {{ producto.etiqueta || 'Sin etiqueta' }}
-                    </small>
+                      <div>
+                        <strong class="product-name">
+                          {{ producto.nombre }}
+                        </strong>
+
+                        <div class="product-meta">
+                          <span>
+                            {{ producto.etiqueta || 'Sin etiqueta' }}
+                          </span>
+
+                          @if (producto.descuento > 0) {
+                            <span class="discount-label">
+                              -{{ producto.descuento }}%
+                            </span>
+                          }
+                        </div>
+                      </div>
+                    </div>
                   </td>
 
                   <td>
@@ -97,63 +177,60 @@
                   </td>
 
                   <td>
-                    <strong class="d-block">
+                    <strong class="product-price">
                       {{ formatearPrecio(producto.precio) }}
                     </strong>
-
-                    @if (producto.descuento > 0) {
-                      <small class="text-danger"> -{{ producto.descuento }}% descuento </small>
-                    }
                   </td>
 
                   <td>
                     <span
-                      class="stock-badge "
+                      class="stock-badge"
                       [ngClass]="{
                         'stock-disponible': producto.stock > 10,
                         'stock-bajo': producto.stock > 0 && producto.stock <= 10,
                         'stock-agotado': producto.stock <= 0,
                       }"
                     >
+                      <i
+                        class="fas me-1"
+                        [ngClass]="{
+                          'fa-circle-check': producto.stock > 10,
+                          'fa-triangle-exclamation': producto.stock > 0 && producto.stock <= 10,
+                          'fa-circle-xmark': producto.stock <= 0,
+                        }"
+                      ></i>
                       {{ producto.stock }}
                     </span>
                   </td>
 
                   <td>
-                    @if (producto.estado === 'ACTIVO') {
-                      <span class="badge text-bg-success mb-2"> Activo </span>
+                    <div class="status-control">
+                      <span
+                        class="product-status"
+                        [class.status-active]="producto.estado === 'ACTIVO'"
+                        [class.status-inactive]="producto.estado !== 'ACTIVO'"
+                      >
+                        {{ producto.estado === 'ACTIVO' ? 'Activo' : 'Inactivo' }}
+                      </span>
 
-                      <div>
-                        <button
-                          type="button"
-                          class="btn btn-sm btn-outline-secondary"
-                          (click)="cambiarEstado(producto)"
-                          [disabled]="isLoading"
-                        >
-                          Desactivar
-                        </button>
-                      </div>
-                    } @else {
-                      <span class="badge text-bg-danger mb-2"> Inactivo </span>
-
-                      <div>
-                        <button
-                          type="button"
-                          class="btn btn-sm btn-outline-success"
-                          (click)="cambiarEstado(producto)"
-                          [disabled]="isLoading"
-                        >
-                          Activar
-                        </button>
-                      </div>
-                    }
+                      <button
+                        type="button"
+                        class="btn btn-sm status-action"
+                        [class.status-action-active]="producto.estado !== 'ACTIVO'"
+                        [class.status-action-inactive]="producto.estado === 'ACTIVO'"
+                        (click)="cambiarEstado(producto)"
+                        [disabled]="isLoading"
+                      >
+                        {{ producto.estado === 'ACTIVO' ? 'Desactivar' : 'Activar' }}
+                      </button>
+                    </div>
                   </td>
 
                   <td>
                     <div class="d-flex justify-content-end">
                       <button
                         type="button"
-                        class="btn btn-sm btn-light border"
+                        class="btn btn-sm edit-product-button"
                         (click)="abrirModalEditar(producto)"
                         [disabled]="isLoading"
                         title="Editar producto"
@@ -165,12 +242,14 @@
                 </tr>
               } @empty {
                 <tr>
-                  <td colspan="8" class="text-center py-5">
-                    <i class="fas fa-box-open fs-2 text-muted d-block mb-3"></i>
-
-                    <strong class="d-block"> No hay productos disponibles </strong>
-
-                    <small class="text-muted"> Los productos registrados aparecerán aquí. </small>
+                  <td colspan="7" class="text-center py-5">
+                    <div class="empty-products-icon mx-auto mb-3">
+                      <i class="fas fa-box-open"></i>
+                    </div>
+                    <strong class="d-block">No hay productos disponibles</strong>
+                    <small class="text-muted">
+                      Los productos registrados aparecerán aquí.
+                    </small>
                   </td>
                 </tr>
               }
