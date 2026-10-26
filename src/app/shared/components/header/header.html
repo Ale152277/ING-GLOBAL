@@ -1,13 +1,11 @@
-<header class="bg-white border-bottom py-3">
+<header class="py-3">
   <div class="container-fluid px-4">
     <div class="row align-items-center">
       <div class="col-lg-3 col-md-4 col-6">
         <a [routerLink]="['/']" class="d-flex align-items-center gap-3 text-decoration-none">
           <img src="/assets/logo.jpg" alt="INGENIERIA GLOBAL" class="logo-img" />
-
           <div class="d-none d-sm-block">
             <h6 class="mb-0 fw-bold text-dark">INGENIERIA GLOBAL</h6>
-
             <small class="text-muted"> Proyectos Integrales </small>
           </div>
         </a>
@@ -20,7 +18,6 @@
             placeholder="Buscar..."
             aria-label="Buscar"
           />
-
           <button class="btn btn-danger px-3" type="button" aria-label="Buscar productos">
             <i class="fas fa-magnifying-glass"></i>
           </button>
@@ -34,7 +31,7 @@
               class="header-action text-decoration-none d-flex align-items-center gap-2"
             >
               <div
-                class="header-icon-circle position-relative  rounded-circle d-flex align-items-center justify-content-center"
+                class="header-icon-circle position-relative rounded-circle d-flex align-items-center justify-content-center"
               >
                 <img src="/assets/cart-shop.png" alt="Carrito" class="header-action-img" />
 
@@ -46,15 +43,13 @@
                   </span>
                 }
               </div>
-
               <div class="d-none d-md-flex flex-column">
                 <span class="fw-semibold text-dark"> Mi carrito </span>
 
                 <small class="text-muted"> Ver carro </small>
               </div>
             </a>
-          }
-          @else if (!usuarioAutenticado) {
+          } @else if (!usuarioAutenticado) {
             <a
               [routerLink]="['/auth/login']"
               class="header-action text-decoration-none d-flex align-items-center gap-2"
@@ -163,9 +158,8 @@
                 </li>
               </ul>
             </div>
-          }
 
-          @else {
+          } @else {
             <a
               [routerLink]="['/auth/login']"
               class="header-action text-decoration-none d-none d-sm-flex align-items-center gap-2"
