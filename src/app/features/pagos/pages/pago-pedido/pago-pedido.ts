@@ -17,7 +17,7 @@ import { EstadoPago } from '../../components/estado-pago/estado-pago';
   styleUrl: './pago-pedido.css',
 })
 export class PagoPedido implements OnInit, OnDestroy {
-  ventaId: Number | null = null;
+  ventaId: number | null = null;
   pago: Pago | null = null;
   cargando = false;
   error = '';

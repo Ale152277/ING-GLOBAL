@@ -1,169 +1,146 @@
-<article class="pedido-card">
-  <div class="pedido-header">
+<article class="card mb-3 overflow-hidden">
+  <div class="d-flex justify-content-between align-items-start p-3">
     <div>
-      <p class="pedido-number">Pedido #{{ pedido.id }}</p>
-      <small>{{ formatearFecha(pedido.fechaVenta) }}</small>
+      <p class="fw-bold mb-0">Pedido #{{ pedido.id }}</p>
+      <small class="text-body-secondary">{{ formatearFecha(pedido.fechaVenta) }}</small>
     </div>
-
-    <strong class="pedido-total">{{ formatearPrecio(pedido.total) }}</strong>
+    <strong class="fs-5">{{ formatearPrecio(pedido.total) }}</strong>
   </div>
 
-  <div class="pedido-summary">
-    <div>
-      <small>Pedido</small>
-      <strong class="status-pill" [ngClass]="claseEstadoPedido(pedido.estado)">
+  <div class="row row-cols-2 row-cols-md-4 gy-3 mx-2 py-3 border-top border-bottom">
+    <div class="d-grid gap-1 align-content-start">
+      <small class="text-body-secondary">Pedido</small>
+      <span class="badge status-pill" [ngClass]="claseEstadoPedido(pedido.estado)">
         {{ nombreEstadoPedido(pedido.estado) }}
-      </strong>
+      </span>
     </div>
-
-    <div>
-      <small>Pago</small>
-      <strong class="status-pill" [ngClass]="claseEstadoPago(pedido.estadoPago)">
+    <div class="d-grid gap-1 align-content-start">
+      <small class="text-body-secondary">Pago</small>
+      <span class="badge status-pill" [ngClass]="claseEstadoPago(pedido.estadoPago)">
         {{ nombreEstadoPago(pedido.estadoPago) }}
-      </strong>
+      </span>
     </div>
-
-    <div>
-      <small>Método</small>
+    <div class="d-grid gap-1">
+      <small class="text-body-secondary">Método</small>
       <strong>{{ nombreMetodo(pedido.metodoPago) }}</strong>
     </div>
-
-    <div>
-      <small>Productos</small>
+    <div class="d-grid gap-1">
+      <small class="text-body-secondary">Productos</small>
       <strong>{{ cantidadProductos }}</strong>
     </div>
   </div>
 
-  <div class="pedido-actions">
+  <div class="d-flex justify-content-end flex-wrap gap-2 p-3">
     @if (pedido.estado === 'PENDIENTE' && pedido.estadoPago === 'PENDIENTE') {
-      <a class="btn btn-primary btn-sm" [routerLink]="['/pago', pedido.id]">
-        Continuar pago
-      </a>
+      <a class="btn btn-primary btn-sm" [routerLink]="['/pago', pedido.id]">Continuar pago</a>
     }
-
     <button type="button" class="btn btn-outline-primary btn-sm" (click)="toggleDetalle()">
       {{ expandido ? 'Ocultar detalles' : 'Ver detalles' }}
     </button>
   </div>
 
   @if (expandido) {
-    <div class="pedido-detail">
-      <div class="detail-grid">
-        <section>
-          <h3>Cliente</h3>
-          <dl>
-            <div>
+    <div class="pedido-detail bg-body-tertiary border-top p-3">
+      <div class="row g-3">
+        <section class="col-md-4">
+          <div class="card h-100 p-3">
+            <h3>Cliente</h3>
+            <dl>
               <dt>Nombre</dt>
               <dd>{{ pedido.nombreCliente }}</dd>
-            </div>
-            <div>
               <dt>Correo</dt>
               <dd>{{ pedido.emailCliente }}</dd>
-            </div>
-            <div>
               <dt>Teléfono</dt>
               <dd>{{ pedido.telefonoCliente || 'No registrado' }}</dd>
-            </div>
-          </dl>
+            </dl>
+          </div>
         </section>
 
-        <section>
-          <h3>Entrega</h3>
-          @if (pedido.direccionEntrega) {
-            <dl>
-              <div>
+        <section class="col-md-4">
+          <div class="card h-100 p-3">
+            <h3>Entrega</h3>
+            @if (pedido.direccionEntrega) {
+              <dl>
                 <dt>Receptor</dt>
                 <dd>{{ pedido.nombreReceptor || 'No registrado' }}</dd>
-              </div>
-              <div>
                 <dt>Teléfono</dt>
                 <dd>{{ pedido.telefonoEntrega || 'No registrado' }}</dd>
-              </div>
-              <div>
                 <dt>Dirección</dt>
                 <dd>{{ pedido.direccionEntrega }}</dd>
-              </div>
-              <div>
                 <dt>Referencia</dt>
                 <dd>{{ pedido.referenciaEntrega || 'Sin referencia' }}</dd>
-              </div>
-            </dl>
-          } @else {
-            <p class="detail-note">Este pedido no tiene datos de entrega registrados.</p>
-          }
+              </dl>
+            } @else {
+              <p class="small text-body-secondary mb-0">Este pedido no tiene datos de entrega registrados.</p>
+            }
+          </div>
         </section>
 
-        <section>
-          <h3>Pago</h3>
-
-          @if (cargandoPago) {
-            <p class="detail-note">Cargando información del pago...</p>
-          } @else if (pago) {
-            <dl>
-              <div>
+        <section class="col-md-4">
+          <div class="card h-100 p-3">
+            <h3>Pago</h3>
+            @if (cargandoPago) {
+              <p class="small text-body-secondary mb-0">Cargando información del pago...</p>
+            } @else if (pago) {
+              <dl>
                 <dt>Método</dt>
                 <dd>{{ nombreMetodo(pago.metodoPago) }}</dd>
-              </div>
-              <div>
                 <dt>Estado</dt>
                 <dd>{{ nombreEstadoPago(pago.estadoPago) }}</dd>
-              </div>
-              <div>
                 <dt>Comprobante enviado</dt>
                 <dd>{{ pago.fechaComprobante ? formatearFecha(pago.fechaComprobante) : 'No enviado' }}</dd>
-              </div>
-              @if (pago.fechaRevision) {
-                <div>
+                @if (pago.fechaRevision) {
                   <dt>Revisado</dt>
                   <dd>{{ formatearFecha(pago.fechaRevision) }}</dd>
+                }
+              </dl>
+
+              @if (pago.comprobanteEnviado) {
+                <button type="button" class="btn btn-outline-secondary btn-sm align-self-start" (click)="verComprobante()">
+                  Ver comprobante
+                </button>
+              }
+
+              @if (pago.estadoPago === 'RECHAZADO' && pago.motivoRechazo) {
+                <div class="alert alert-danger border-0 border-start border-3 border-danger py-2 mt-3 mb-0">
+                  <strong>Motivo del rechazo</strong>
+                  <p class="mb-0">{{ pago.motivoRechazo }}</p>
                 </div>
               }
-            </dl>
-
-            @if (pago.comprobanteEnviado) {
-              <button type="button" class="btn btn-outline-secondary btn-sm" (click)="verComprobante()">
-                Ver comprobante
-              </button>
+            } @else {
+              <p class="small text-body-secondary mb-0">No se encontró información de pago para este pedido.</p>
             }
 
-            @if (pago.estadoPago === 'RECHAZADO' && pago.motivoRechazo) {
-              <div class="rejection-note">
-                <strong>Motivo del rechazo</strong>
-                <p>{{ pago.motivoRechazo }}</p>
-              </div>
+            @if (errorPago) {
+              <p class="text-danger small mb-0 mt-2">{{ errorPago }}</p>
             }
-          } @else {
-            <p class="detail-note">No se encontró información de pago para este pedido.</p>
-          }
-
-          @if (errorPago) {
-            <p class="text-danger small mb-0 mt-2">{{ errorPago }}</p>
-          }
+          </div>
         </section>
       </div>
 
-      <section class="products-detail">
+      <section class="card p-3 mt-3">
         <h3>Productos</h3>
+        <div class="list-group list-group-flush">
+          @for (detalle of pedido.detalles; track detalle.id) {
+            <div class="list-group-item d-flex align-items-center gap-3 px-0">
+              @if (detalle.imagenProducto) {
+                <img class="thumb" [src]="detalle.imagenProducto" [alt]="detalle.nombreProducto" />
+              } @else {
+                <div class="thumb d-flex align-items-center justify-content-center text-center">Sin imagen</div>
+              }
 
-        @for (detalle of pedido.detalles; track detalle.id) {
-          <div class="product-line">
-            @if (detalle.imagenProducto) {
-              <img [src]="detalle.imagenProducto" [alt]="detalle.nombreProducto" />
-            } @else {
-              <div class="product-placeholder">Sin imagen</div>
-            }
+              <div class="flex-grow-1">
+                <strong class="d-block">{{ detalle.nombreProducto }}</strong>
+                <small class="text-body-secondary">SKU: {{ detalle.sku }} · Cantidad: {{ detalle.cantidad }}</small>
+              </div>
 
-            <div class="product-info">
-              <strong>{{ detalle.nombreProducto }}</strong>
-              <small>SKU: {{ detalle.sku }} · Cantidad: {{ detalle.cantidad }}</small>
+              <div class="text-end">
+                <small class="d-block text-body-secondary">{{ formatearPrecio(detalle.precioUnitario) }} c/u</small>
+                <strong>{{ formatearPrecio(detalle.subtotal) }}</strong>
+              </div>
             </div>
-
-            <div class="product-price">
-              <small>{{ formatearPrecio(detalle.precioUnitario) }} c/u</small>
-              <strong>{{ formatearPrecio(detalle.subtotal) }}</strong>
-            </div>
-          </div>
-        }
+          }
+        </div>
       </section>
     </div>
   }
