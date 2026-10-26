@@ -24,6 +24,12 @@ export class ProductoImagenInput {
 
   cambiarModo(modo: 'url' | 'archivo'): void {
     this.modo = modo;
+
+    if (modo === 'url') {
+      this.archivo = null;
+      this.previsualizacion = null;
+      this.emitirCambio();
+    }
   }
 
   actualizarUrl(event: Event): void {
