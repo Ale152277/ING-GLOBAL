@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductosService } from '../productos/services/productos.service';
-import { Producto } from '../productos/models/producto.model';
-import {
-  CrearProductoRequest,
-  EditarProductoRequest,
-} from '../productos/models/crearProductoRequest';
+import { Component, OnInit } from '@angular/core';
+
 import { Categoria } from '../../models/categoria.model';
 import { Marca } from '../../models/marca.model';
+import { Producto } from '../productos/models/producto.model';
 import { CategoriaService } from '../productos/services/categoria.service';
 import { MarcaService } from '../productos/services/marca.service';
-import { ProductoModal } from './components/producto-modal/producto-modal';
+import { ProductosService } from '../productos/services/productos.service';
+import {
+  ProductoGuardarEvento,
+  ProductoModal,
+} from './components/producto-modal/producto-modal';
+import { ProductoAdminService } from './services/producto-admin.service';
 
 @Component({
   selector: 'app-productos-admin',
@@ -20,9 +21,12 @@ import { ProductoModal } from './components/producto-modal/producto-modal';
 })
 export class ProductosAdmin implements OnInit {
   productos: Producto[] = [];
-  categoria: Categoria[] = [];
-  marca: Marca[] = [];
+  categorias: Categoria[] = [];
+  marcas: Marca[] = [];
+
   isLoading = false;
+  guardando = false;
+
   currentPage = 1;
   pageSize = 10;
   totalPages = 0;
@@ -30,27 +34,19 @@ export class ProductosAdmin implements OnInit {
   mostrarModal = false;
   isEditando = false;
   productoSeleccionado: Producto | null = null;
-  subiendoImagen = false;
+
   mensaje: { tipo: 'success' | 'danger' | 'info'; texto: string } | null = null;
 
   constructor(
-    private productoService: ProductosService,
+    private productosService: ProductosService,
     private categoriaService: CategoriaService,
     private marcaService: MarcaService,
+    private productoAdminService: ProductoAdminService,
   ) {}
 
   ngOnInit(): void {
     this.cargarProductos();
-    this.cargarCategorias();
-    this.cargarMarcas();
-  }
-
-  get productosActivos(): number {
-    return this.productos.filter((producto) => producto.estado === 'ACTIVO').length;
-  }
-
-  get productosInactivos(): number {
-    return this.productos.filter((producto) => producto.estado === 'INACTIVO').length;
+    this.cargarCatalogos();
   }
 
   get productosStockBajo(): number {
@@ -65,33 +61,19 @@ export class ProductosAdmin implements OnInit {
 
   cargarProductos(): void {
     this.isLoading = true;
-    this.productoService.obtenerTodosParaAdmin(this.currentPage, this.pageSize).subscribe({
+
+    this.productosService.obtenerTodosParaAdmin(this.currentPage, this.pageSize).subscribe({
       next: (response) => {
         if (response.success && response.data) {
           this.productos = response.data.content;
           this.totalPages = response.data.totalPages;
         }
+
         this.isLoading = false;
       },
       error: () => {
-        this.mostrarMensaje('danger', 'Error al cargar productos.');
         this.isLoading = false;
-      },
-    });
-  }
-
-  cargarMarcas(): void {
-    this.marcaService.obtenerTodas().subscribe({
-      next: (response) => {
-        if (response.success && response.data) this.marca = response.data;
-      },
-    });
-  }
-
-  cargarCategorias(): void {
-    this.categoriaService.obtenerTodas().subscribe({
-      next: (response) => {
-        if (response.success && response.data) this.categoria = response.data;
+        this.mostrarMensaje('danger', 'Error al cargar productos.');
       },
     });
   }
@@ -109,122 +91,72 @@ export class ProductosAdmin implements OnInit {
   }
 
   cerrarModal(): void {
+    if (this.guardando) {
+      return;
+    }
+
     this.mostrarModal = false;
     this.productoSeleccionado = null;
   }
 
-  ejecutarGuardado(evento: {
-    values: any;
-    modoImagen: string;
-    archivoSeleccionado: File | null;
-  }): void {
-    if (evento.modoImagen === 'archivo' && evento.archivoSeleccionado) {
-      this.subiendoImagen = true;
-      this.productoService.subirImagen(evento.archivoSeleccionado).subscribe({
+  ejecutarGuardado(evento: ProductoGuardarEvento): void {
+    this.guardando = true;
+
+    this.productoAdminService
+      .guardar(this.productoSeleccionado, evento.request, evento.archivo)
+      .subscribe({
         next: (response) => {
-          this.subiendoImagen = false;
-          if (response.success && response.data) {
-            evento.values.imagen = response.data;
-            this.enviarDatosBackend(evento.values);
+          this.guardando = false;
+
+          if (!response.success) {
+            return;
           }
+
+          this.mostrarMensaje(
+            'success',
+            this.isEditando
+              ? 'Producto actualizado exitosamente.'
+              : 'Producto creado exitosamente.',
+          );
+
+          this.cerrarModal();
+          this.cargarProductos();
         },
         error: (error) => {
-          this.subiendoImagen = false;
-          this.mostrarMensaje('danger', error.error?.message || 'Error al subir la imagen');
+          this.guardando = false;
+          this.mostrarMensaje(
+            'danger',
+            error?.error?.message || error?.message || 'No se pudo guardar el producto.',
+          );
         },
       });
-    } else {
-      this.enviarDatosBackend(evento.values);
-    }
-  }
-
-  private enviarDatosBackend(datosFormulario: any): void {
-    const datosBase: CrearProductoRequest = {
-      nombre: datosFormulario.nombre,
-      sku: datosFormulario.sku,
-      precio: parseFloat(datosFormulario.precio),
-      categoriaId: parseInt(datosFormulario.categoriaId),
-      categoriaNombre: datosFormulario.categoriaNombre,
-      marcaId: datosFormulario.marcaId ? parseInt(datosFormulario.marcaId) : undefined,
-      marcaNombre: datosFormulario.marcaNombre,
-      descripcion: datosFormulario.descripcion || undefined,
-      stock: datosFormulario.stock ? parseInt(datosFormulario.stock) : 0,
-      descuento: datosFormulario.descuento ? parseInt(datosFormulario.descuento) : 0,
-      etiqueta: datosFormulario.etiqueta || undefined,
-      imagen: datosFormulario.imagen || undefined,
-      rating: datosFormulario.rating ? parseFloat(datosFormulario.rating) : undefined,
-    };
-
-    if (this.isEditando && this.productoSeleccionado) {
-      const datosEditar: EditarProductoRequest = { ...datosBase, id: this.productoSeleccionado.id };
-      this.productoService.editarProducto(this.productoSeleccionado.id, datosEditar).subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.mostrarMensaje('success', 'Producto actualizado exitosamente');
-            this.cerrarModal();
-            this.cargarProductos();
-          }
-        },
-        error: (error) =>
-          this.mostrarMensaje('danger', error.error?.message || 'Error al actualizar el producto'),
-      });
-    } else {
-      this.productoService.crearProducto(datosBase).subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.mostrarMensaje('success', 'Producto creado exitosamente');
-            this.cerrarModal();
-            this.cargarProductos();
-          }
-        },
-        error: (error) =>
-          this.mostrarMensaje('danger', error.error?.message || 'Error al crear el producto'),
-      });
-    }
   }
 
   cambiarEstado(producto: Producto): void {
-    const nuevoEstado = producto.estado === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO';
-    const accion = producto.estado === 'ACTIVO' ? 'Desactivar' : 'Activar';
+    const accion = producto.estado === 'ACTIVO' ? 'desactivar' : 'activar';
 
-    if (!confirm(`¿${accion} el producto "${producto.nombre}"?`)) return;
+    if (!confirm(`¿Deseas ${accion} el producto "${producto.nombre}"?`)) {
+      return;
+    }
 
-    this.productoService.cambiarEstado(producto.id, nuevoEstado).subscribe({
+    this.productoAdminService.cambiarEstado(producto).subscribe({
       next: (response) => {
         if (response.success) {
-          this.mostrarMensaje('success', `Producto ${nuevoEstado.toLowerCase()}`);
+          this.mostrarMensaje('success', 'Estado del producto actualizado.');
           this.cargarProductos();
         }
       },
-      error: () => this.mostrarMensaje('danger', 'Error al cambiar estado'),
+      error: () => this.mostrarMensaje('danger', 'No se pudo cambiar el estado.'),
     });
-  }
-
-  eliminarProducto(producto: Producto): void {
-    if (!confirm(`¿Estás seguro de que deseas eliminar el producto "${producto.nombre}"?`)) return;
-
-    this.productoService.eliminarProducto(producto.id).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.mostrarMensaje('success', 'Producto eliminado exitosamente');
-          this.cargarProductos();
-        }
-      },
-      error: (error) =>
-        this.mostrarMensaje('danger', error.error?.message || 'Error al eliminar el producto'),
-    });
-  }
-
-  mostrarMensaje(tipo: 'success' | 'danger' | 'info', texto: string): void {
-    this.mensaje = { tipo, texto };
-    setTimeout(() => (this.mensaje = null), 3000);
   }
 
   cambiarPagina(nuevaPagina: number): void {
-    if (nuevaPagina > 0 && nuevaPagina <= this.totalPages) {
-      this.currentPage = nuevaPagina;
-      this.cargarProductos();
+    if (nuevaPagina < 1 || nuevaPagina > this.totalPages) {
+      return;
     }
+
+    this.currentPage = nuevaPagina;
+    this.cargarProductos();
   }
 
   formatearPrecio(precio: number): string {
@@ -232,5 +164,28 @@ export class ProductosAdmin implements OnInit {
       style: 'currency',
       currency: 'PEN',
     }).format(precio);
+  }
+
+  mostrarMensaje(tipo: 'success' | 'danger' | 'info', texto: string): void {
+    this.mensaje = { tipo, texto };
+    setTimeout(() => (this.mensaje = null), 3000);
+  }
+
+  private cargarCatalogos(): void {
+    this.categoriaService.obtenerTodas().subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this.categorias = response.data;
+        }
+      },
+    });
+
+    this.marcaService.obtenerTodas().subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this.marcas = response.data;
+        }
+      },
+    });
   }
 }
