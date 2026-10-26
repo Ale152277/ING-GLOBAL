@@ -1,87 +1,81 @@
-.producto-modal {
-  border: 1px solid var(--color-admin-border);
-  border-radius: 12px;
-  overflow: hidden;
+.product-modal-backdrop {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.62);
+}
 
+.producto-modal {
+  overflow: hidden;
   color: var(--color-admin-text);
   background-color: var(--color-admin-surface);
+  border: 1px solid var(--color-admin-border);
+  border-radius: 12px;
+}
+
+.producto-modal-header,
+.producto-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background-color: var(--color-admin-background);
 }
 
 .producto-modal-header {
-  padding: 1.25rem 1.5rem;
-
-  border-bottom: 0;
-
-  background-color: var(--color-admin-sidebar);
-  color: var(--color-admin-sidebar-text);
+  border-bottom: 1px solid var(--color-admin-border);
 }
 
-.producto-modal-subtitle {
-  color: var(--color-admin-sidebar-muted);
+.producto-modal-header h5 {
+  color: #fff;
 }
 
-.producto-modal-icon {
-  width: 44px;
-  height: 44px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  border-radius: 10px;
-
-  background-color: var(--color-admin-sidebar-active);
-  color: white;
-
-  font-size: 1.1rem;
+.producto-modal-header small {
+  color: var(--color-admin-muted);
 }
 
 .producto-modal-body {
+  display: grid;
+  gap: 1.25rem;
   padding: 1.5rem;
-  background-color: var(--color-admin-surface);
 }
 
-.producto-modal-body .form-label {
-  margin-bottom: 0.4rem;
-  font-weight: 600;
+.form-section {
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-admin-border);
+}
+
+.form-section h6 {
+  margin-bottom: 0.9rem;
+  color: #f8fafc;
+  font-weight: 700;
+}
+
+.producto-modal .form-label {
+  margin-bottom: 0.35rem;
   color: #cbd5e1;
+  font-size: 0.78rem;
+  font-weight: 600;
 }
+
+.producto-modal .form-control,
+.producto-modal .form-select {
+  min-height: 40px;
+  color: #e5e7eb;
+  background-color: var(--color-admin-background);
+  border-color: var(--color-admin-border);
+}
+
+.producto-modal .form-control:focus,
+.producto-modal .form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: none;
+}
+
+.producto-modal textarea.form-control {
+  min-height: 90px;
+}
+
 .producto-modal-footer {
-  padding: 1rem 1.5rem;
+  justify-content: flex-end;
+  gap: 0.75rem;
   border-top: 1px solid var(--color-admin-border);
-  background-color: var(--color-admin-background);
-}
-
-.producto-modal-body .form-control,
-.producto-modal-body .form-select {
-  min-height: 42px;
-
-  border-color: var(--color-admin-border);
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.producto-modal-body textarea.form-control {
-  min-height: auto;
-}
-
-.producto-modal-body .form-control:focus,
-.producto-modal-body .form-select:focus {
-  border-color: var(--color-admin-sidebar-active);
-
-  box-shadow: 0 0 0 0.2rem var(--color-admin-sidebar-active-shadow);
-}
-
-.producto-modal-body .input-group-text {
-  border-color: var(--color-admin-border);
-
-  background-color: var(--color-admin-background);
-}
-
-.producto-modal-body .btn-group .btn {
-  min-width: 120px;
 }
