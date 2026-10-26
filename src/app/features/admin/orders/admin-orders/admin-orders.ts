@@ -68,6 +68,22 @@ export class AdminOrders implements OnInit {
     });
   }
 
+  get totalPendientes(): number {
+    return this.pedidos.filter((pedido) => pedido.estado === 'PENDIENTE').length;
+  }
+
+  get totalConfirmados(): number {
+    return this.pedidos.filter((pedido) => pedido.estado === 'CONFIRMADA').length;
+  }
+
+  get totalCompletados(): number {
+    return this.pedidos.filter((pedido) => pedido.estado === 'COMPLETA').length;
+  }
+
+  get totalCancelados(): number {
+    return this.pedidos.filter((pedido) => pedido.estado === 'CANCELADA').length;
+  }
+
   verPedido(id: number): void {
     this.cargandoDetalle = true;
 
@@ -191,6 +207,19 @@ export class AdminOrders implements OnInit {
         return 'estado-cancelada';
       default:
         return '';
+    }
+  }
+
+  obtenerNombreEstadoPedido(estado: EstadoPedidoAdmin): string {
+    switch (estado) {
+      case 'PENDIENTE':
+        return 'Pendiente';
+      case 'CONFIRMADA':
+        return 'Confirmada';
+      case 'COMPLETA':
+        return 'Completada';
+      case 'CANCELADA':
+        return 'Cancelada';
     }
   }
 

@@ -1,13 +1,17 @@
 <section class="container-fluid px-0">
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
     <div>
+      <span class="section-eyebrow">Administración</span>
       <h1 class="h3 fw-bold mb-1">Pedidos</h1>
-      <p class="text-muted mb-0">Gestiona los pedidos realizados por los clientes</p>
+      <p class="text-muted mb-0">
+        Gestiona el avance de los pedidos y valida su situación de pago.
+      </p>
     </div>
 
-    <span class="text-muted small">
-      {{ pedidosFiltrados.length }} de {{ pedidos.length }} pedidos
-    </span>
+    <div class="orders-count">
+      <span class="orders-count-value">{{ pedidosFiltrados.length }}</span>
+      <span class="orders-count-label">mostrados de {{ pedidos.length }}</span>
+    </div>
   </div>
 
   @if (error) {
@@ -17,8 +21,80 @@
     </div>
   }
 
+  <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 g-3 mb-4">
+    <div class="col">
+      <div class="summary-card">
+        <div class="summary-icon summary-total">
+          <i class="fas fa-receipt"></i>
+        </div>
+        <div>
+          <span class="summary-label">Total</span>
+          <strong class="summary-value">{{ pedidos.length }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="summary-card">
+        <div class="summary-icon summary-pending">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div>
+          <span class="summary-label">Pendientes</span>
+          <strong class="summary-value">{{ totalPendientes }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="summary-card">
+        <div class="summary-icon summary-confirmed">
+          <i class="fas fa-box"></i>
+        </div>
+        <div>
+          <span class="summary-label">Confirmados</span>
+          <strong class="summary-value">{{ totalConfirmados }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="summary-card">
+        <div class="summary-icon summary-completed">
+          <i class="fas fa-circle-check"></i>
+        </div>
+        <div>
+          <span class="summary-label">Completados</span>
+          <strong class="summary-value">{{ totalCompletados }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="summary-card">
+        <div class="summary-icon summary-cancelled">
+          <i class="fas fa-ban"></i>
+        </div>
+        <div>
+          <span class="summary-label">Cancelados</span>
+          <strong class="summary-value">{{ totalCancelados }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="card border-0 shadow-sm filters-card mb-4">
-    <div class="card-body">
+    <div class="card-body p-4">
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <div class="filter-heading-icon">
+          <i class="fas fa-sliders"></i>
+        </div>
+        <div>
+          <h2 class="h6 fw-bold mb-0">Filtros</h2>
+          <small class="text-muted">Acota la lista según el estado y la fecha del pedido.</small>
+        </div>
+      </div>
+
       <div class="row g-3 align-items-end">
         <div class="col-12 col-md-3">
           <label class="form-label">Estado del pedido</label>
@@ -56,12 +132,13 @@
 
         <div class="col-12 col-md-2">
           <button type="button" class="btn btn-outline-secondary w-100" (click)="limpiarFiltros()">
+            <i class="fas fa-rotate-left me-2"></i>
             Restablecer
           </button>
         </div>
 
         <div class="col-12">
-          <div class="form-check">
+          <div class="form-check filter-check">
             <input
               id="ocultarExpirados"
               class="form-check-input"
@@ -79,13 +156,17 @@
 
   <div class="card border-0 shadow-sm orders-card">
     <div class="card-header border-bottom p-4">
-      <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
         <div>
           <h5 class="fw-bold mb-1">Lista de pedidos</h5>
           <small class="text-muted">
-            Revisa el estado operativo y el estado de pago de cada pedido
+            Estado operativo y situación de pago en una sola vista.
           </small>
         </div>
+
+        <span class="table-result-count">
+          {{ pedidosFiltrados.length }} resultado(s)
+        </span>
       </div>
     </div>
 
@@ -102,11 +183,10 @@
               <tr>
                 <th>Pedido</th>
                 <th>Cliente</th>
-                <th>Contacto</th>
                 <th>Fecha</th>
                 <th>Total</th>
-                <th>Pedido</th>
-                <th>Pago</th>
+                <th>Estado pedido</th>
+                <th>Estado pago</th>
                 <th class="text-end">Acciones</th>
               </tr>
             </thead>
@@ -115,29 +195,41 @@
               @for (pedido of pedidosFiltrados; track pedido.id) {
                 <tr>
                   <td>
-                    <span class="fw-bold">#{{ pedido.id }}</span>
+                    <span class="order-id">#{{ pedido.id }}</span>
+                  </td>
+
+                  <td class="customer-column">
+                    <strong class="d-block customer-name">{{ pedido.cliente }}</strong>
+
+                    <div class="customer-contact">
+                      <span>
+                        <i class="fas fa-envelope me-1"></i>
+                        {{ pedido.email }}
+                      </span>
+
+                      @if (pedido.telefono) {
+                        <span>
+                          <i class="fas fa-phone me-1"></i>
+                          {{ pedido.telefono }}
+                        </span>
+                      }
+                    </div>
                   </td>
 
                   <td>
-                    <strong class="d-block">{{ pedido.cliente }}</strong>
-                    <small class="text-muted">{{ pedido.email }}</small>
-                  </td>
-
-                  <td class="text-muted">
-                    {{ pedido.telefono || 'No registrado' }}
-                  </td>
-
-                  <td class="text-muted">
-                    {{ formatearFecha(pedido.fechaVenta) }}
+                    <span class="order-date">{{ formatearFecha(pedido.fechaVenta) }}</span>
                   </td>
 
                   <td>
-                    <strong>{{ formatearPrecio(pedido.total) }}</strong>
+                    <strong class="order-total">{{ formatearPrecio(pedido.total) }}</strong>
                   </td>
 
                   <td>
-                    <span class="estado-badge" [class]="'estado-badge ' + obtenerClaseEstado(pedido.estado)">
-                      {{ pedido.estado }}
+                    <span
+                      class="estado-badge"
+                      [class]="'estado-badge ' + obtenerClaseEstado(pedido.estado)"
+                    >
+                      {{ obtenerNombreEstadoPedido(pedido.estado) }}
                     </span>
                   </td>
 
@@ -151,11 +243,12 @@
                   </td>
 
                   <td>
-                    <div class="d-flex justify-content-end align-items-center gap-2">
+                    <div class="d-flex justify-content-end align-items-center gap-2 action-group">
                       <button
                         type="button"
-                        class="btn btn-sm btn-light border"
+                        class="btn btn-sm order-action view-action"
                         (click)="verPedido(pedido.id)"
+                        [disabled]="cargandoDetalle"
                         title="Ver detalle"
                       >
                         <i class="fas fa-eye"></i>
@@ -164,15 +257,16 @@
                       @if (pedido.estado === 'PENDIENTE') {
                         <button
                           type="button"
-                          class="btn btn-sm btn-success"
+                          class="btn btn-sm order-action positive-action"
                           (click)="cambiarEstado(pedido, 'CONFIRMADA')"
                         >
+                          <i class="fas fa-check me-1"></i>
                           Confirmar
                         </button>
 
                         <button
                           type="button"
-                          class="btn btn-sm btn-outline-danger"
+                          class="btn btn-sm order-action cancel-action"
                           (click)="cambiarEstado(pedido, 'CANCELADA')"
                         >
                           Cancelar
@@ -182,15 +276,16 @@
                       @if (pedido.estado === 'CONFIRMADA') {
                         <button
                           type="button"
-                          class="btn btn-sm btn-success"
+                          class="btn btn-sm order-action positive-action"
                           (click)="cambiarEstado(pedido, 'COMPLETA')"
                         >
+                          <i class="fas fa-check-double me-1"></i>
                           Completar
                         </button>
 
                         <button
                           type="button"
-                          class="btn btn-sm btn-outline-danger"
+                          class="btn btn-sm order-action cancel-action"
                           (click)="cambiarEstado(pedido, 'CANCELADA')"
                         >
                           Cancelar
@@ -198,7 +293,10 @@
                       }
 
                       @if (pedido.estado === 'COMPLETA' || pedido.estado === 'CANCELADA') {
-                        <span class="text-muted small text-nowrap">Sin acciones</span>
+                        <span class="closed-order-label">
+                          <i class="fas fa-lock me-1"></i>
+                          Cerrado
+                        </span>
                       }
                     </div>
                   </td>
@@ -206,7 +304,7 @@
               } @empty {
                 <tr>
                   <td colspan="8" class="text-center py-5">
-                    <i class="fas text-muted fs-2 d-block mb-3"></i>
+                    <i class="fas fa-box-open text-muted fs-2 d-block mb-3"></i>
                     <strong class="d-block">No hay pedidos para estos filtros</strong>
                     <small class="text-muted">
                       Ajusta los filtros para consultar otros pedidos.
