@@ -1,19 +1,46 @@
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, throwError } from 'rxjs';
+import { forkJoin, map, Observable, switchMap, throwError } from 'rxjs';
 
-import { ApiResponse } from '../../../shared/models/api-response.model';
+import { Categoria } from '../../../models/categoria.model';
+import { Marca } from '../../../models/marca.model';
+import { ApiResponse, PageResponse } from '../../../shared/models/api-response.model';
 import {
   CrearProductoRequest,
   EditarProductoRequest,
 } from '../../productos/models/crearProductoRequest';
 import { Producto } from '../../productos/models/producto.model';
+import { CategoriaService } from '../../productos/services/categoria.service';
+import { MarcaService } from '../../productos/services/marca.service';
 import { ProductosService } from '../../productos/services/productos.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductoAdminService {
-  constructor(private productosService: ProductosService) {}
+  constructor(
+    private productosService: ProductosService,
+    private categoriaService: CategoriaService,
+    private marcaService: MarcaService,
+  ) {}
+
+  obtenerProductos(
+    page: number,
+    size: number,
+  ): Observable<ApiResponse<PageResponse<Producto>>> {
+    return this.productosService.obtenerTodosParaAdmin(page, size);
+  }
+
+  obtenerCatalogos(): Observable<{ categorias: Categoria[]; marcas: Marca[] }> {
+    return forkJoin({
+      categorias: this.categoriaService.obtenerTodas(),
+      marcas: this.marcaService.obtenerTodas(),
+    }).pipe(
+      map(({ categorias, marcas }) => ({
+        categorias: categorias.data ?? [],
+        marcas: marcas.data ?? [],
+      })),
+    );
+  }
 
   guardar(
     producto: Producto | null,
