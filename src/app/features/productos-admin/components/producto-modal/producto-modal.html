@@ -1,283 +1,193 @@
-<div
-  class="modal fade show"
-  style="display: block; background-color: rgba(0, 0, 0, 0.5)"
-  tabindex="-1"
-  role="dialog"
->
+<div class="modal fade show product-modal-backdrop" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content producto-modal">
-      <div class="modal-header producto-modal-header">
-        <div class="d-flex align-items-center gap-3">
-          <div class="producto-modal-icon">
-            <i class="fas" [ngClass]="isEditando ? 'fa-pen-to-square' : 'fa-box-open'"></i>
-          </div>
+      <header class="producto-modal-header">
+        <div>
+          <h5 class="mb-1">
+            {{ isEditando ? 'Editar producto' : 'Agregar producto' }}
+          </h5>
 
-          <div>
-            <h5 class="modal-title fw-bold mb-0">
-              {{ isEditando ? 'Editar producto' : 'Agregar producto' }}
-            </h5>
-
-            <small class="producto-modal-subtitle">
-              {{
-                isEditando
-                  ? 'Actualiza la información del producto'
-                  : 'Registra un nuevo producto en el catálogo'
-              }}
-            </small>
-          </div>
+          <small>
+            {{
+              isEditando
+                ? 'Actualiza la información del producto.'
+                : 'Registra un nuevo producto en el catálogo.'
+            }}
+          </small>
         </div>
 
         <button type="button" class="btn-close btn-close-white" (click)="cerrar.emit()"></button>
-      </div>
+      </header>
 
-      <div class="modal-body producto-modal-body">
-        <form [formGroup]="productoForm">
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="nombre" class="form-label"
-                ><i class="fas fa-toolbox me-1"></i>Producto</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="nombre"
-                formControlName="nombre"
-                [class.is-invalid]="esValido('nombre')"
-                placeholder="Nombre del producto"
-              />
-              @if (esValido('nombre')) {
-                <small class="form-text text-danger"
-                  ><i class="fas fa-exclamation-triangle me-1"></i>El nombre es requerido (mínimo 8
-                  caracteres)</small
-                >
-              }
-            </div>
+      <form [formGroup]="productoForm" (ngSubmit)="onGuardar()">
+        <div class="producto-modal-body">
+          <section class="form-section">
+            <h6>Información principal</h6>
 
-            <div class="col-md-6 mb-3">
-              <label for="sku" class="form-label"><i class="fas fa-barcode me-1"></i>SKU</label>
-              <input
-                type="text"
-                class="form-control"
-                id="sku"
-                formControlName="sku"
-                [class.is-invalid]="esValido('sku')"
-                placeholder="Código único"
-              />
-              @if (esValido('sku')) {
-                <small class="form-text text-danger"
-                  ><i class="fas fa-exclamation-triangle me-1"></i>El SKU es requerido</small
-                >
-              }
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <label for="precio" class="form-label"
-                ><i class="fas fa-coins me-1"></i>Precio (S/.)</label
-              >
-              <input
-                type="number"
-                step="0.01"
-                class="form-control"
-                id="precio"
-                formControlName="precio"
-                [class.is-invalid]="esValido('precio')"
-                placeholder="0.00"
-              />
-              @if (esValido('precio')) {
-                <small class="form-text text-danger"
-                  ><i class="fas fa-exclamation-triangle me-1"></i>El precio es requerido</small
-                >
-              }
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <label for="stock" class="form-label"
-                ><i class="fas fa-box-open me-1"></i>Stock</label
-              >
-              <input
-                type="number"
-                class="form-control"
-                id="stock"
-                formControlName="stock"
-                [class.is-invalid]="esValido('stock')"
-                placeholder="0"
-              />
-              @if (esValido('stock')) {
-                <small class="form-text text-danger"
-                  ><i class="fas fa-exclamation-triangle me-1"></i>El stock es requerido</small
-                >
-              }
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <label for="categoriaId" class="form-label"
-                ><i class="fas fa-layer-group me-1"></i>Categoría</label
-              >
-              <select
-                class="form-select"
-                id="categoriaId"
-                formControlName="categoriaId"
-                [class.is-invalid]="esValido('categoriaId')"
-              >
-                <option value="">Seleccionar categoria</option>
-                @for (c of categorias; track c.id) {
-                  <option value="{{ c.id }}">{{ c.nombre }}</option>
-                }
-              </select>
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <label for="marcaId" class="form-label"
-                ><i class="fas fa-copyright me-1"></i>Marca</label
-              >
-              <select class="form-select" id="marcaId" formControlName="marcaId">
-                <option value="">Seleccionar marca</option>
-                @for (m of marcas; track m.id) {
-                  <option value="{{ m.id }}">{{ m.nombre }}</option>
-                }
-              </select>
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <label for="descuento" class="form-label"
-                ><i class="fas fa-percent me-1"></i>Descuento (%)</label
-              >
-              <input
-                type="number"
-                class="form-control"
-                id="descuento"
-                min="0"
-                max="100"
-                formControlName="descuento"
-                placeholder="0"
-              />
-            </div>
-
-            <div class="col-md-6 mb-3">
-              <label for="rating" class="form-label"><i class="fas fa-star me-1"></i>Rating</label>
-              <input
-                type="number"
-                step="0.1"
-                class="form-control"
-                id="rating"
-                min="0"
-                max="5"
-                formControlName="rating"
-                placeholder="0.0"
-              />
-            </div>
-
-            <div class="col-md-12 mb-3">
-              <label for="etiqueta" class="form-label"
-                ><i class="fas fa-tag me-1"></i>Etiqueta</label
-              >
-              <select class="form-select" id="etiqueta" formControlName="etiqueta">
-                @for (et of etiquetasDisponibles; track et) {
-                  <option [value]="et">{{ et | titlecase }}</option>
-                }
-              </select>
-            </div>
-
-            <div class="col-md-12 mb-3">
-              <label for="descripcion" class="form-label"
-                ><i class="fas fa-align-left me-1"></i>Descripción</label
-              >
-              <textarea
-                class="form-control"
-                id="descripcion"
-                rows="3"
-                formControlName="descripcion"
-                placeholder="Descripción del producto"
-              ></textarea>
-            </div>
-
-            <div class="col-md-12 mb-2">
-              <div class="btn-group" role="group">
-                <button
-                  type="button"
-                  class="btn btn-sm"
-                  [ngClass]="modoImagen === 'url' ? 'btn-danger' : 'btn-outline-danger'"
-                  (click)="modoImagen = 'url'"
-                >
-                  <i class="fas fa-link me-1"></i>URL
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-sm"
-                  [ngClass]="modoImagen === 'archivo' ? 'btn-danger' : 'btn-outline-danger'"
-                  (click)="modoImagen = 'archivo'"
-                >
-                  <i class="fas fa-upload me-1"></i>Subir imagen
-                </button>
-              </div>
-            </div>
-
-            @if (modoImagen === 'url') {
-              <div class="col-md-12 mb-3">
-                <label for="imagen" class="form-label"
-                  ><i class="fas fa-image me-1"></i>URL de la Imagen</label
-                >
+            <div class="row g-3">
+              <div class="col-md-8">
+                <label for="nombre" class="form-label">Producto</label>
                 <input
+                  id="nombre"
                   type="text"
                   class="form-control"
-                  id="imagen"
-                  formControlName="imagen"
-                  placeholder="https://ejemplo.com/imagen.jpg"
+                  formControlName="nombre"
+                  [class.is-invalid]="esValido('nombre')"
+                  placeholder="Nombre del producto"
                 />
-              </div>
-            } @else {
-              <div class="col-md-12 mb-3">
-                <label class="form-label"
-                  ><i class="fas fa-upload me-1"></i>Subir imagen (JPG, JPEG, PNG)</label
-                >
-                <input
-                  type="file"
-                  class="form-control"
-                  accept="image/jpeg,image/jpg,image/png"
-                  (change)="onArchivoSeleccionado($event)"
-                />
-                @if (previsualizacionImagen) {
-                  <div class="mt-2">
-                    <img
-                      [src]="previsualizacionImagen"
-                      alt="Previsualización"
-                      style="max-height: 150px; border-radius: 8px"
-                    />
-                  </div>
+                @if (esValido('nombre')) {
+                  <small class="text-danger">Mínimo 3 caracteres.</small>
                 }
               </div>
-            }
-          </div>
-        </form>
-      </div>
 
-      <div class="modal-footer producto-modal-footer">
-        <button
-          type="button"
-          class="btn btn-outline-secondary"
-          [disabled]="bloqueado"
-          (click)="cerrar.emit()"
-        >
-          Cancelar
-        </button>
+              <div class="col-md-4">
+                <label for="sku" class="form-label">SKU</label>
+                <input
+                  id="sku"
+                  type="text"
+                  class="form-control"
+                  formControlName="sku"
+                  [class.is-invalid]="esValido('sku')"
+                  placeholder="Código único"
+                />
+                @if (esValido('sku')) {
+                  <small class="text-danger">El SKU es obligatorio.</small>
+                }
+              </div>
 
-        <button
-          type="button"
-          class="btn btn-danger px-4"
-          (click)="onGuardar()"
-          [disabled]="!productoForm.valid || bloqueado"
-        >
-          @if (bloqueado) {
-            <span class="spinner-border spinner-border-sm me-2"></span>
-            Guardando...
-          } @else {
-            <i class="fas me-2" [ngClass]="isEditando ? 'fa-save' : 'fa-plus'"></i>
+              <div class="col-md-4">
+                <label for="precio" class="form-label">Precio (S/)</label>
+                <input
+                  id="precio"
+                  type="number"
+                  step="0.01"
+                  class="form-control"
+                  formControlName="precio"
+                  [class.is-invalid]="esValido('precio')"
+                />
+              </div>
 
-            {{ isEditando ? 'Guardar cambios' : 'Agregar producto' }}
-          }
-        </button>
-      </div>
+              <div class="col-md-4">
+                <label for="stock" class="form-label">Stock</label>
+                <input
+                  id="stock"
+                  type="number"
+                  class="form-control"
+                  formControlName="stock"
+                  [class.is-invalid]="esValido('stock')"
+                />
+              </div>
+
+              <div class="col-md-4">
+                <label for="descuento" class="form-label">Descuento (%)</label>
+                <input
+                  id="descuento"
+                  type="number"
+                  min="0"
+                  max="100"
+                  class="form-control"
+                  formControlName="descuento"
+                />
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <h6>Clasificación</h6>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="categoriaId" class="form-label">Categoría</label>
+                <select
+                  id="categoriaId"
+                  class="form-select"
+                  formControlName="categoriaId"
+                  [class.is-invalid]="esValido('categoriaId')"
+                >
+                  <option value="">Seleccionar categoría</option>
+                  @for (categoria of categorias; track categoria.id) {
+                    <option [value]="categoria.id">{{ categoria.nombre }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label for="marcaId" class="form-label">Marca</label>
+                <select id="marcaId" class="form-select" formControlName="marcaId">
+                  <option value="">Seleccionar marca</option>
+                  @for (marca of marcas; track marca.id) {
+                    <option [value]="marca.id">{{ marca.nombre }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label for="etiqueta" class="form-label">Etiqueta</label>
+                <select id="etiqueta" class="form-select" formControlName="etiqueta">
+                  <option value="">Sin etiqueta</option>
+                  @for (etiqueta of etiquetasDisponibles; track etiqueta) {
+                    <option [value]="etiqueta">{{ etiqueta | titlecase }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label for="rating" class="form-label">Rating</label>
+                <input
+                  id="rating"
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  max="5"
+                  class="form-control"
+                  formControlName="rating"
+                />
+              </div>
+
+              <div class="col-12">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea
+                  id="descripcion"
+                  rows="3"
+                  class="form-control"
+                  formControlName="descripcion"
+                  placeholder="Descripción del producto"
+                ></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section mb-0">
+            <h6>Imagen</h6>
+
+            <app-producto-imagen-input
+              [url]="imagenActual"
+              [bloqueado]="bloqueado"
+              (cambio)="actualizarImagen($event)"
+              (errorValidacion)="errorValidacion.emit($event)"
+            />
+          </section>
+        </div>
+
+        <footer class="producto-modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            [disabled]="bloqueado"
+            (click)="cerrar.emit()"
+          >
+            Cancelar
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-danger px-4"
+            [disabled]="productoForm.invalid || bloqueado"
+          >
+            {{ bloqueado ? 'Guardando...' : isEditando ? 'Guardar cambios' : 'Agregar producto' }}
+          </button>
+        </footer>
+      </form>
     </div>
   </div>
 </div>
-<div class="modal-backdrop fade show"></div>
