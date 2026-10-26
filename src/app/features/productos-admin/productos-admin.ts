@@ -45,6 +45,24 @@ export class ProductosAdmin implements OnInit {
     this.cargarMarcas();
   }
 
+  get productosActivos(): number {
+    return this.productos.filter((producto) => producto.estado === 'ACTIVO').length;
+  }
+
+  get productosInactivos(): number {
+    return this.productos.filter((producto) => producto.estado === 'INACTIVO').length;
+  }
+
+  get productosStockBajo(): number {
+    return this.productos.filter(
+      (producto) => producto.stock > 0 && producto.stock <= 10,
+    ).length;
+  }
+
+  get productosAgotados(): number {
+    return this.productos.filter((producto) => producto.stock <= 0).length;
+  }
+
   cargarProductos(): void {
     this.isLoading = true;
     this.productoService.obtenerTodosParaAdmin(this.currentPage, this.pageSize).subscribe({
@@ -55,7 +73,7 @@ export class ProductosAdmin implements OnInit {
         }
         this.isLoading = false;
       },
-      error: (error) => {
+      error: () => {
         this.mostrarMensaje('danger', 'Error al cargar productos.');
         this.isLoading = false;
       },
@@ -216,5 +234,3 @@ export class ProductosAdmin implements OnInit {
     }).format(precio);
   }
 }
-
-
