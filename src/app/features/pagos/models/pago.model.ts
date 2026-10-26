@@ -24,6 +24,7 @@ export interface Pago {
   fechaComprobante: string | null;
   fechaPago: string | null;
   fechaExpiracionPago: string | null;
+  fechaRevision?: string | null;
 
   comprobanteEnviado: boolean;
   motivoRechazo?: string | null;
