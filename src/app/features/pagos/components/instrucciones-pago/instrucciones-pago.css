@@ -1,0 +1,82 @@
+.payment-method-logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.payment-countdown {
+  padding-left: 28px;
+  border-left: 1px solid #e3e6e9;
+}
+
+.payment-countdown-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+
+  border: 2px solid #202328;
+  border-radius: 50%;
+}
+
+.payment-countdown-time {
+  color: #050505;
+  font-size: 1.9rem;
+  line-height: 1.1;
+}
+
+.payment-instructions {
+  border-radius: 12px;
+  background: #f5f6f8;
+}
+
+.payment-qr {
+  width: 180px;
+  max-width: 100%;
+}
+
+.instruction-number {
+  width: 27px;
+  height: 27px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #5c829b;
+  color: white;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.payment-step-number {
+  width: 34px;
+  height: 34px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #d46b6f;
+  color: #fff;
+
+  font-weight: 700;
+}
+
+@media (max-width: 767.98px) {
+  .payment-countdown {
+    padding-top: 20px;
+    padding-left: 0;
+
+    border-top: 1px solid #e3e6e9;
+    border-left: 0;
+  }
+}

@@ -1,0 +1,74 @@
+.summary-card,
+.help-card,
+.important-card {
+  border-radius: 14px;
+}
+
+.summary-total {
+  color: #309261;
+  font-size: 1.10rem;
+  font-weight: 700;
+}
+
+.payment-status {
+  padding: 6px 10px;
+  border-radius: 8px;
+
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-pending {
+  background: #f7d999;
+  color: #5e4715;
+}
+
+.status-review {
+  background: #dce9f6;
+  color: #31546f;
+}
+
+.status-paid {
+  background: #d7ecdf;
+  color: #356347;
+}
+
+.status-rejected {
+  background: #f4d8d9;
+  color: #853f43;
+}
+
+.status-expired {
+  background: #e5e5e5;
+  color: #555;
+}
+
+.status-refunded {
+  background: #e3def1;
+  color: #5e4e7a;
+}
+
+.help-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border: 1px solid #e1e4e8;
+
+  color: #292c31;
+  text-align: left;
+}
+
+.help-option:hover {
+  background: #f7f8fa;
+  border-color: #d2d5da;
+}
+
+.important-card {
+  border: 1px solid #edd1d2;
+  background: #fff6f6;
+}
+
+.important-card h3 {
+  color: #b95559;
+}

@@ -1,0 +1,30 @@
+.payment-state-card {
+  border-radius: 14px;
+  border-left: 4px solid transparent !important;
+}
+
+.state-review {
+  border-left-color: #5f87a6 !important;
+}
+
+.state-paid {
+  border-left-color: #5f8d6d !important;
+}
+
+.state-rejected {
+  border-left-color: #c45d61 !important;
+}
+
+.state-expired {
+  border-left-color: #858a91 !important;
+}
+
+.state-refunded {
+  border-left-color: #76679a !important;
+}
+
+.reject-reason {
+  border-radius: 8px;
+  background: #fff4f4;
+  color: #743e41;
+}

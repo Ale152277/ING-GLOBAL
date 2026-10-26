@@ -1,223 +1,124 @@
-<div class="modal-backdrop-custom">
-  <div class="modal-container">
-    <div class="checkout-modal bg-white rounded shadow">
-      <div class="checkout-header d-flex justify-content-between align-items-start">
+<div class="modal d-block checkout-backdrop">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <form #checkoutForm="ngForm" class="modal-content border-0 rounded-4 shadow-lg" (ngSubmit)="confirmarPedido()">
+
+      <div class="modal-header border-0 px-4 pt-4 pb-3">
         <div>
-
-          <h4 class="fw-bold mb-1 mt-1">Datos de compra</h4>
-
-          <p class="text-muted mb-0">Confirma dónde recibirás tu pedido y cómo deseas pagar.</p>
+          <h5 class="modal-title fw-bold">Datos de compra</h5>
+          <small class="text-muted">Confirma dónde recibirás tu pedido y cómo deseas pagar.</small>
         </div>
-
-        <button
-          type="button"
-          class="btn-close"
-          [disabled]="procesando"
-          (click)="cancelarPedido()"
-        ></button>
+        <button type="button" class="btn-close" aria-label="Cerrar"
+                [disabled]="procesando" (click)="cancelarPedido()"></button>
       </div>
 
-      <form #checkoutForm="ngForm" (ngSubmit)="confirmarPedido()">
-        <div class="checkout-body">
-          <section class="checkout-section">
-            <div class="d-flex align-items-center gap-2 mb-3">
-              <div class="checkout-section-icon">
-                <i class="fas fa-truck"></i>
-              </div>
+      <div class="modal-body p-0 border-top">
+        <div class="row g-0">
 
-              <div>
-                <h6 class="fw-bold mb-0">Datos de entrega</h6>
-
-              </div>
-            </div>
+          <section class="col-md-7 p-4">
+            <h6 class="section-title">Datos de entrega</h6>
 
             <div class="row g-3">
-              <div class="col-12 col-md-7">
-                <label class="form-label fw-semibold"> Nombre del receptor </label>
-
-                <input
-                  type="text"
-                  class="form-control"
-                  name="nombreReceptor"
-                  [(ngModel)]="nombreReceptor"
-                  maxlength="100"
-                  required
-                />
+              <div class="col-lg-7">
+                <label for="nombreReceptor" class="form-label small fw-medium">Nombre del receptor</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <input id="nombreReceptor" type="text" class="form-control" name="nombreReceptor"
+                         [(ngModel)]="nombreReceptor" maxlength="100" required />
+                </div>
               </div>
 
-              <div class="col-12 col-md-5">
-                <label class="form-label fw-semibold"> Teléfono </label>
-
-                <input
-                  type="tel"
-                  class="form-control"
-                  name="telefonoEntrega"
-                  [(ngModel)]="telefonoEntrega"
-                  maxlength="20"
-                  required
-                />
+              <div class="col-lg-5">
+                <label for="telefonoEntrega" class="form-label small fw-medium">Teléfono</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                  <input id="telefonoEntrega" type="tel" class="form-control" name="telefonoEntrega"
+                         [(ngModel)]="telefonoEntrega" maxlength="20" required />
+                </div>
               </div>
 
               <div class="col-12">
-                <label class="form-label fw-semibold"> Dirección de entrega </label>
-
-                <input
-                  type="text"
-                  class="form-control"
-                  name="direccionEntrega"
-                  [(ngModel)]="direccionEntrega"
-                  maxlength="255"
-                  required
-                />
+                <label for="direccionEntrega" class="form-label small fw-medium">Dirección de entrega</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-location-dot"></i></span>
+                  <input id="direccionEntrega" type="text" class="form-control" name="direccionEntrega"
+                         [(ngModel)]="direccionEntrega" maxlength="255" required />
+                </div>
               </div>
 
               <div class="col-12">
-                <label class="form-label fw-semibold">
-                  Referencia
-                  <span class="text-muted fw-normal"> (opcional) </span>
+                <label for="referenciaEntrega" class="form-label small fw-medium">
+                  Referencia <span class="text-muted fw-normal">(opcional)</span>
                 </label>
-
-                <textarea
-                  class="form-control"
-                  name="referenciaEntrega"
-                  [(ngModel)]="referenciaEntrega"
-                  maxlength="255"
-                  rows="2"
-                  placeholder="Ej. Frente al parque, casa de portón negro"
-                ></textarea>
+                <textarea id="referenciaEntrega" class="form-control" name="referenciaEntrega"
+                          [(ngModel)]="referenciaEntrega" maxlength="255" rows="3"
+                          placeholder="Ej. Frente al parque, casa de portón negro"></textarea>
               </div>
             </div>
           </section>
+          <aside class="col-md-5 p-4 bg-body-tertiary border-start d-flex flex-column">
+            <h6 class="section-title">Método de pago</h6>
 
-          <section class="checkout-section border-top pt-4">
-            <div class="d-flex align-items-center gap-2 mb-3">
-              <div class="checkout-section-icon">
-                <i class="fas fa-wallet"></i>
-              </div>
+            <div class="d-grid gap-2">
+              <input class="btn-check" type="radio" name="metodoPago" id="pago-yape"
+                     value="YAPE" [(ngModel)]="metodoPago" required />
+              <label class="payment-card" for="pago-yape">
+                <span class="payment-logo"><img src="assets/Yape/yape.png" alt="Yape" /></span>
+                <span class="flex-grow-1">
+                  <strong class="d-block lh-sm">Yape</strong>
+                  <small class="text-muted">Paga desde tu celular</small>
+                </span>
+                <i class="fas fa-circle-check payment-check"></i>
+              </label>
 
-              <div>
-                <h6 class="fw-bold mb-0">Método de pago</h6>
+              <input class="btn-check" type="radio" name="metodoPago" id="pago-plin"
+                     value="PLIN" [(ngModel)]="metodoPago" />
+              <label class="payment-card" for="pago-plin">
+                <span class="payment-logo"><img src="assets/Plin/plin.png" alt="Plin" /></span>
+                <span class="flex-grow-1">
+                  <strong class="d-block lh-sm">Plin</strong>
+                  <small class="text-muted">Paga desde tu celular</small>
+                </span>
+                <i class="fas fa-circle-check payment-check"></i>
+              </label>
 
-              </div>
+              <input class="btn-check" type="radio" name="metodoPago" id="pago-transferencia"
+                     value="TRANSFERENCIA_DIRECTA" [(ngModel)]="metodoPago" />
+              <label class="payment-card" for="pago-transferencia">
+                <span class="payment-logo"><i class="fas fa-building-columns"></i></span>
+                <span class="flex-grow-1">
+                  <strong class="d-block lh-sm">Transferencia</strong>
+                  <small class="text-muted">Desde tu banco</small>
+                </span>
+                <i class="fas fa-circle-check payment-check"></i>
+              </label>
             </div>
 
-            <div class="row g-2">
-              <div class="col-6">
-                <input
-                  class="btn-check"
-                  type="radio"
-                  name="metodoPago"
-                  id="pago-yape"
-                  value="YAPE"
-                  [(ngModel)]="metodoPago"
-                  required
-                />
-
-                <label class="payment-option" for="pago-yape">
-                  <i class="fas fa-mobile-alt"></i>
-
-                  <span>Yape</span>
-                </label>
-              </div>
-
-              <div class="col-6">
-                <input
-                  class="btn-check"
-                  type="radio"
-                  name="metodoPago"
-                  id="pago-plin"
-                  value="PLIN"
-                  [(ngModel)]="metodoPago"
-                />
-
-                <label class="payment-option" for="pago-plin">
-                  <i class="fas fa-mobile-alt"></i>
-
-                  <span>Plin</span>
-                </label>
-              </div>
-
-              <div class="col-6">
-                <input
-                  class="btn-check"
-                  type="radio"
-                  name="metodoPago"
-                  id="pago-transferencia"
-                  value="TRANSFERENCIA"
-                  [(ngModel)]="metodoPago"
-                />
-
-                <label class="payment-option" for="pago-transferencia">
-                  <i class="fas fa-building-columns"></i>
-
-                  <span>Transferencia</span>
-                </label>
-              </div>
-
-              <div class="col-6">
-                <input
-                  class="btn-check"
-                  type="radio"
-                  name="metodoPago"
-                  id="pago-contra-entrega"
-                  value="CONTRA_ENTREGA"
-                  [(ngModel)]="metodoPago"
-                />
-
-                <label class="payment-option" for="pago-contra-entrega">
-                  <i class="fas fa-money-bill-wave"></i>
-
-                  <span>Contra entrega</span>
-                </label>
+            <div class="mt-auto pt-4">
+              <div class="d-flex justify-content-between align-items-end border-top pt-3">
+                <small class="text-uppercase text-muted fw-semibold">Total a pagar</small>
+                <span class="fs-3 fw-bold text-primary lh-1">{{ formatearPrecio(total) }}</span>
               </div>
             </div>
-          </section>
+          </aside>
 
-          <section class="checkout-total mt-4">
-            <div>
-              <small class="text-muted d-block"> Total a pagar </small>
-
-              <span class="fw-semibold">
-                {{ formatearPrecio(total) }}
-              </span>
-            </div>
-
-            <div class="text-end">
-
-              <strong class="fs-4 text-primary">
-                {{ formatearPrecio(total) }}
-              </strong>
-            </div>
-          </section>
-
-          
         </div>
+      </div>
 
-        <div class="checkout-footer d-flex justify-content-end gap-2">
-          <button
-            type="button"
-            class="btn btn-outline-secondary"
-            [disabled]="procesando"
-            (click)="cancelarPedido()"
-          >
-            Volver
-          </button>
+      <div class="modal-footer px-4 py-3">
+      
+        <button type="button" class="btn btn-outline-secondary"
+                [disabled]="procesando" (click)="cancelarPedido()">Volver</button>
 
-          <button
-            type="submit"
-            class="btn btn-primary px-4"
-            [disabled]="procesando || checkoutForm.invalid"
-          >
-            @if (procesando) {
-              <span class="spinner-border spinner-border-sm me-2"></span>
-              Procesando...
-            } @else {
-              <i class="fas fa-check me-2"></i>
-              Confirmar pedido
-            }
-          </button>
-        </div>
-      </form>
-    </div>
+        <button type="submit" class="btn btn-primary px-4"
+                [disabled]="procesando || checkoutForm.invalid">
+          @if (procesando) {
+            <span class="spinner-border spinner-border-sm me-2"></span>Procesando...
+          } @else {
+            <i class="fas fa-check me-2"></i>Confirmar pedido
+          }
+        </button>
+      </div>
+
+    </form>
   </div>
 </div>

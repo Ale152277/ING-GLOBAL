@@ -1,0 +1,90 @@
+<div class="d-flex flex-column gap-3">
+  <section class="card border-0 shadow-sm summary-card">
+    <div class="card-body p-4">
+      <h2 class="h5 fw-bold mb-4">Resumen del pedido</h2>
+
+      <div class="d-flex flex-column gap-3">
+        <div class="d-flex justify-content-between gap-3">
+          <span class="text-muted"> Fecha de creación </span>
+
+          <strong class="text-end">
+            {{ pago.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}
+          </strong>
+        </div>
+
+        <div class="d-flex justify-content-between gap-3">
+          <span class="text-muted"> Método de pago </span>
+
+          <strong>
+            {{ obtenerNombreMetodoPago() }}
+          </strong>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center gap-3">
+          <span class="text-muted"> Estado </span>
+
+          <span class="payment-status" [ngClass]="obtenerClaseEstado()">
+            {{ obtenerNombreEstado() }}
+          </span>
+        </div>
+      </div>
+
+      <hr class="my-4" />
+
+      <div class="d-flex justify-content-between align-items-end gap-3">
+        <strong> Total a pagar </strong>
+
+        <span class="summary-total"> S/ {{ pago.monto | number: '1.2-2' }} </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card border-0 shadow-sm help-card">
+    <div class="card-body p-4">
+      <h2 class="h5 fw-bold mb-2">¿Necesitas ayuda?</h2>
+
+      <p class="text-muted small mb-3">
+        Si tienes algún inconveniente con tu pago, puedes contactarnos.
+      </p>
+
+      <div class="d-grid gap-2">
+        <a
+          href="https://wa.me/51942739399"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn help-option"
+        >
+          <span>
+            <i class="fab fa-whatsapp me-2"></i>
+            Escribir por WhatsApp
+          </span>
+
+          <i class="fas fa-chevron-right"></i>
+        </a>
+
+        <a href="tel:942739399" class="btn help-option">
+          <span>
+            <i class="fas fa-phone me-2"></i>
+            Llamar al 942 739 399
+          </span>
+
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="important-card p-4">
+    <h3 class="h6 fw-bold mb-3">Importante</h3>
+
+    <ul class="small mb-0 ps-3">
+      <li class="mb-2">Realiza el pago por el monto exacto.</li>
+
+      <li class="mb-2">El comprobante debe ser legible.</li>
+
+      <li class="mb-2">Una vez enviado, será revisado por nuestro equipo.</li>
+
+      <li>Podrás consultar posteriormente el estado de tu pago.</li>
+    </ul>
+  </section>
+</div>

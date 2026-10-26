@@ -17,8 +17,10 @@ import { PublicLayout } from './layouts/public-layout/public-layout';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { AdminDashboard } from './features/admin/dashboard/pages/admin-dashboard/admin-dashboard';
 import { AdminOrders } from './features/admin/orders/admin-orders/admin-orders';
+import { PagoPedido } from './features/pagos/pages/pago-pedido/pago-pedido';
+import { RevisionPagos } from './features/admin/payments/pages/revision-pagos/revision-pagos';
 export const routes: Routes = [
-  // AUTENTICACIÓN
+  // auth
   {
     path: 'auth',
     children: [
@@ -35,7 +37,7 @@ export const routes: Routes = [
     ],
   },
 
-  // ADMINISTRACIÓN
+  // admin
   {
     path: 'admin',
     component: AdminLayout,
@@ -53,10 +55,14 @@ export const routes: Routes = [
         path: 'pedidos',
         component: AdminOrders,
       },
+      {
+        path: 'pagos',
+        component: RevisionPagos
+      }
     ],
   },
 
-  // TIENDA-CLIENTE
+  // tienda-clente
   {
     path: '',
     component: PublicLayout,
@@ -104,10 +110,15 @@ export const routes: Routes = [
         component: MisPedidos,
         canActivate: [AuthGuard],
       },
+
+      {
+        path: 'pago/:ventaId',
+        component: PagoPedido,
+        canActivate: [AuthGuard],
+      },
     ],
   },
 
-  // RUTA DESCONOCIDA
   {
     path: '**',
     redirectTo: '',

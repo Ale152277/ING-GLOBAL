@@ -30,7 +30,7 @@ export class InterfazCarrito implements OnInit {
     private ventaService: VentaService,
     private router: Router,
     private whatsappService: WhatsappService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +39,6 @@ export class InterfazCarrito implements OnInit {
   }
 
   private cargarCarrito(): void {
-    
     this.isloading = true;
 
     this.carritoService.obtenerCarrito().subscribe({
@@ -81,22 +80,17 @@ export class InterfazCarrito implements OnInit {
       return;
     }
 
-    this.carritoService.actualizarCantidad(
-      detalle.id,
-      this.carrito.id,
-      nuevaCantidad
-    )
-    .subscribe({
-      next: (response) =>{
-        if(response.success && response.data){
-          this.carrito = response.data
+    this.carritoService.actualizarCantidad(detalle.id, this.carrito.id, nuevaCantidad).subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this.carrito = response.data;
         }
       },
       error: (error) => {
         console.error('Error al actualizar la cantidad', error);
-        this.error = 'No se pudo actualizar la cantidad'  
+        this.error = 'No se pudo actualizar la cantidad';
       },
-    })
+    });
   }
 
   eliminarProducto(dettalle: DetalleCarrito): void {
@@ -158,47 +152,45 @@ export class InterfazCarrito implements OnInit {
     });
   }
 
-  realizarPedido(request: CrearVentaRequest):void{
-    if(!this.carrito || this.carrito.detalles.length === 0){
+  realizarPedido(request: CrearVentaRequest): void {
+    if (!this.carrito || this.carrito.detalles.length === 0) {
       this.error = 'El carrito está vacio';
       return;
     }
 
     this.isloading = true;
-    this.error= '';
+    this.error = '';
     this.mensajeExito = '';
 
     this.ventaService.crearVenta(request).subscribe({
-      next: (response) =>{
-        if(response.success && response.data){
-          this.mostrarConfirmacionPedido = false;
-          this.mensajeExito = response.message ||  `Pedido #${response.data.id} realizado con éxito`;
-        
-          this.carrito = null;
-          this.carritoService.limpiarCarritoLocal()
-        }
-         this.isloading = false
-        
+      next: (response) => {
+        const ventaId = response.data.id;
+
+        this.mostrarConfirmacionPedido = false;
+        this.carrito = null;
+        this.carritoService.limpiarCarritoLocal();
+        this.router.navigate(['/pago', ventaId]);
       },
 
-      error: (error) =>{
-        console.error("Error al crear el pedido", error);
-        this.error = error.error?.message || "No pudimos crear el pedido"
-        this.isloading = false
-      }
-      
-    })
+      error: (error) => {
+        console.error('Error al crear el pedido', error);
+        this.error = error.error?.message || 'No pudimos crear el pedido';
+        this.isloading = false;
+      },
+    });
+
+    this.isloading = false;
   }
 
-  solicitarConfirmacionPedido(): void{
-    if(!this.carrito || this.carrito.detalles.length ===0){
-      this.error = "El carrito está vacio"
+  solicitarConfirmacionPedido(): void {
+    if (!this.carrito || this.carrito.detalles.length === 0) {
+      this.error = 'El carrito está vacio';
       return;
     }
     this.mostrarConfirmacionPedido = true;
   }
-  
-  cancelarPedido():void {
+
+  cancelarPedido(): void {
     this.mostrarConfirmacionPedido = false;
   }
 }

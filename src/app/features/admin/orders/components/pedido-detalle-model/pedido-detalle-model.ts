@@ -44,11 +44,8 @@ export class PedidoDetalleModel {
       case 'PLIN':
         return 'Plin';
 
-      case 'TRANSFERENCIA':
+      case 'TRANSFERENCIA_DIRECTA':
         return 'Transferencia bancaria';
-
-      case 'CONTRA_ENTREGA':
-        return 'Contra entrega';
 
       default:
         return 'No registrado';

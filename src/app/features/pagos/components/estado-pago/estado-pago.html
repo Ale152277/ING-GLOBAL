@@ -1,0 +1,80 @@
+<section
+  class="card border-0 shadow-sm payment-state-card"
+  [ngClass]="obtenerClaseEstado()"
+>
+  <div class="card-body p-4">
+
+    @if (pago.estadoPago === 'PENDIENTE' && plazoVencido) {
+      <h2 class="h5 fw-bold mb-2">
+        El plazo de pago ha finalizado
+      </h2>
+
+      <p class="text-muted mb-0">
+        Este pedido ya no puede continuar.
+      </p>
+    }
+
+    @if (pago.estadoPago === 'EN_REVISION') {
+      <h2 class="h5 fw-bold mb-2">
+        Comprobante en revisión
+      </h2>
+
+      <p class="text-muted mb-0">
+        Tu comprobante fue recibido correctamente y será revisado por nuestro equipo.
+      </p>
+    }
+
+    @if (pago.estadoPago === 'PAGADO') {
+      <h2 class="h5 fw-bold mb-2">
+        Pago confirmado
+      </h2>
+
+      <p class="text-muted mb-0">
+        Tu pago fue aprobado correctamente.
+      </p>
+    }
+
+    @if (pago.estadoPago === 'RECHAZADO') {
+      <h2 class="h5 fw-bold mb-2">
+        Comprobante rechazado
+      </h2>
+
+      @if (pago.motivoRechazo) {
+        <div class="reject-reason p-3 my-3">
+          <strong>Motivo del rechazo</strong>
+
+          <p class="mb-0 mt-1">
+            {{ pago.motivoRechazo }}
+          </p>
+        </div>
+      }
+
+      <p class="text-muted mb-0">
+        Este pedido fue cancelado. Si deseas volver a intentarlo,
+        deberás realizar una nueva compra.
+      </p>
+    }
+
+    @if (pago.estadoPago === 'EXPIRADO') {
+      <h2 class="h5 fw-bold mb-2">
+        Pago expirado
+      </h2>
+
+      <p class="text-muted mb-0">
+        El plazo para realizar el pago expiró.
+        Este pedido ya no puede continuar.
+      </p>
+    }
+
+    @if (pago.estadoPago === 'REEMBOLSADO') {
+      <h2 class="h5 fw-bold mb-2">
+        Pago reembolsado
+      </h2>
+
+      <p class="text-muted mb-0">
+        El pago correspondiente a este pedido fue reembolsado.
+      </p>
+    }
+
+  </div>
+</section>

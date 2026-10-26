@@ -1,15 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Usuario } from '../../../../models/usuario.model';
 import { MetodoPago, CrearVentaRequest } from '../../../../models/venta.model';
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-confirmar-pedido-modal',
   imports: [CommonModule, FormsModule],
   templateUrl: './confirmar-pedido-modal.html',
   styleUrl: './confirmar-pedido-modal.css',
 })
+
 export class ConfirmarPedidoModal implements OnInit {
+  
   @Input() total = 0;
   @Input() procesando = false;
   @Input() usuario: Usuario | null = null;

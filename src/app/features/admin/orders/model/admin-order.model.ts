@@ -2,9 +2,9 @@ import { DetalleVenta } from '../../../../models/venta.model';
 
 export type EstadoPedidoAdmin = 'PENDIENTE' | 'CONFIRMADA' | 'COMPLETA' | 'CANCELADA';
 
-export type MetodoPagoAdmin = 'YAPE' | 'PLIN' | 'TRANSFERENCIA' | 'CONTRA_ENTREGA';
+export type MetodoPagoAdmin = 'YAPE' | 'PLIN' | 'TRANSFERENCIA_DIRECTA';
 
-export type EstadoPagoAdmin = 'PENDIENTE' | 'PAGADO' | 'RECHAZADO' | 'REEMBOLSADO';
+export type EstadoPagoAdmin = 'PENDIENTE'| 'EN_REVISION' | 'PAGADO' | 'RECHAZADO' | 'EXPIRADO' |'REEMBOLSADO';
 
 export interface AdminPedido {
   id: number;

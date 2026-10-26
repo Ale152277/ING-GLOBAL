@@ -1,0 +1,87 @@
+<div class="payment-page py-4">
+  <div class="container payment-container">
+    <nav class="payment-breadcrumb d-flex align-items-center gap-2 mb-3">
+      <a routerLink="/">Inicio</a>
+      <span>›</span>
+
+      <a routerLink="/pedidos">Mis pedidos</a>
+      <span>›</span>
+
+      <span>Pago del pedido</span>
+    </nav>
+
+    <header class="payment-heading mb-4">
+      <h1>Pago del pedido</h1>
+
+      @if (pago?.estadoPago === 'PENDIENTE') {
+        <p>Completa el pago y sube tu comprobante.</p>
+      }
+
+      @if (pago?.estadoPago === 'EN_REVISION') {
+        <p>Hemos recibido tu comprobante.</p>
+      }
+
+      @if (pago?.estadoPago === 'PAGADO') {
+        <p>Tu pago fue confirmado correctamente.</p>
+      }
+
+      @if (pago?.estadoPago === 'RECHAZADO') {
+        <p>El comprobante enviado fue rechazado.</p>
+      }
+
+      @if (pago?.estadoPago === 'EXPIRADO') {
+        <p>El plazo disponible para realizar el pago ha finalizado.</p>
+      }
+    </header>
+
+    @if (cargando) {
+      <div class="payment-loading">Cargando información del pago...</div>
+    }
+
+    @if (error) {
+      <div class="alert alert-danger">
+        {{ error }}
+      </div>
+    }
+
+    @if (!cargando && pago) {
+      <div class="row g-4 align-items-start">
+        <main class="col-12 col-lg-8">
+          @if (pago.estadoPago === 'PENDIENTE' && !plazoVencido) {
+            <section class="card border-0 shadow-sm payment-main-card">
+              <div class="card-body p-4">
+                <app-instrucciones-pago [pago]="pago" [tiempoRestante]="formatearTiempo()" />
+
+                <hr class="payment-divider" />
+
+                <div class="d-flex gap-3 mb-4">
+                  <span class="payment-step-number"> 2 </span>
+
+                  <div>
+                    <h2 class="h5 fw-bold mb-1">Sube tu comprobante</h2>
+
+                    <p class="text-muted mb-0">
+                      Una vez realizado el pago, adjunta el comprobante.
+                    </p>
+                  </div>
+                </div>
+
+                <app-comprobante-pago
+                  [pago]="pago"
+                  [plazoVencido]="plazoVencido"
+                  (pagoActualizado)="actualizarPago($event)"
+                />
+              </div>
+            </section>
+          } @else {
+            <app-estado-pago [pago]="pago" [plazoVencido]="plazoVencido" />
+          }
+        </main>
+
+        <aside class="col-12 col-lg-4">
+          <app-resumen-pago [pago]="pago" />
+        </aside>
+      </div>
+    }
+  </div>
+</div>

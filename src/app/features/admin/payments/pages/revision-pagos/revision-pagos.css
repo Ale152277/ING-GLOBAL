@@ -1,0 +1,36 @@
+.admin-payment-card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table thead th {
+  padding: 14px 16px;
+
+  background: #f5f6f8;
+  color: #555c65;
+
+  font-size: 0.82rem;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.table tbody td {
+  padding: 16px;
+
+  border-color: #eceef1;
+
+  font-size: 0.9rem;
+}
+
+.approve-button {
+  background: #587d66;
+  border-color: #587d66;
+  color: #fff;
+}
+
+.approve-button:hover {
+  background: #496c56;
+  border-color: #496c56;
+  color: #fff;
+}

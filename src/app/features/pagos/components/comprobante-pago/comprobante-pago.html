@@ -1,0 +1,89 @@
+<div class="row g-3 mt-2">
+  <div class="col-12 col-md-7 ">
+    <input
+      #fileInput
+      type="file"
+      class="d-none"
+      accept=".jpg,.jpeg,.png,.pdf"
+      (change)="seleccionarArchivo($event)"
+    />
+
+    <div
+      class=" upload-zone h-100 d-flex flex-column align-items-center justify-content-center text-center"
+      role="button"
+      tabindex="0"
+      (click)="fileInput.click()"
+      (dragover)="arrastrarArchivo($event)"
+      (drop)="soltarArchivo($event)"
+    >
+      <i class="fas fa-cloud-upload-alt upload-icon"></i>
+
+      <strong class="mt-2"> Selecciona un archivo o arrástralo aquí </strong>
+
+      <small class="text-muted mt-1"> Formatos permitidos: JPG, PNG, PDF (máx. 5 MB) </small>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-5">
+    <div class="d-flex flex-column gap-2 h-100">
+      @if (archivoSeleccionado) {
+        <div class="selected-file d-flex align-items-center gap-3">
+          <div class="file-icon">
+            <i class="fas fa-file-alt"></i>
+          </div>
+
+          <div class="flex-grow-1 overflow-hidden">
+            <strong class="d-block text-truncate" [title]="archivoSeleccionado.name">
+              {{ archivoSeleccionado.name }}
+            </strong>
+
+            <small class="text-muted">
+              {{ obtenerTamanoArchivo() }}
+            </small>
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-link remove-file p-0"
+            aria-label="Quitar archivo"
+            (click)="quitarArchivo()"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      } @else {
+        <div class="selected-file empty-file d-flex align-items-center">
+          <span class="text-muted small"> Ningún archivo seleccionado </span>
+        </div>
+      }
+
+      <button
+        type="button"
+        class="btn upload-button w-100 mt-auto border border-1 border-dark"
+        [disabled]="!archivoSeleccionado || subiendo || plazoVencido"
+        (click)="subirComprobante()"
+      >
+        @if (subiendo) {
+          <span class="spinner-border  spinner-border-lg me-2"></span>
+
+          Enviando...
+        } @else {
+
+          Enviar comprobante
+        }
+      </button>
+    </div>
+  </div>
+</div>
+
+@if (error) {
+  <div class="alert alert-danger py-2 mt-3 mb-0">
+    {{ error }}
+  </div>
+}
+
+@if (mensajeExito) {
+  <div class="alert alert-success py-2 mt-3 mb-0">
+    {{ mensajeExito }}
+  </div>
+}
