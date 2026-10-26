@@ -1,108 +1,55 @@
 <section class="container-fluid px-0">
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
     <div>
-      <span class="section-eyebrow">Catálogo</span>
+      <p class="admin-section-label">Catálogo</p>
       <h1 class="h3 fw-bold mb-1">Productos</h1>
       <p class="text-muted mb-0">
         Gestiona disponibilidad, stock y presentación del catálogo.
       </p>
     </div>
 
-    <button type="button" class="btn add-product-button" (click)="abrirModalCrear()">
-      <i class="fas fa-plus me-2"></i>
+    <button type="button" class="btn btn-danger" (click)="abrirModalCrear()">
       Agregar producto
     </button>
   </div>
 
   @if (mensaje) {
     <div class="alert alert-{{ mensaje.tipo }} alert-dismissible fade show" role="alert">
-      <i
-        class="fas me-2"
-        [ngClass]="mensaje.tipo === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'"
-      ></i>
-
       {{ mensaje.texto }}
-
       <button type="button" class="btn-close btn-close-white" (click)="mensaje = null"></button>
     </div>
   }
 
-  <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 g-3 mb-4">
-    <div class="col">
-      <div class="summary-card">
-        <div class="summary-icon summary-total">
-          <i class="fas fa-boxes-stacked"></i>
-        </div>
-        <div>
-          <span class="summary-label">Mostrados</span>
-          <strong class="summary-value">{{ productos.length }}</strong>
-        </div>
-      </div>
+  <div class="admin-summary-grid product-summary mb-4">
+    <div class="admin-summary-card">
+      <small>Mostrados</small>
+      <strong>{{ productos.length }}</strong>
     </div>
 
-    <div class="col">
-      <div class="summary-card">
-        <div class="summary-icon summary-active">
-          <i class="fas fa-circle-check"></i>
-        </div>
-        <div>
-          <span class="summary-label">Activos</span>
-          <strong class="summary-value">{{ productosActivos }}</strong>
-        </div>
-      </div>
+    <div class="admin-summary-card">
+      <small>Stock bajo</small>
+      <strong>{{ productosStockBajo }}</strong>
     </div>
 
-    <div class="col">
-      <div class="summary-card">
-        <div class="summary-icon summary-inactive">
-          <i class="fas fa-circle-pause"></i>
-        </div>
-        <div>
-          <span class="summary-label">Inactivos</span>
-          <strong class="summary-value">{{ productosInactivos }}</strong>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="summary-card">
-        <div class="summary-icon summary-low">
-          <i class="fas fa-triangle-exclamation"></i>
-        </div>
-        <div>
-          <span class="summary-label">Stock bajo</span>
-          <strong class="summary-value">{{ productosStockBajo }}</strong>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="summary-card">
-        <div class="summary-icon summary-empty">
-          <i class="fas fa-box-open"></i>
-        </div>
-        <div>
-          <span class="summary-label">Agotados</span>
-          <strong class="summary-value">{{ productosAgotados }}</strong>
-        </div>
-      </div>
+    <div class="admin-summary-card">
+      <small>Agotados</small>
+      <strong>{{ productosAgotados }}</strong>
     </div>
   </div>
 
-  <div class="card border-0 shadow-sm products-admin-card">
+  <div class="card border-0 shadow-sm admin-table-card">
     <div class="card-header border-bottom p-4">
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
         <div>
           <h5 class="fw-bold mb-1">Lista de productos</h5>
           <small class="text-muted">
-            Página {{ currentPage }} de {{ totalPages || 1 }} · {{ productos.length }} producto(s) mostrados
+            Página {{ currentPage }} de {{ totalPages || 1 }}
           </small>
         </div>
 
-        <span class="catalog-hint">
-          <i class="fas fa-circle-info me-2"></i>
-          Los indicadores corresponden a esta página
-        </span>
+        <small class="text-muted">
+          Los indicadores corresponden a la página actual.
+        </small>
       </div>
     </div>
 
@@ -114,7 +61,7 @@
         </div>
       } @else {
         <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0 admin-products-table">
+          <table class="table table-hover align-middle mb-0 admin-table product-table">
             <thead>
               <tr>
                 <th>#</th>
@@ -130,94 +77,68 @@
             <tbody>
               @for (producto of productos; track producto.id; let i = $index) {
                 <tr>
-                  <td>
-                    <span class="product-index">
-                      {{ (currentPage - 1) * pageSize + i + 1 }}
-                    </span>
+                  <td class="text-muted">
+                    {{ (currentPage - 1) * pageSize + i + 1 }}
                   </td>
 
-                  <td class="product-name-column">
-                    <div class="product-info">
+                  <td class="product-column">
+                    <div class="product-row">
                       @if (producto.imagen) {
                         <img
                           [src]="producto.imagen"
                           [alt]="producto.nombre"
-                          class="product-admin-image"
+                          class="product-image"
                         />
                       } @else {
-                        <div class="product-admin-image product-image-placeholder">
-                          <i class="fas fa-image"></i>
-                        </div>
+                        <div class="product-image product-image-empty">Sin imagen</div>
                       }
 
                       <div>
-                        <strong class="product-name">
-                          {{ producto.nombre }}
-                        </strong>
-
-                        <div class="product-meta">
-                          <span>
-                            {{ producto.etiqueta || 'Sin etiqueta' }}
-                          </span>
-
+                        <strong>{{ producto.nombre }}</strong>
+                        <small>
+                          {{ producto.etiqueta || 'Sin etiqueta' }}
                           @if (producto.descuento > 0) {
-                            <span class="discount-label">
-                              -{{ producto.descuento }}%
-                            </span>
+                            · {{ producto.descuento }}% desc.
                           }
-                        </div>
+                        </small>
                       </div>
                     </div>
                   </td>
 
                   <td>
-                    <span class="sku-badge">
-                      {{ producto.sku }}
-                    </span>
+                    <code>{{ producto.sku }}</code>
                   </td>
 
                   <td>
-                    <strong class="product-price">
-                      {{ formatearPrecio(producto.precio) }}
-                    </strong>
+                    <strong>{{ formatearPrecio(producto.precio) }}</strong>
                   </td>
 
                   <td>
-                    <span
-                      class="stock-badge"
+                    <small
+                      class="admin-pill"
                       [ngClass]="{
-                        'stock-disponible': producto.stock > 10,
-                        'stock-bajo': producto.stock > 0 && producto.stock <= 10,
-                        'stock-agotado': producto.stock <= 0,
+                        'admin-pill-success': producto.stock > 10,
+                        'admin-pill-warning': producto.stock > 0 && producto.stock <= 10,
+                        'admin-pill-danger': producto.stock <= 0,
                       }"
                     >
-                      <i
-                        class="fas me-1"
-                        [ngClass]="{
-                          'fa-circle-check': producto.stock > 10,
-                          'fa-triangle-exclamation': producto.stock > 0 && producto.stock <= 10,
-                          'fa-circle-xmark': producto.stock <= 0,
-                        }"
-                      ></i>
                       {{ producto.stock }}
-                    </span>
+                    </small>
                   </td>
 
                   <td>
-                    <div class="status-control">
-                      <span
-                        class="product-status"
-                        [class.status-active]="producto.estado === 'ACTIVO'"
-                        [class.status-inactive]="producto.estado !== 'ACTIVO'"
+                    <div class="product-state">
+                      <small
+                        class="admin-pill"
+                        [class.admin-pill-success]="producto.estado === 'ACTIVO'"
+                        [class.admin-pill-danger]="producto.estado !== 'ACTIVO'"
                       >
                         {{ producto.estado === 'ACTIVO' ? 'Activo' : 'Inactivo' }}
-                      </span>
+                      </small>
 
                       <button
                         type="button"
-                        class="btn btn-sm status-action"
-                        [class.status-action-active]="producto.estado !== 'ACTIVO'"
-                        [class.status-action-inactive]="producto.estado === 'ACTIVO'"
+                        class="btn btn-sm btn-outline-secondary"
                         (click)="cambiarEstado(producto)"
                         [disabled]="isLoading"
                       >
@@ -226,30 +147,24 @@
                     </div>
                   </td>
 
-                  <td>
-                    <div class="d-flex justify-content-end">
-                      <button
-                        type="button"
-                        class="btn btn-sm edit-product-button"
-                        (click)="abrirModalEditar(producto)"
-                        [disabled]="isLoading"
-                        title="Editar producto"
-                      >
-                        <i class="fas fa-pen"></i>
-                      </button>
-                    </div>
+                  <td class="text-end">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-light"
+                      (click)="abrirModalEditar(producto)"
+                      [disabled]="isLoading"
+                    >
+                      Editar
+                    </button>
                   </td>
                 </tr>
               } @empty {
                 <tr>
-                  <td colspan="7" class="text-center py-5">
-                    <div class="empty-products-icon mx-auto mb-3">
-                      <i class="fas fa-box-open"></i>
+                  <td colspan="7">
+                    <div class="admin-empty-state">
+                      <strong>No hay productos disponibles</strong>
+                      <small>Los productos registrados aparecerán aquí.</small>
                     </div>
-                    <strong class="d-block">No hay productos disponibles</strong>
-                    <small class="text-muted">
-                      Los productos registrados aparecerán aquí.
-                    </small>
                   </td>
                 </tr>
               }
@@ -270,7 +185,7 @@
                 (click)="cambiarPagina(currentPage - 1)"
                 [disabled]="currentPage === 1"
               >
-                <i class="fas fa-chevron-left"></i>
+                ‹
               </button>
             </li>
 
@@ -289,7 +204,7 @@
                 (click)="cambiarPagina(currentPage + 1)"
                 [disabled]="currentPage === totalPages"
               >
-                <i class="fas fa-chevron-right"></i>
+                ›
               </button>
             </li>
           </ul>
@@ -301,11 +216,11 @@
 
 @if (mostrarModal) {
   <app-producto-modal
-    [categorias]="categoria"
-    [marcas]="marca"
+    [categorias]="categorias"
+    [marcas]="marcas"
     [isEditando]="isEditando"
     [productoSeleccionado]="productoSeleccionado"
-    [bloqueado]="subiendoImagen || isLoading"
+    [bloqueado]="guardando"
     (cerrar)="cerrarModal()"
     (guardar)="ejecutarGuardado($event)"
     (errorValidacion)="mostrarMensaje('danger', $event)"
