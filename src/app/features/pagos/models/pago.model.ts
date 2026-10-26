@@ -12,7 +12,7 @@ export type ProveedorPago =
   | 'INTERNO'
   | 'CULQI';
 
-  export interface Pago {
+export interface Pago {
   id: number;
   ventaId: number;
 
@@ -27,7 +27,6 @@ export type ProveedorPago =
 
   comprobanteEnviado: boolean;
   motivoRechazo?: string | null;
-
 }
 
 export interface AdminPago {
@@ -47,8 +46,8 @@ export interface AdminPago {
   fechaComprobante: string | null;
   fechaPago: string | null;
   fechaExpiracionPago: string | null;
+  fechaRevision: string | null;
 
   comprobanteDisponible: boolean;
   motivoRechazo?: string | null;
-
 }
