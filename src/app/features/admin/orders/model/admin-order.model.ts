@@ -4,7 +4,13 @@ export type EstadoPedidoAdmin = 'PENDIENTE' | 'CONFIRMADA' | 'COMPLETA' | 'CANCE
 
 export type MetodoPagoAdmin = 'YAPE' | 'PLIN' | 'TRANSFERENCIA_DIRECTA';
 
-export type EstadoPagoAdmin = 'PENDIENTE'| 'EN_REVISION' | 'PAGADO' | 'RECHAZADO' | 'EXPIRADO' |'REEMBOLSADO';
+export type EstadoPagoAdmin =
+  | 'PENDIENTE'
+  | 'EN_REVISION'
+  | 'PAGADO'
+  | 'RECHAZADO'
+  | 'EXPIRADO'
+  | 'REEMBOLSADO';
 
 export interface AdminPedido {
   id: number;
@@ -14,6 +20,7 @@ export interface AdminPedido {
   fechaVenta: string;
   total: number;
   estado: EstadoPedidoAdmin;
+  estadoPago: EstadoPagoAdmin | null;
 }
 
 export interface AdminPedidoDetalle extends AdminPedido {
@@ -23,7 +30,6 @@ export interface AdminPedidoDetalle extends AdminPedido {
   referenciaEntrega: string | null;
 
   metodoPago: MetodoPagoAdmin | null;
-  estadoPago: EstadoPagoAdmin | null;
 
   detalles: DetalleVenta[];
 }
