@@ -13,6 +13,10 @@ export class AdminPagoService {
 
   constructor(private http: HttpClient) {}
 
+  obtenerPagos(): Observable<ApiResponse<AdminPago[]>> {
+    return this.http.get<ApiResponse<AdminPago[]>>(this.apiUrl);
+  }
+
   obtenerPagosEnRevision(): Observable<ApiResponse<AdminPago[]>> {
     return this.http.get<ApiResponse<AdminPago[]>>(`${this.apiUrl}/revision`);
   }
@@ -27,7 +31,10 @@ export class AdminPagoService {
     return this.http.patch<ApiResponse<AdminPago>>(`${this.apiUrl}/${pagoId}/aprobar`, {});
   }
 
-  rechazarPago(pagoId: number, motivo:String): Observable<ApiResponse<AdminPago>>{
-    return this.http.patch<ApiResponse<AdminPago>>(`${this.apiUrl}/${pagoId}/rechazar`, motivo)
+  rechazarPago(pagoId: number, motivo: string): Observable<ApiResponse<AdminPago>> {
+    return this.http.patch<ApiResponse<AdminPago>>(
+      `${this.apiUrl}/${pagoId}/rechazar`,
+      { motivo },
+    );
   }
 }
