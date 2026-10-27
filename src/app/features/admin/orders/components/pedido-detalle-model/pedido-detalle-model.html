@@ -1,45 +1,34 @@
-<div class="modal-backdrop-admin">
-  <div class="pedido-modal shadow-lg">
-    <header class="pedido-modal-header">
-      <div class="d-flex flex-column flex-lg-row justify-content-between gap-4">
+<div
+  class="modal-backdrop-admin position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-3"
+>
+  <div class="pedido-modal shadow-lg border rounded-4 overflow-y-auto">
+    <header class="pedido-modal-header d-flex align-items-start gap-3 p-3 p-sm-4 border-bottom">
+      <div class="flex-grow-1 d-flex flex-column flex-lg-row justify-content-between gap-4">
         <div>
-          <span class="detail-eyebrow">Detalle del pedido</span>
+          <span class="detail-label d-block small fw-bold text-uppercase text-body-secondary mb-1">
+            Detalle del pedido
+          </span>
 
           <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-            <h2 class="pedido-title mb-0">Pedido #{{ pedido.id }}</h2>
+            <h2 class="fs-4 fw-bold text-white mb-0">Pedido #{{ pedido.id }}</h2>
 
             <span
-              class="detail-status"
-              [class]="'detail-status ' + obtenerClaseEstadoPedido(pedido.estado)"
+              class="d-inline-flex rounded-pill fw-bold small px-2 py-1"
+              [class]="obtenerClaseEstadoPedido(pedido.estado)"
             >
               {{ obtenerNombreEstadoPedido(pedido.estado) }}
             </span>
           </div>
-
-          <div class="detail-meta">
-            <span>
-              <i class="far fa-calendar me-2"></i>
-              {{ formatearFecha(pedido.fechaVenta) }}
-            </span>
-
-            <span>
-              <i class="fas fa-box me-2"></i>
-              {{ cantidadProductos }} producto(s)
-            </span>
-          </div>
         </div>
 
-        <div class="header-summary">
-          <div>
-            <span class="header-summary-label">Total del pedido</span>
-            <strong class="header-summary-total">{{ formatearPrecio(pedido.total) }}</strong>
+        <div class="d-flex align-items-center gap-4 text-lg-end">
+          <div class="text-body-secondary">
+            <i class="far fa-calendar me-2"></i>
+            {{ formatearFecha(pedido.fechaVenta) }}
           </div>
-
-          <div class="header-payment-status">
-            <span>Pago</span>
-            <strong
-              [class]="'payment-status-text ' + obtenerClaseEstadoPago(pedido.estadoPago)"
-            >
+          <div class="border-start ps-4">
+            <span class="d-block small text-uppercase text-body-secondary">Pago</span>
+            <strong [class]="obtenerClaseEstadoPago(pedido.estadoPago)">
               {{ obtenerNombreEstadoPago(pedido.estadoPago) }}
             </strong>
           </div>
@@ -48,41 +37,41 @@
 
       <button
         type="button"
-        class="detail-close"
+        class="btn border-0 p-1 lh-1 text-body-secondary"
         (click)="cerrarModal()"
         aria-label="Cerrar detalle"
       >
-        <i class="fas fa-xmark"></i>
+        <i class="fas fa-xmark fs-5"></i>
       </button>
     </header>
 
-    <div class="pedido-modal-body">
+    <div class="p-3 p-sm-4">
       <div class="row g-3 mb-4">
         <div class="col-12 col-lg-4">
-          <section class="detail-card h-100">
-            <div class="detail-card-header">
-              <div class="detail-card-icon">
-                <i class="fas fa-user"></i>
-              </div>
+          <section class="h-100 p-3 border rounded-3 admin-bg-alt">
+            <div class="d-flex align-items-center gap-3 pb-3 mb-3 border-bottom">
+              <i class="fas fa-user fa-fw fs-5"></i>
               <div>
-                <span class="detail-card-label">Información</span>
-                <h3>Cliente</h3>
+                <span class="detail-label d-block small fw-bold text-uppercase text-body-secondary">
+                  Información
+                </span>
+                <h3 class="fs-6 fw-bold text-white mb-0">Cliente</h3>
               </div>
             </div>
 
-            <div class="detail-data-list">
-              <div class="detail-data-item">
-                <span>Nombre</span>
+            <div class="d-flex flex-column gap-3">
+              <div>
+                <span class="d-block small text-body-secondary">Nombre</span>
                 <strong>{{ pedido.cliente }}</strong>
               </div>
 
-              <div class="detail-data-item">
-                <span>Correo</span>
-                <strong class="data-break">{{ pedido.email }}</strong>
+              <div>
+                <span class="d-block small text-body-secondary">Correo</span>
+                <strong class="text-break">{{ pedido.email }}</strong>
               </div>
 
-              <div class="detail-data-item">
-                <span>Teléfono</span>
+              <div>
+                <span class="d-block small text-body-secondary">Teléfono</span>
                 <strong>{{ pedido.telefono || 'No registrado' }}</strong>
               </div>
             </div>
@@ -90,41 +79,43 @@
         </div>
 
         <div class="col-12 col-lg-4">
-          <section class="detail-card h-100">
-            <div class="detail-card-header">
-              <div class="detail-card-icon">
-                <i class="fas fa-truck"></i>
-              </div>
+          <section class="h-100 p-3 border rounded-3 admin-bg-alt">
+            <div class="d-flex align-items-center gap-3 pb-3 mb-3 border-bottom">
+              <i class="fas fa-truck fa-fw fs-5"></i>
               <div>
-                <span class="detail-card-label">Despacho</span>
-                <h3>Entrega</h3>
+                <span class="detail-label d-block small fw-bold text-uppercase text-body-secondary">
+                  Despacho
+                </span>
+                <h3 class="fs-6 fw-bold text-white mb-0">Entrega</h3>
               </div>
             </div>
 
             @if (pedido.direccionEntrega) {
-              <div class="detail-data-list">
-                <div class="detail-data-item">
-                  <span>Receptor</span>
+              <div class="d-flex flex-column gap-3">
+                <div>
+                  <span class="d-block small text-body-secondary">Receptor</span>
                   <strong>{{ pedido.nombreReceptor || 'No registrado' }}</strong>
                 </div>
 
-                <div class="detail-data-item">
-                  <span>Teléfono</span>
+                <div>
+                  <span class="d-block small text-body-secondary">Teléfono</span>
                   <strong>{{ pedido.telefonoEntrega || 'No registrado' }}</strong>
                 </div>
 
-                <div class="detail-data-item">
-                  <span>Dirección</span>
+                <div>
+                  <span class="d-block small text-body-secondary">Dirección</span>
                   <strong>{{ pedido.direccionEntrega }}</strong>
                 </div>
 
-                <div class="detail-data-item">
-                  <span>Referencia</span>
+                <div>
+                  <span class="d-block small text-body-secondary">Referencia</span>
                   <strong>{{ pedido.referenciaEntrega || 'Sin referencia' }}</strong>
                 </div>
               </div>
             } @else {
-              <div class="admin-info-box">
+              <div
+                class="d-flex align-items-start gap-2 p-3 small text-body-secondary border rounded-2 admin-bg-base"
+              >
                 <i class="fas fa-circle-info"></i>
                 <span>
                   Este pedido fue registrado antes de incorporar los datos de entrega al checkout.
@@ -135,35 +126,35 @@
         </div>
 
         <div class="col-12 col-lg-4">
-          <section class="detail-card h-100 payment-card">
-            <div class="detail-card-header">
-              <div class="detail-card-icon">
-                <i class="fas fa-wallet"></i>
-              </div>
+          <section class="h-100 p-3 border rounded-3 admin-bg-alt">
+            <div class="d-flex align-items-center gap-3 pb-3 mb-3 border-bottom">
+              <i class="fas fa-wallet fa-fw fs-5"></i>
               <div>
-                <span class="detail-card-label">Transacción</span>
-                <h3>Pago</h3>
+                <span class="detail-label d-block small fw-bold text-uppercase text-body-secondary">
+                  Transacción
+                </span>
+                <h3 class="fs-6 fw-bold text-white mb-0">Pago</h3>
               </div>
             </div>
 
-            <div class="detail-data-list">
-              <div class="detail-data-item">
-                <span>Método</span>
+            <div class="d-flex flex-column gap-3">
+              <div>
+                <span class="d-block small text-body-secondary">Método</span>
                 <strong>{{ formatearMetodoPago() }}</strong>
               </div>
 
-              <div class="detail-data-item">
-                <span>Estado del pago</span>
+              <div>
+                <span class="d-block small text-body-secondary">Estado del pago</span>
                 <strong
-                  class="inline-payment-status"
-                  [class]="'inline-payment-status ' + obtenerClaseEstadoPago(pedido.estadoPago)"
+                  class="d-inline-block rounded-pill small px-2 py-1"
+                  [class]="obtenerClaseEstadoPago(pedido.estadoPago)"
                 >
                   {{ obtenerNombreEstadoPago(pedido.estadoPago) }}
                 </strong>
               </div>
 
-              <div class="detail-data-item">
-                <span>Estado del pedido</span>
+              <div>
+                <span class="d-block small text-body-secondary">Estado del pedido</span>
                 <strong>{{ obtenerNombreEstadoPedido(pedido.estado) }}</strong>
               </div>
             </div>
@@ -171,27 +162,23 @@
         </div>
       </div>
 
-      <section class="products-section">
-        <div class="products-section-header">
-          <div class="d-flex align-items-center gap-3">
-            <div class="detail-card-icon">
-              <i class="fas fa-box-open"></i>
-            </div>
-
-            <div>
-              <span class="detail-card-label">Contenido</span>
-              <h3 class="mb-0">Productos del pedido</h3>
-            </div>
+      <section class="border rounded-3 overflow-hidden admin-bg-alt">
+        <div class="d-flex align-items-center justify-content-between gap-3 p-3 border-bottom">
+          <div>
+            <span class="detail-label d-block small fw-bold text-uppercase text-body-secondary">
+              Contenido
+            </span>
+            <h3 class="fs-6 fw-bold text-white mb-0">Productos del pedido</h3>
           </div>
 
-          <span class="product-count-badge">
+          <span class="rounded-pill px-2 py-1 small fw-bold text-body-secondary admin-bg-base">
             {{ cantidadProductos }} unidad(es)
           </span>
         </div>
 
         <div class="table-responsive">
-          <table class="table align-middle mb-0 detail-products-table">
-            <thead>
+          <table class="table detail-products-table align-middle mb-0">
+            <thead class="admin-bg-base small text-uppercase text-nowrap text-body-secondary">
               <tr>
                 <th>Producto</th>
                 <th>SKU</th>
@@ -205,10 +192,13 @@
               @for (detalle of pedido.detalles; track detalle.id) {
                 <tr>
                   <td>
-                    <div class="product-detail">
-                      <div class="product-thumb">
+                    <div class="d-flex align-items-center gap-3">
+                      <div
+                        class="product-thumb d-flex align-items-center justify-content-center flex-shrink-0 overflow-hidden rounded-2 bg-light text-secondary"
+                      >
                         @if (detalle.imagenProducto) {
                           <img
+                            class="w-100 h-100 object-fit-contain"
                             [src]="detalle.imagenProducto"
                             [alt]="detalle.nombreProducto"
                           />
@@ -222,23 +212,25 @@
                   </td>
 
                   <td>
-                    <span class="detail-sku">{{ detalle.sku }}</span>
-                  </td>
-
-                  <td class="text-center">
-                    <span class="quantity-badge">{{ detalle.cantidad }}</span>
-                  </td>
-
-                  <td class="text-end">
-                    <span class="price-secondary">
-                      {{ formatearPrecio(detalle.precioUnitario) }}
+                    <span
+                      class="d-inline-block font-monospace small px-2 py-1 border rounded-1 admin-bg-base"
+                    >
+                      {{ detalle.sku }}
                     </span>
                   </td>
 
-                  <td class="text-end">
-                    <strong class="subtotal-value">
-                      {{ formatearPrecio(detalle.subtotal) }}
-                    </strong>
+                  <td class="text-center">
+                    <span class="d-inline-block small fw-bold px-2 py-1 rounded-2 admin-bg-base">
+                      {{ detalle.cantidad }}
+                    </span>
+                  </td>
+
+                  <td class="text-end text-nowrap small text-body-secondary">
+                    {{ formatearPrecio(detalle.precioUnitario) }}
+                  </td>
+
+                  <td class="text-end text-nowrap">
+                    <strong class="text-white">{{ formatearPrecio(detalle.subtotal) }}</strong>
                   </td>
                 </tr>
               }
@@ -246,13 +238,15 @@
           </table>
         </div>
 
-        <div class="detail-total-row">
-          <div>
-            <span>Total del pedido</span>
-            <small>Importe final registrado</small>
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-sm-end gap-4 p-3 admin-bg-base"
+        >
+          <div class="text-end">
+            <span class="d-block fw-semibold">Total del pedido</span>
+            <small class="text-body-secondary">Importe final registrado</small>
           </div>
 
-          <strong>{{ formatearPrecio(pedido.total) }}</strong>
+          <strong class="fs-6 text-white">{{ formatearPrecio(pedido.total) }}</strong>
         </div>
       </section>
     </div>
