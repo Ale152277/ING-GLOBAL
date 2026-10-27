@@ -3,16 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { Categoria } from '../../models/categoria.model';
 import { Marca } from '../../models/marca.model';
 import { Producto } from '../productos/models/producto.model';
-import {
-  ProductoGuardarEvento,
-  ProductoModal,
-} from './components/producto-modal/producto-modal';
+import { ProductoGuardarEvento, ProductoModal } from './components/producto-modal/producto-modal';
 import { ProductoTabla } from './components/producto-tabla/producto-tabla';
 import { ProductoAdminService } from './services/producto-admin.service';
-
+import { ProductoFiltros } from './components/producto-filtros/producto-filtros';
+import { FiltrosProductoAdmin } from './model/producto-filtro.model';
 @Component({
   selector: 'app-productos-admin',
-  imports: [ProductoModal, ProductoTabla],
+  imports: [ProductoModal, ProductoTabla, ProductoFiltros],
   templateUrl: './productos-admin.html',
   styleUrl: './productos-admin.css',
 })
@@ -34,6 +32,7 @@ export class ProductosAdmin implements OnInit {
 
   mensaje: { tipo: 'success' | 'danger' | 'info'; texto: string } | null = null;
 
+  filtros: FiltrosProductoAdmin = {};
   constructor(private productoAdminService: ProductoAdminService) {}
 
   ngOnInit(): void {
@@ -42,9 +41,7 @@ export class ProductosAdmin implements OnInit {
   }
 
   get productosStockBajo(): number {
-    return this.productos.filter(
-      (producto) => producto.stock > 0 && producto.stock <= 10,
-    ).length;
+    return this.productos.filter((producto) => producto.stock > 0 && producto.stock <= 10).length;
   }
 
   get productosAgotados(): number {
@@ -54,7 +51,7 @@ export class ProductosAdmin implements OnInit {
   cargarProductos(): void {
     this.isLoading = true;
 
-    this.productoAdminService.obtenerProductos(this.currentPage, this.pageSize).subscribe({
+    this.productoAdminService.obtenerProductos(this.currentPage, this.pageSize, this.filtros).subscribe({
       next: (response) => {
         if (response.success && response.data) {
           this.productos = response.data.content;
@@ -165,4 +162,11 @@ export class ProductosAdmin implements OnInit {
       error: () => this.mostrarMensaje('danger', 'No se pudieron cargar categorías y marcas.'),
     });
   }
+  aplicarFiltros(filtros: FiltrosProductoAdmin): void {
+  this.filtros = filtros;
+  this.currentPage = 1;
+  this.cargarProductos();
+}
+
+
 }

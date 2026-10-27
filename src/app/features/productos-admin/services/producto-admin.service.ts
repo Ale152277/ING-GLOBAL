@@ -12,7 +12,7 @@ import { Producto } from '../../productos/models/producto.model';
 import { CategoriaService } from '../../productos/services/categoria.service';
 import { MarcaService } from '../../productos/services/marca.service';
 import { ProductosService } from '../../productos/services/productos.service';
-
+import { FiltrosProductoAdmin } from '../model/producto-filtro.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -26,8 +26,9 @@ export class ProductoAdminService {
   obtenerProductos(
     page: number,
     size: number,
+    filtros: FiltrosProductoAdmin = {},
   ): Observable<ApiResponse<PageResponse<Producto>>> {
-    return this.productosService.obtenerTodosParaAdmin(page, size);
+    return this.productosService.obtenerTodosParaAdmin(page, size, filtros);
   }
 
   obtenerCatalogos(): Observable<{ categorias: Categoria[]; marcas: Marca[] }> {

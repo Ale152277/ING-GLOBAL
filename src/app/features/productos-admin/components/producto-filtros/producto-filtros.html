@@ -1,0 +1,89 @@
+<form class="card border-0 shadow-sm mb-4" (ngSubmit)="aplicar()">
+  <div class="card-body">
+    <div class="row g-3 align-items-end">
+      <div class="col-12 col-md-4">
+        <label for="texto" class="form-label">Nombre o SKU</label>
+        <input
+          id="texto"
+          name="texto"
+          type="search"
+          class="form-control"
+          placeholder="Buscar producto..."
+          [(ngModel)]="filtros.texto"
+        />
+      </div>
+
+      <div class="col-12 col-md-2">
+        <label for="estado" class="form-label">Estado</label>
+        <select id="estado" name="estado" class="form-select" [(ngModel)]="filtros.estado">
+          <option value="">Todos</option>
+          <option value="ACTIVO">Activo</option>
+          <option value="INACTIVO">Inactivo</option>
+        </select>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <label for="precioMin" class="form-label">Precio mínimo</label>
+        <input
+          id="precioMin"
+          name="precioMin"
+          type="number"
+          min="0"
+          step="0.01"
+          class="form-control"
+          placeholder="S/ 0.00"
+          [(ngModel)]="filtros.precioMin"
+        />
+      </div>
+
+      <div class="col-6 col-md-3">
+        <label for="precioMax" class="form-label">Precio máximo</label>
+        <input
+          id="precioMax"
+          name="precioMax"
+          type="number"
+          min="0"
+          step="0.01"
+          class="form-control"
+          placeholder="S/ 0.00"
+          [(ngModel)]="filtros.precioMax"
+        />
+      </div>
+
+      <div class="col-6 col-md-3">
+        <label for="stockMin" class="form-label">Stock mínimo</label>
+        <input
+          id="stockMin"
+          name="stockMin"
+          type="number"
+          min="0"
+          step="1"
+          class="form-control"
+          [(ngModel)]="filtros.stockMin"
+        />
+      </div>
+
+      <div class="col-6 col-md-3">
+        <label for="stockMax" class="form-label">Stock máximo</label>
+        <input
+          id="stockMax"
+          name="stockMax"
+          type="number"
+          min="0"
+          step="1"
+          class="form-control"
+          [(ngModel)]="filtros.stockMax"
+        />
+      </div>
+
+      <div class="col-12 col-md-6 d-flex justify-content-md-end gap-2">
+        <button type="button" class="btn btn-outline-secondary" (click)="limpiar()">Limpiar</button>
+        <button type="submit" class="btn btn-danger">Buscar</button>
+      </div>
+    </div>
+
+    @if (error) {
+      <div class="text-danger small mt-3">{{ error }}</div>
+    }
+  </div>
+</form>
