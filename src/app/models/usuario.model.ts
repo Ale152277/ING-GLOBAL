@@ -6,4 +6,5 @@ export interface Usuario {
   direccion: string;
   rol: string;
   estado: string;
+  fechaRegistro?: string;
 }

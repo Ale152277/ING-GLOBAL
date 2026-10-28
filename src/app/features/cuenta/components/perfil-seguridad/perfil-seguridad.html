@@ -1,0 +1,134 @@
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+  <div>
+    <h2 class="h5 fw-bold">Seguridad</h2>
+    <p class="text-secondary mb-0">Protege tu cuenta actualizando tu contraseña.</p>
+  </div>
+
+  <button
+    type="button"
+    class="btn btn-outline-danger"
+    [disabled]="procesando"
+    (click)="alternarFormulario()"
+  >
+    {{ mostrarFormulario ? 'Cancelar' : 'Cambiar contraseña' }}
+  </button>
+</div>
+
+@if (mostrarFormulario) {
+  @if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+  }
+
+  <form #formContrasena="ngForm" (ngSubmit)="cambiarContrasena(formContrasena)">
+    <div class="row g-3 my-4">
+      <div class="col-12 col-lg-4">
+        <label for="contrasenaActual" class="form-label"> Contraseña actual </label>
+
+        <div class="input-group">
+          <input
+            id="contrasenaActual"
+            [type]="mostrar.actual ? 'text' : 'password'"
+            name="contrasenaActual"
+            class="form-control"
+            [(ngModel)]="datos.contrasenaActual"
+            autocomplete="current-password"
+            required
+            [disabled]="procesando"
+          />
+
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="mostrar.actual = !mostrar.actual"
+            [attr.aria-label]="
+              mostrar.actual ? 'Ocultar contraseña actual' : 'Mostrar contraseña actual'
+            "
+            [attr.aria-pressed]="mostrar.actual"
+          >
+            <i [class]="mostrar.actual ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-12 col-lg-4">
+        <label for="contrasenaNueva" class="form-label"> Nueva contraseña </label>
+
+        <div class="input-group">
+          <input
+            id="contrasenaNueva"
+            [type]="mostrar.nueva ? 'text' : 'password'"
+            name="contrasenaNueva"
+            class="form-control"
+            [(ngModel)]="datos.contrasenaNueva"
+            #nueva="ngModel"
+            autocomplete="new-password"
+            minlength="8"
+            maxlength="72"
+            required
+            [disabled]="procesando"
+          />
+
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="mostrar.nueva = !mostrar.nueva"
+            [attr.aria-label]="
+              mostrar.nueva ? 'Ocultar nueva contraseña' : 'Mostrar nueva contraseña'
+            "
+            [attr.aria-pressed]="mostrar.nueva"
+          >
+            <i [class]="mostrar.nueva ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+
+        @if (nueva.invalid && nueva.touched) {
+          <small class="text-danger"> Debe tener entre 8 y 72 caracteres. </small>
+        }
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <label for="confirmacion" class="form-label"> Confirmar nueva contraseña </label>
+
+        <div class="input-group">
+          <input
+            id="confirmacion"
+            [type]="mostrar.confirmacion ? 'text' : 'password'"
+            name="confirmacion"
+            class="form-control"
+            [(ngModel)]="datos.confirmacion"
+            autocomplete="new-password"
+            required
+            [disabled]="procesando"
+          />
+
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="mostrar.confirmacion = !mostrar.confirmacion"
+            [attr.aria-label]="
+              mostrar.confirmacion ? 'Ocultar confirmación' : 'Mostrar confirmación'
+            "
+            [attr.aria-pressed]="mostrar.confirmacion"
+          >
+            <i [class]="mostrar.confirmacion ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-secondary small my-3">
+      Después de actualizar tu contraseña deberás iniciar sesión nuevamente.
+    </p>
+
+    <div class="d-flex justify-content-end">
+      <button
+        type="submit"
+        class="btn btn-danger px-4"
+        [disabled]="formContrasena.invalid || procesando"
+      >
+
+
+        {{ procesando ? 'Actualizando...' : 'Actualizar contraseña' }}
+      </button>
+    </div>
+  </form>
+}

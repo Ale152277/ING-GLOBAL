@@ -1,1 +1,143 @@
-<p>perfil works!</p>
+<section class="container perfil-page py-3">
+  @if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+  }
+
+  @if (mensaje) {
+    <div class="alert alert-success">{{ mensaje }}</div>
+  }
+
+  @if (cargando) {
+    <p class="text-secondary">Cargando perfil...</p>
+  } @else if (perfil) {
+    <div
+      class="perfil-hero d-flex flex-column text-center justify-content-center align-items-center gap-3 p-4 mb-4"
+    >
+      <div class="perfil-avatar">
+        {{ perfil.nombreCompleto.charAt(0).toUpperCase() || 'U' }}
+      </div>
+
+      <div class="flex-grow-1">
+        <small class="text-uppercase fw-semibold">Mi cuenta</small>
+        <h1 class="h3 fw-bold mt-1 mb-1">
+          {{ perfil.nombreCompleto }}
+        </h1>
+        <p class="mb-0 opacity-75">Administra tu información personal.</p>
+      </div>
+    </div>
+    <div class="row g-4 mb-4">
+      <div class="col-lg-8">
+        <div class="card perfil-card border-0 h-100">
+          <div class="card-body p-4">
+            <h2 class="h5 fw-bold mb-2">Información personal</h2>
+            <p class="text-secondary small mb-4">Actualiza tus datos de contacto.</p>
+
+            <form #formPerfil="ngForm" (ngSubmit)="guardar(formPerfil)">
+              <div class="row g-3">
+                <div class="col-md-7">
+                  <label for="nombre" class="form-label"> Nombre completo </label>
+                  <input
+                    id="nombre"
+                    name="nombreCompleto"
+                    class="form-control"
+                    [(ngModel)]="formulario.nombreCompleto"
+                    #nombre="ngModel"
+                    maxlength="100"
+                    required
+                    [disabled]="guardando"
+                  />
+                  @if (nombre.invalid && nombre.touched) {
+                    <small class="text-danger"> El nombre es obligatorio. </small>
+                  }
+                </div>
+
+                <div class="col-md-5">
+                  <label for="telefono" class="form-label">Teléfono</label>
+                  <input
+                    id="telefono"
+                    type="tel"
+                    name="telefono"
+                    class="form-control"
+                    [(ngModel)]="formulario.telefono"
+                    #telefono="ngModel"
+                    maxlength="9"
+                    pattern="[0-9]{9}"
+                    inputmode="numeric"
+                    [disabled]="guardando"
+                  />
+                  @if (telefono.invalid && telefono.touched) {
+                    <small class="text-danger"> Ingresa un teléfono de 9 dígitos. </small>
+                  }
+                </div>
+
+                <div class="col-12">
+                  <label for="email" class="form-label"> Correo electrónico </label>
+                  <input
+                    id="email"
+                    type="email"
+                    class="form-control"
+                    [value]="perfil.email"
+                    readonly
+                  />
+                  <small class="text-secondary"> El correo no puede modificarse por ahora. </small>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end mt-4">
+                <button
+                  type="submit"
+                  class="btn-guardar btn border px-4"
+                  [disabled]="formPerfil.invalid || guardando"
+                >
+                  {{ guardando ? 'Guardando...' : 'Guardar cambios' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card perfil-card border-0 h-100">
+          <div class="card-body p-4">
+            <h2 class="h5 fw-bold mb-2">Información de la cuenta</h2>
+            <p class="text-secondary small mb-4">Datos de tu cuenta en la tienda.</p>
+
+            <div class="mb-3">
+              <label class="form-label">Rol</label>
+              <input
+                class="form-control"
+                [value]="perfil.rol === 'ADMIN' ? 'Administrador' : 'Cliente'"
+                readonly
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Estado</label>
+              <input
+                class="form-control"
+                [value]="perfil.estado === 'ACTIVO' ? 'Activo' : 'Inactivo'"
+                readonly
+              />
+            </div>
+
+            <div>
+              <label class="form-label">Fecha de registro</label>
+              <input
+                class="form-control"
+                [value]="(perfil.fechaRegistro | date: 'dd/MM/yyyy') || 'No disponible'"
+                readonly
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card perfil-card border-0">
+      <div class="card-body p-4">
+        <app-perfil-seguridad />
+      </div>
+    </div>
+  }
+</section>

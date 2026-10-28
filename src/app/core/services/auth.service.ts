@@ -8,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../../environments/environment';
-
+import { Usuario } from '../../models/usuario.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -24,12 +24,10 @@ export class AuthService {
   public authenticated$ = this.authenticatedSubject.asObservable();
 
   constructor(
-  private http: HttpClient,
-  private router: Router,
-  @Inject(PLATFORM_ID) private platformId: Object,
-) {}
-
-
+    private http: HttpClient,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object,
+  ) {}
 
   cargarTokenDesdeStorage(): void {
     if (!this.isBrowser()) return;
@@ -41,12 +39,12 @@ export class AuthService {
       this.limpiarLocalStorage();
       this.tokenSubject.next(null);
       this.usuarioSubject.next(null);
-      this.authenticatedSubject.next(false)
+      this.authenticatedSubject.next(false);
 
       return;
     }
 
-    this.tokenSubject.next(token)
+    this.tokenSubject.next(token);
     this.authenticatedSubject.next(true);
 
     if (usuarioJson) {
@@ -116,17 +114,16 @@ export class AuthService {
     const rol = this.obtenerRolDesdeToken();
     return rol === 'ADMIN';
   }
-  
 
-  verificarEmail(token: string): Observable<ApiResponse<string>>{
-    return this.http.get<ApiResponse<string>>(`${this.apiUrl}/verificar`,{params:{token}})
+  verificarEmail(token: string): Observable<ApiResponse<string>> {
+    return this.http.get<ApiResponse<string>>(`${this.apiUrl}/verificar`, { params: { token } });
   }
 
-  reenviarVerificacion(email:string): Observable<ApiResponse<string>>{
-    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/reenviar-verificacion`, null, {params:{email}})
+  reenviarVerificacion(email: string): Observable<ApiResponse<string>> {
+    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/reenviar-verificacion`, null, {
+      params: { email },
+    });
   }
-
-
 
   private guardarToken(token: string): void {
     if (!this.isBrowser()) return;
@@ -148,18 +145,17 @@ export class AuthService {
     }
   }
 
-  private tokenExpirado (token:string): boolean{
-    try{
+  private tokenExpirado(token: string): boolean {
+    try {
       const decoded: any = jwtDecode(token);
 
-      if(!decoded.exp){
+      if (!decoded.exp) {
         return true;
       }
       const ahoraEnSegundos = Math.floor(Date.now() / 1000);
 
       return decoded.exp <= ahoraEnSegundos;
-
-    }catch(error){
+    } catch (error) {
       return true;
     }
   }
@@ -168,11 +164,12 @@ export class AuthService {
     return isPlatformBrowser(this.platformId);
   }
 
-  isAuthenticatedSync():boolean{
+  isAuthenticatedSync(): boolean {
     return this.authenticatedSubject.getValue();
   }
 
- 
-
-
+  actualizarUsuario(usuario: Usuario): void {
+    this.guardarUsuario(usuario);
+    this.usuarioSubject.next(usuario);
+  }
 }
