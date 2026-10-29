@@ -1,0 +1,174 @@
+
+<section class="container direcciones-page py-4">
+  @if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+  }
+  @if (mensaje) {
+    <div class="alert alert-success">{{ mensaje }}</div>
+  }
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="d-flex justify-content-between align-items-center gap-2 mb-4">
+        <h1 class="h4 fw-bold mb-0">Mis direcciones</h1>
+        <button type="button" class="btn btn-danger btn-sm px-3" (click)="nueva()">
+          Agregar dirección
+        </button>
+      </div>
+      @if (cargando) {
+        <p class="text-secondary">Cargando direcciones...</p>
+      } @else if (direcciones.length === 0) {
+        <div class="border rounded p-4 text-center text-secondary">
+          Aún no tienes direcciones registradas.
+        </div>
+      } @else {
+        <div class="row g-3">
+          @for (direccion of direcciones; track direccion.id) {
+            <div class="col-sm-6">
+              <div class="card direccion-card h-100"
+                   [class.direccion-seleccionada]="seleccionadaId === direccion.id">
+                <div class="card-body p-3 d-flex flex-column">
+                  <button type="button" class="btn text-start p-0 border-0"
+                          (click)="seleccionar(direccion)">
+                    <div class="d-flex justify-content-between align-items-center gap-2 mb-2">
+                      <strong>{{ direccion.alias }}</strong>
+                      @if (direccion.predeterminada) {
+                        <span class="badge text-bg-success">Principal</span>
+                      }
+                    </div>
+                    <small class="text-secondary">{{ direccion.nombreReceptor }}</small>
+                  </button>
+
+                  <div class="d-flex flex-wrap gap-2 mt-auto pt-3">
+                    <button type="button" class="btn btn-sm btn-outline-dark"
+                            (click)="editar(direccion)">Editar</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"
+                            [disabled]="operandoId !== null || guardando"
+                            (click)="eliminar(direccion)">Eliminar</button>
+                    @if (!direccion.predeterminada) {
+                      <button type="button" class="btn btn-sm btn-link text-danger p-0"
+                              [disabled]="operandoId !== null || guardando"
+                              (click)="establecerPredeterminada(direccion.id)">
+                        Predeterminar
+                      </button>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+    <div class="col-lg-7 direccion-detalle">
+      @if (seleccionada; as direccion) {
+        <h2 class="h5 fw-bold mb-3">
+          Detalle de dirección - {{ direccion.alias }}
+        </h2>
+
+        <div class="bg-body-tertiary rounded p-3 mb-4 small">
+          <div><strong>Nombre:</strong> {{ direccion.nombreReceptor }}</div>
+          <div><strong>Teléfono:</strong> {{ direccion.telefono }}</div>
+          <div>
+            <strong>Ubicación:</strong>
+            {{ direccion.distrito }}, {{ direccion.provincia }},
+            {{ direccion.departamento }}
+          </div>
+          <div><strong>Dirección:</strong> {{ direccion.direccion }}</div>
+          @if (direccion.codigoPostal) {
+            <div><strong>CP:</strong> {{ direccion.codigoPostal }}</div>
+          }
+          @if (direccion.referencia) {
+            <div><strong>Referencia:</strong> {{ direccion.referencia }}</div>
+          }
+        </div>
+      }
+
+      @if (mostrarFormulario) {
+        <h3 class="h6 fw-bold mb-3">
+          {{ editandoId === null ? 'Agregar dirección' : 'Editar dirección' }}
+        </h3>
+
+        <form #formDireccion="ngForm" (ngSubmit)="guardar(formDireccion)">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label" for="alias">Alias</label>
+              <input id="alias" name="alias" class="form-control"
+                     [(ngModel)]="formulario.alias" maxlength="50" required />
+            </div>
+
+            <div class="col-md-5">
+              <label class="form-label" for="receptor">Receptor</label>
+              <input id="receptor" name="nombreReceptor" class="form-control"
+                     [(ngModel)]="formulario.nombreReceptor" maxlength="100" required />
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label" for="telefono">Teléfono</label>
+              <input id="telefono" name="telefono" type="tel" class="form-control"
+                     [(ngModel)]="formulario.telefono" maxlength="9"
+                     pattern="[0-9]{9}" required />
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="departamento">Departamento</label>
+              <input id="departamento" name="departamento" class="form-control"
+                     [(ngModel)]="formulario.departamento" maxlength="100" required />
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="provincia">Provincia</label>
+              <input id="provincia" name="provincia" class="form-control"
+                     [(ngModel)]="formulario.provincia" maxlength="100" required />
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="distrito">Distrito</label>
+              <input id="distrito" name="distrito" class="form-control"
+                     [(ngModel)]="formulario.distrito" maxlength="100" required />
+            </div>
+
+            <div class="col-md-9">
+              <label class="form-label" for="direccion">Dirección exacta</label>
+              <input id="direccion" name="direccion" class="form-control"
+                     [(ngModel)]="formulario.direccion" maxlength="255" required />
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label" for="postal">Código postal</label>
+              <input id="postal" name="codigoPostal" class="form-control"
+                     [(ngModel)]="formulario.codigoPostal"
+                     maxlength="5" pattern="[0-9]{5}" />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="referencia">Referencia</label>
+              <textarea id="referencia" name="referencia" class="form-control"
+                        [(ngModel)]="formulario.referencia"
+                        maxlength="255" rows="2"></textarea>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-3">
+            <button type="button" class="btn btn-outline-secondary"
+                    [disabled]="guardando" (click)="cancelar()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-danger"
+                    [disabled]="formDireccion.invalid || guardando">
+              {{ guardando ? 'Guardando...' : 'Guardar dirección' }}
+            </button>
+          </div>
+        </form>
+      } @else if (!seleccionada) {
+        <div class="text-secondary py-5 text-center">
+          Selecciona una dirección o registra una nueva.
+        </div>
+      } @else {
+        <button type="button" class="btn btn-outline-dark"
+                (click)="editar(seleccionada)">
+          Editar dirección
+        </button>
+      }
+    </div>
+  </div>
+</section>

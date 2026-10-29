@@ -153,6 +153,9 @@ export class InterfazCarrito implements OnInit {
   }
 
   realizarPedido(request: CrearVentaRequest): void {
+
+    if(this.isloading) return;
+
     if (!this.carrito || this.carrito.detalles.length === 0) {
       this.error = 'El carrito está vacio';
       return;
@@ -163,24 +166,26 @@ export class InterfazCarrito implements OnInit {
     this.mensajeExito = '';
 
     this.ventaService.crearVenta(request).subscribe({
-      next: (response) => {
-        const ventaId = response.data.id;
+    next: (response) => {
+      this.isloading = false;
 
-        this.mostrarConfirmacionPedido = false;
-        this.carrito = null;
-        this.carritoService.limpiarCarritoLocal();
-        this.router.navigate(['/pago', ventaId]);
-      },
+      if (!response.success || !response.data) {
+        this.error = response.message || 'No se pudo crear el pedido';
+        return;
+      }
 
-      error: (error) => {
-        console.error('Error al crear el pedido', error);
-        this.error = error.error?.message || 'No pudimos crear el pedido';
-        this.isloading = false;
-      },
-    });
+      this.mostrarConfirmacionPedido = false;
+      this.carrito = null;
+      this.carritoService.limpiarCarritoLocal();
 
-    this.isloading = false;
-  }
+      this.router.navigate(['/pago', response.data.id]);
+    },
+    error: (error) => {
+      this.isloading = false;
+      this.error = error.error?.message || 'No pudimos crear el pedido';
+    },
+  });
+}
 
   solicitarConfirmacionPedido(): void {
     if (!this.carrito || this.carrito.detalles.length === 0) {

@@ -19,6 +19,8 @@ import { AdminDashboard } from './features/admin/dashboard/pages/admin-dashboard
 import { AdminOrders } from './features/admin/orders/admin-orders/admin-orders';
 import { PagoPedido } from './features/pagos/pages/pago-pedido/pago-pedido';
 import { RevisionPagos } from './features/admin/payments/pages/revision-pagos/revision-pagos';
+import { MisDirecciones } from './features/cuenta/pages/mis-direcciones/mis-direcciones';
+
 export const routes: Routes = [
   // auth
   {
@@ -57,8 +59,8 @@ export const routes: Routes = [
       },
       {
         path: 'pagos',
-        component: RevisionPagos
-      }
+        component: RevisionPagos,
+      },
     ],
   },
 
@@ -114,6 +116,11 @@ export const routes: Routes = [
       {
         path: 'pago/:ventaId',
         component: PagoPedido,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'cuenta/direcciones',
+        component: MisDirecciones,
         canActivate: [AuthGuard],
       },
     ],
