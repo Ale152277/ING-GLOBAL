@@ -1,0 +1,5 @@
+/* Bootstrap activa scroll-behavior: smooth en :root, lo que anima el scroll al cambiar de ruta.
+   Los scrollTo({ behavior: 'smooth' }) explícitos de la app no se ven afectados. */
+:root {
+  scroll-behavior: auto;
+}
