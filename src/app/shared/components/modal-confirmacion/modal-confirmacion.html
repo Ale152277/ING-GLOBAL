@@ -1,0 +1,55 @@
+<div class="modal d-block confirmacion-backdrop" [class.variante-exito]="variante === 'exito'" (click)="cerrar()">
+  <div class="modal-dialog modal-dialog-centered confirmacion-dialogo">
+    <div
+      class="modal-content border-0 rounded-4 shadow-lg"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="confirmacion-titulo"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="modal-body text-center px-4 pt-4 pb-3">
+        <div class="confirmacion-icono" aria-hidden="true">
+          <i [class]="icono"></i>
+        </div>
+
+        <h5 id="confirmacion-titulo" class="fw-bold mb-2">{{ titulo }}</h5>
+
+        @if (mensaje) {
+          <p class="text-secondary mb-2">{{ mensaje }}</p>
+        }
+
+        @if (advertencia) {
+          <p class="confirmacion-advertencia mb-0">{{ advertencia }}</p>
+        }
+      </div>
+
+      <div class="modal-footer border-0 justify-content-center gap-2 px-4 pb-4 pt-2">
+        <button
+          #botonCancelar
+          type="button"
+          class="btn btn-outline-secondary px-4"
+          [disabled]="procesando"
+          (click)="cerrar()"
+        >
+          {{ textoCancelar }}
+        </button>
+
+        <button
+          type="button"
+          class="btn px-4"
+          [class.btn-danger]="variante === 'peligro'"
+          [class.btn-success]="variante === 'exito'"
+          [disabled]="procesando"
+          (click)="confirmar.emit()"
+        >
+          @if (procesando) {
+            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+            Procesando...
+          } @else {
+            {{ textoConfirmar }}
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

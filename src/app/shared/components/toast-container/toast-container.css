@@ -1,0 +1,117 @@
+.toast-stack {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 1080;
+  width: min(520px, calc(100vw - 32px));
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/*
+  Cada toast vive en un "slot" que anima su altura (grid 1fr ↔ 0fr) junto con la opacidad:
+  al entrar y salir, los demás toasts se deslizan en vez de saltar o solaparse.
+  La sombra va como drop-shadow en el slot porque .toast-slot-inner recorta (overflow).
+  La duración de salida debe coincidir con DURACION_SALIDA en toast.service.ts.
+*/
+.toast-slot {
+  display: grid;
+  grid-template-rows: 1fr;
+  margin-top: 0.5rem;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.16));
+  pointer-events: auto;
+  transition:
+    grid-template-rows 0.3s ease,
+    margin-top 0.3s ease,
+    opacity 0.25s ease,
+    transform 0.3s ease;
+  animation: toast-entrar 0.3s ease-out;
+}
+
+.toast-slot.saliendo {
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
+
+.toast-slot-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.toast-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--border-radius-md);
+  background: var(--color-white);
+  color: var(--color-text-primary);
+  font-size: 0.95rem;
+}
+
+.toast-icono {
+  color: var(--color-gray);
+}
+
+.toast-success .toast-icono {
+  color: var(--color-success);
+}
+
+.toast-error .toast-icono {
+  color: var(--color-danger);
+}
+
+.toast-mensaje {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.toast-accion {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-primary-dark);
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.toast-accion:hover {
+  text-decoration: underline;
+}
+
+.toast-cerrar {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-gray);
+  cursor: pointer;
+}
+
+.toast-cerrar:hover {
+  color: var(--color-text-primary);
+}
+
+@keyframes toast-entrar {
+  from {
+    grid-template-rows: 0fr;
+    margin-top: 0;
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast-slot {
+    animation: none;
+    transition: none;
+  }
+}

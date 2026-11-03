@@ -1,0 +1,64 @@
+.confirmacion-backdrop {
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+/* Acento por variante: el icono, la advertencia y el botón de confirmar lo usan. */
+.confirmacion-backdrop {
+  --acento: var(--color-primary-dark);
+  --acento-fondo: rgba(204, 0, 0, 0.1);
+}
+
+.variante-exito {
+  --acento: var(--color-success);
+  --acento-fondo: rgba(25, 135, 84, 0.12);
+}
+
+.confirmacion-dialogo {
+  max-width: 420px;
+}
+
+.modal-content {
+  animation: aparecer 0.25s ease-out;
+}
+
+.confirmacion-icono {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem;
+  border-radius: var(--border-radius-full);
+  background: var(--acento-fondo);
+  font-size: 1.4rem;
+  color: var(--acento);
+}
+
+.confirmacion-advertencia {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--acento);
+}
+
+.btn-danger {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.btn-danger:not(:disabled):hover {
+  background: #a80000;
+  border-color: #a80000;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-content {
+    animation: none;
+  }
+}
