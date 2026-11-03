@@ -17,12 +17,15 @@ export interface PresentacionProducto{
 
 export interface DetalleCarrito{
     id: number;
-    productoId: number;
+    carritoId?: number;
     producto?: Producto;
-    presentacion?: PresentacionProducto;
+    presentacionProducto?: PresentacionProducto;
     cantidad: number;
+    /** Precio de lista (sin descuento). */
     precioUnitario: number;
-    descuento: number;
+    /** Porcentaje de descuento aplicado. */
+    descuentoAplicado: number;
+    /** Ya incluye el descuento: precioUnitario * (1 - descuento) * cantidad. */
     subtotal: number;
 }
 

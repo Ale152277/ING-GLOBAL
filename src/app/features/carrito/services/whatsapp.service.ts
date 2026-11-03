@@ -14,7 +14,7 @@ export class WhatsappService {
     mensaje += 'Hola, deseo solicitar los siguientes productos:\n\n';
 
     carrito.detalles.forEach((detalle, index) => {
-      const nombre = detalle.producto?.nombre || detalle.presentacion?.nombreProducto || 'Producto';
+      const nombre = detalle.producto?.nombre || detalle.presentacionProducto?.nombreProducto || 'Producto';
 
       const sku = detalle.producto?.sku;
 
@@ -28,8 +28,8 @@ export class WhatsappService {
       mensaje += `Cantidad: ${detalle.cantidad}\n`;
       mensaje += `Precio unitario: S/ ${detalle.precioUnitario.toFixed(2)}\n`;
 
-      if (detalle.descuento > 0) {
-        mensaje += `Descuento : ${detalle.descuento}%\n`;
+      if (detalle.descuentoAplicado > 0) {
+        mensaje += `Descuento : ${detalle.descuentoAplicado}%\n`;
       }
 
       mensaje += `Subtotal: S/ ${detalle.subtotal.toFixed(2)}\n`;

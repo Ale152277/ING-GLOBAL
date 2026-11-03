@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Carrito, DetalleCarrito } from '../../../../models/carrito.model';
+import { AgregarAlCarrito, Carrito, DetalleCarrito } from '../../../../models/carrito.model';
 import { CarritoService } from '../../services/carrito.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { VentaService } from '../../../ventas/venta.service';
 import { ConfirmarPedidoModal } from '../../components/confirmar-pedido-modal/confirmar-pedido-modal';
 import { WhatsappService } from '../../services/whatsapp.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Usuario } from '../../../../models/usuario.model';
 import { CrearVentaRequest } from '../../../../models/venta.model';
+import { ToastService } from '../../../../shared/services/toast.service';
+import { ModalConfirmacion } from '../../../../shared/components/modal-confirmacion/modal-confirmacion';
 
 @Component({
   selector: 'app-interfaz-carrito',
-  imports: [CommonModule, ConfirmarPedidoModal],
+  imports: [CommonModule, RouterLink, ConfirmarPedidoModal, ModalConfirmacion],
   templateUrl: './interfaz-carrito.html',
   styleUrl: './interfaz-carrito.css',
 })
@@ -22,6 +24,10 @@ export class InterfazCarrito implements OnInit {
   error = '';
   mensajeExito = '';
   mostrarConfirmacionPedido = false;
+  mostrarConfirmacionVaciar = false;
+  mostrarConfirmacionWhatsapp = false;
+  enviandoWhatsapp = false;
+  vaciando = false;
 
   usuario: Usuario | null = null;
 
@@ -31,6 +37,7 @@ export class InterfazCarrito implements OnInit {
     private router: Router,
     private whatsappService: WhatsappService,
     private authService: AuthService,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +71,18 @@ export class InterfazCarrito implements OnInit {
     return this.carritoService.obtenerTotal(this.carrito!);
   }
 
+  obtenerNombre(detalle: DetalleCarrito): string {
+    return detalle.producto?.nombre || detalle.presentacionProducto?.nombreProducto || 'Producto';
+  }
+
+  obtenerImagen(detalle: DetalleCarrito): string | undefined {
+    return detalle.producto?.imagen || detalle.presentacionProducto?.imagen;
+  }
+
+  obtenerPrecioUnitarioFinal(detalle: DetalleCarrito): number {
+    return detalle.subtotal / detalle.cantidad;
+  }
+
   formatearPrecio(precio: number): string {
     return new Intl.NumberFormat('es-PE', {
       style: 'currency',
@@ -93,12 +112,29 @@ export class InterfazCarrito implements OnInit {
     });
   }
 
-  eliminarProducto(dettalle: DetalleCarrito): void {
+  eliminarProducto(detalle: DetalleCarrito): void {
     if (!this.carrito) return;
-    this.carritoService.eliminarProducto(dettalle.id, this.carrito.id).subscribe({
+
+    const nombre = this.obtenerNombre(detalle);
+    // El backend ignora en silencio un request sin productoId ni presentacionId,
+    // así que sin ninguno de los dos no se ofrece "Deshacer".
+    const solicitud = this.crearSolicitudRestauracion(detalle);
+
+    this.carritoService.eliminarProducto(detalle.id, this.carrito.id).subscribe({
       next: () => {
-        this.carrito!.detalles = this.carrito!.detalles.filter((d) => d.id !== dettalle.id);
+        this.carrito!.detalles = this.carrito!.detalles.filter((d) => d.id !== detalle.id);
         this.carritoService.actualizarBehaviorSubject(this.carrito!);
+
+        this.toastService.mostrar(`${nombre} eliminado del carrito`, {
+          duracion: 6000,
+          icono: 'fa-circle-xmark',
+          accion: solicitud
+            ? {
+                etiqueta: 'Deshacer',
+                ejecutar: () => this.restaurarProducto(nombre, solicitud),
+              }
+            : undefined,
+        });
       },
       error: (error) => {
         console.error('Error al eliminar producto:', error);
@@ -107,29 +143,85 @@ export class InterfazCarrito implements OnInit {
     });
   }
 
-  vaciarCarrito(): void {
-    if (!this.carrito || !confirm('¿Estás seguro de querer vaciar este carrito?')) {
-      return;
+  private crearSolicitudRestauracion(detalle: DetalleCarrito): AgregarAlCarrito | null {
+    const { presentacionProducto, producto, cantidad } = detalle;
+
+    if (presentacionProducto?.id) {
+      return { presentacionId: presentacionProducto.id, cantidad };
     }
-    this.carritoService.varciarCarrito(this.carrito.id).subscribe({
-      next: () => {
-        this.carrito!.detalles = [];
-        this.carritoService.actualizarBehaviorSubject(this.carrito!);
+
+    if (producto?.id) {
+      return { productoId: producto.id, cantidad };
+    }
+
+    return null;
+  }
+
+  // El backend no tiene "restaurar": deshacer vuelve a agregar el producto con su cantidad
+  // (el detalle nuevo puede quedar al final de la lista).
+  private restaurarProducto(nombre: string, solicitud: AgregarAlCarrito): void {
+    this.carritoService.agregarProducto(solicitud).subscribe({
+      next: (response) => {
+        if (response.data) {
+          this.carrito = response.data;
+        }
       },
       error: (error) => {
-        console.error('Error al vaciar el carrito:', error);
-        this.error = 'Error al vaciar el carrito';
+        console.error('Error al restaurar producto:', error);
+        this.toastService.error(error.error?.message || `No se pudo restaurar ${nombre}`);
       },
     });
   }
 
-  Comprar(): void {
+  solicitarVaciarCarrito(): void {
+    if (!this.carrito || this.carrito.detalles.length === 0) return;
+    this.mostrarConfirmacionVaciar = true;
+  }
+
+  cancelarVaciarCarrito(): void {
+    this.mostrarConfirmacionVaciar = false;
+  }
+
+  vaciarCarrito(): void {
+    if (!this.carrito || this.vaciando) return;
+
+    this.vaciando = true;
+
+    this.carritoService.varciarCarrito(this.carrito.id).subscribe({
+      next: () => {
+        this.carrito!.detalles = [];
+        this.carritoService.actualizarBehaviorSubject(this.carrito!);
+        this.vaciando = false;
+        this.mostrarConfirmacionVaciar = false;
+      },
+      error: (error) => {
+        console.error('Error al vaciar el carrito:', error);
+        this.error = 'Error al vaciar el carrito';
+        this.vaciando = false;
+        this.mostrarConfirmacionVaciar = false;
+      },
+    });
+  }
+
+  solicitarCompraWhatsapp(): void {
     if (!this.carrito || this.carrito.detalles.length === 0) {
       this.error = 'el carrito está vacío';
       return;
     }
 
-    this.isloading = true;
+    this.mostrarConfirmacionWhatsapp = true;
+  }
+
+  cancelarCompraWhatsapp(): void {
+    this.mostrarConfirmacionWhatsapp = false;
+  }
+
+  Comprar(): void {
+    if (!this.carrito || this.carrito.detalles.length === 0 || this.enviandoWhatsapp) {
+      return;
+    }
+
+    this.enviandoWhatsapp = true;
 
     this.carritoService.enviarWhatsapp(this.carrito.id).subscribe({
       next: (response) => {
@@ -142,12 +234,14 @@ export class InterfazCarrito implements OnInit {
           this.carritoService.limpiarCarritoLocal();
         }
 
-        this.isloading = false;
+        this.enviandoWhatsapp = false;
+        this.mostrarConfirmacionWhatsapp = false;
       },
       error: (error) => {
         console.error('Error al enviar el carrito por WhatsApp:', error);
         this.error = 'Error al procesar la compra';
-        this.isloading = false;
+        this.enviandoWhatsapp = false;
+        this.mostrarConfirmacionWhatsapp = false;
       },
     });
   }
