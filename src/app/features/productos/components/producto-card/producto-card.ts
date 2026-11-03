@@ -5,6 +5,7 @@ import { PresentacionProducto } from '../../../../models/carrito.model';
 import { Producto } from '../../models/producto.model';
 import { CarritoService } from '../../../carrito/services/carrito.service';
 import { AuthService } from '../../../../core/services/auth.service';
+import { ToastService } from '../../../../shared/services/toast.service';
 @Component({
   selector: 'app-producto-card',
   imports: [CommonModule],
@@ -24,7 +25,8 @@ export class ProductoCard implements OnInit {
   constructor(
     private carritoService: CarritoService,
     private authService: AuthService,
-    private router: Router  
+    private router: Router,
+    private toastService: ToastService,
   ){}
 
 
@@ -54,6 +56,7 @@ export class ProductoCard implements OnInit {
   private requiereLogin():boolean{
     if(!this.usuarioAutenticado){
       this.router.navigate(['/auth/login'])
+      return true;
     }
     return false;
   }
@@ -68,11 +71,15 @@ export class ProductoCard implements OnInit {
     this.carritoService.agregarProducto(request).subscribe({
       next:()=>{
         this.isLoading= false;
+        this.toastService.exito(`${this.producto.nombre} agregado al carrito`, {
+          accion: { etiqueta: 'Ver carrito', enlace: '/carrito' },
+        });
         this.agregarAlCarrito.emit(this.producto)
       },
       error:(error)=>{
         console.error('Error al agregar al carrito', error);
         this.isLoading= false
+        this.toastService.error(error.error?.message || 'No se pudo agregar el producto al carrito');
       }
     })
   }
