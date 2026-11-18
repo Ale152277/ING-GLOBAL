@@ -152,4 +152,8 @@ export class PedidoCard {
       },
     });
   }
+
+  get codigoPedido(): string {
+  return `IG-${String(this.pedido.id).padStart(6, '0')}`;
+}
 }
