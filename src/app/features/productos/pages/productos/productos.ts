@@ -8,6 +8,8 @@ import { ProductosService } from '../../services/productos.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { Marca } from '../../../../models/marca.model';
+import { MarcaService } from '../../services/marca.service';
 @Component({
   selector: 'app-productos',
   imports: [CommonModule, FormsModule, ProductoCard],
@@ -15,7 +17,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './productos.css',
 })
 export class Productos implements OnInit {
-  selectedCategoria: number | null = null;
+  selectedCategorias: number[] = [];
+  selectedMarcas: number[] = [];
   searchTerm: string = '';
   ordernadoPor: string = 'destacados';
 
@@ -24,11 +27,11 @@ export class Productos implements OnInit {
 
   productosPaginados: Producto[] = [];
   categorias: Categoria[] = [];
+  marcas: Marca[] = [];
 
   isLoading: boolean = false;
   totalPages: number = 0;
   totalProductos: number = 0;
-
 
   private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
@@ -36,33 +39,30 @@ export class Productos implements OnInit {
   constructor(
     private productoService: ProductosService,
     private categoriaService: CategoriaService,
-    private route:ActivatedRoute
+    private route: ActivatedRoute,
+    private marcaService: MarcaService,
   ) {}
 
   ngOnInit(): void {
-
-     this.route.queryParams.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(params => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.currentPage = 1;
-      this.selectedCategoria = params['categoriaId']? +params['categoriaId'] : null; 
+
+      const categoriaId = Number(params['categoriaId']);
+
+      this.selectedCategorias = categoriaId > 0 ? [categoriaId] : [];
+
       this.cargarProductos();
-  });
-    
-    this.searchSubject.pipe(debounceTime(300),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$)
-    ).subscribe((termino) => {
+    });
+
+    this.searchSubject
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(() => {
         this.currentPage = 1;
-        if (termino.trim()) {
-          this.buscarProductos(termino);
-        } else {
-          this.cargarProductos();
-        }
+        this.cargarProductos();
       });
 
     this.cargarCategorias();
-    this.cargarProductos();
+    this.cargarMarcas();
   }
 
   ngOnDestroy(): void {
@@ -74,14 +74,12 @@ export class Productos implements OnInit {
     this.isLoading = true;
 
     this.productoService
-      .obtenerProductos(
+      .filtrarCatalogo(
         this.currentPage,
         this.productosPorPagina,
-        this.selectedCategoria || undefined,
-        undefined,
-        undefined,
-        undefined,
-        false,
+        this.selectedCategorias,
+        this.selectedMarcas,
+        this.searchTerm,
         this.obtenerOrdenamiento(),
       )
       .subscribe({
@@ -94,12 +92,11 @@ export class Productos implements OnInit {
           this.isLoading = false;
         },
         error: (error) => {
-          console.error('error al cargar productos:', error), 
-          this.isLoading = false;
+          (console.error('error al cargar productos:', error), (this.isLoading = false));
         },
       });
   }
-  
+
   buscarProductos(termino: string): void {
     this.isLoading = true;
     this.productoService
@@ -119,7 +116,7 @@ export class Productos implements OnInit {
         },
       });
   }
- onSearchChange(): void {
+  onSearchChange(): void {
     this.searchSubject.next(this.searchTerm);
   }
 
@@ -127,11 +124,23 @@ export class Productos implements OnInit {
     this.categoriaService.obtenerTodas().subscribe({
       next: (response) => {
         if (response.success && response.data) {
-          this.categorias = [{ id: 0, nombre: 'Todas', slug: 'Todas' }, ...response.data];
+          this.categorias = response.data;
         }
       },
       error: (error) => {
-        console.error('error al cargar categorias:', error);
+        console.error('Error al cargar categorías:', error);
+      },
+    });
+  }
+  cargarMarcas(): void {
+    this.marcaService.obtenerTodas().subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this.marcas = response.data.filter((marca) => marca.estado === 'ACTIVO');
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar marcas:', error);
       },
     });
   }
@@ -150,20 +159,31 @@ export class Productos implements OnInit {
     }
   }
 
- onCategoriaChange():void{
-  this.currentPage = 1;
-  this.searchTerm = '';
-  this.cargarProductos();
- }
+  alternarCategoria(id: number): void {
+    if (this.selectedCategorias.includes(id)) {
+      this.selectedCategorias = this.selectedCategorias.filter((categoriaId) => categoriaId !== id);
+    } else {
+      this.selectedCategorias = [...this.selectedCategorias, id];
+    }
 
-  onOrdenamiento(): void {
+    this.currentPage = 1;
+    this.cargarProductos();
+  }
+
+  alternarMarca(id: number): void {
+    if (this.selectedMarcas.includes(id)) {
+      this.selectedMarcas = this.selectedMarcas.filter((marcaId) => marcaId !== id);
+    } else {
+      this.selectedMarcas = [...this.selectedMarcas, id];
+    }
+
     this.currentPage = 1;
     this.cargarProductos();
   }
 
   getPrecioFinal(producto: Producto): number {
     if (producto.descuento) {
-      return producto.precio - (producto.precio * producto.descuento / 100);
+      return producto.precio - (producto.precio * producto.descuento) / 100;
     }
 
     return producto.precio;
@@ -196,13 +216,24 @@ export class Productos implements OnInit {
     console.log('Agregado al carrito:', producto.nombre);
   }
 
- 
   onAgregarDeseos(producto: Producto): void {
     console.log('Agregado a deseos:', producto.nombre);
   }
 
-  
   onCompartir(producto: Producto): void {
     console.log('Compartiendo:', producto.nombre);
+  }
+  onOrdenamiento(): void {
+  this.currentPage = 1;
+  this.cargarProductos();
+}
+
+  limpiarFiltros(): void {
+    this.selectedCategorias = [];
+    this.selectedMarcas = [];
+    this.searchTerm = '';
+
+    this.currentPage = 1;
+    this.cargarProductos();
   }
 }

@@ -146,4 +146,33 @@ export class ProductosService {
       params,
     });
   }
+
+  filtrarCatalogo(
+    page: number = 1,
+    size: number = 12,
+    categoriaIds: number[] = [],
+    marcaIds: number[] = [],
+    texto: string = '',
+    ordenar?: string,
+  ): Observable<ApiResponse<PageResponse<Producto>>> {
+    let params = new HttpParams().set('page', page).set('size', size);
+
+    categoriaIds.forEach((id) => {
+      params = params.append('categoriaIds', id.toString());
+    });
+
+    marcaIds.forEach((id) => {
+      params = params.append('marcaIds', id.toString());
+    });
+
+    if (texto.trim()) {
+      params = params.set('q', texto.trim());
+    }
+
+    if (ordenar) {
+      params = params.set('ordenar', ordenar);
+    }
+
+    return this.http.get<ApiResponse<PageResponse<Producto>>>(this.apiUrl, { params });
+  }
 }

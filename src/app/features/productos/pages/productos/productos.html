@@ -40,19 +40,48 @@
                 [for]="'cat-' + cat.id"
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   class="form-check-input mt-1"
                   [id]="'cat-' + cat.id"
-                  name="categoria"
-                  [value]="cat.id === 0 ? null : cat.id"
-                  [(ngModel)]="selectedCategoria"
-                  (change)="onCategoriaChange()"
+                  [checked]="selectedCategorias.includes(cat.id)"
+                  (change)="alternarCategoria(cat.id)"
                 />
 
                 <span>{{ cat.nombre }}</span>
               </label>
             }
           </div>
+
+          <h6 class="fw-bold mt-4 mb-3">Marcas</h6>
+
+          <div class="d-flex flex-column">
+            @for (marca of marcas; track marca.id) {
+              <label
+                class="category-option d-flex align-items-start gap-2 py-2"
+                [for]="'marca-' + marca.id"
+              >
+                <input
+                  type="checkbox"
+                  class="form-check-input mt-1"
+                  [id]="'marca-' + marca.id"
+                  [checked]="selectedMarcas.includes(marca.id)"
+                  (change)="alternarMarca(marca.id)"
+                />
+
+                <span>{{ marca.nombre }}</span>
+              </label>
+            }
+          </div>
+
+          @if (selectedCategorias.length > 0 || selectedMarcas.length > 0 || searchTerm.trim()) {
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm w-100 mt-3"
+              (click)="limpiarFiltros()"
+            >
+              Limpiar filtros
+            </button>
+          }
         </div>
       </aside>
 
@@ -103,6 +132,183 @@
             }
           </div>
         }
+
+        @if (totalPages > 1) {
+          <nav class="d-flex justify-content-center mt-5" aria-label="Paginación de productos">
+            <ul class="pagination mb-0">
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <button
+                  type="button"
+                  class="page-link"
+                  (click)="irAPagina(currentPage - 1)"
+                  [disabled]="currentPage === 1"
+                  aria-label="Página anterior"
+                >
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+              </li>
+
+              @for (pagina of getPaginasDisponibles(); track pagina) {
+                <li class="page-item" [class.active]="pagina === currentPage">
+                  <button type="button" class="page-link" (click)="irAPagina(pagina)">
+                    {{ pagina }}
+                  </button>
+                </li>
+              }
+
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <button
+                  type="button"
+                  class="page-link"
+                  (click)="irAPagina(currentPage + 1)"
+                  [disabled]="currentPage === totalPages"
+                  aria-label="Página siguiente"
+                >
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </li>
+            </ul>
+          </nav>
+        }
+      </main>
+    </div>
+  </div>
+</section>
+<section class="productos-page py-4">
+  <div class="container-fluid px-3 px-xl-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="/" class="text-decoration-none text-secondary">Inicio</a>
+        </li>
+        <li class="breadcrumb-item active">Productos</li>
+      </ol>
+    </nav>
+
+    <div class="catalog-layout">
+      <aside class="catalog-sidebar">
+        <div class="catalog-filter">
+          <div class="mb-4">
+            <label for="buscarProducto" class="form-label fw-semibold"> Buscar </label>
+
+            <div class="input-group input-group-sm">
+              <span class="input-group-text bg-white">
+                <i class="fas fa-magnifying-glass text-muted"></i>
+              </span>
+
+              <input
+                id="buscarProducto"
+                type="text"
+                class="form-control"
+                placeholder="Nombre o SKU"
+                [(ngModel)]="searchTerm"
+                (input)="onSearchChange()"
+              />
+            </div>
+          </div>
+
+          <h6 class="fw-bold mb-3">Categorías</h6>
+
+          <div class="d-flex flex-column">
+            @for (cat of categorias; track cat.id) {
+              <label
+                class="category-option d-flex align-items-start gap-2 py-2"
+                [for]="'cat-' + cat.id"
+              >
+                <input
+                  type="checkbox"
+                  class="form-check-input mt-1"
+                  [id]="'cat-' + cat.id"
+                  [checked]="selectedCategorias.includes(cat.id)"
+                  (change)="alternarCategoria(cat.id)"
+                />
+
+                <span>{{ cat.nombre }}</span>
+              </label>
+            }
+          </div>
+
+          <h6 class="fw-bold mt-4 mb-3">Marcas</h6>
+
+          <div class="d-flex flex-column">
+            @for (marca of marcas; track marca.id) {
+              <label
+                class="category-option d-flex align-items-start gap-2 py-2"
+                [for]="'marca-' + marca.id"
+              >
+                <input
+                  type="checkbox"
+                  class="form-check-input mt-1"
+                  [id]="'marca-' + marca.id"
+                  [checked]="selectedMarcas.includes(marca.id)"
+                  (change)="alternarMarca(marca.id)"
+                />
+
+                <span>{{ marca.nombre }}</span>
+              </label>
+            }
+          </div>
+
+          @if (selectedCategorias.length > 0 || selectedMarcas.length > 0 || searchTerm.trim()) {
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm w-100 mt-3"
+              (click)="limpiarFiltros()"
+            >
+              Limpiar filtros
+            </button>
+          }
+        </div>
+      </aside>
+
+      <main class="catalog-main">
+        <div
+          class="catalog-toolbar d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4"
+        >
+          <div>
+            <span class="fw-semibold"> Todos los productos </span>
+
+            <span class="text-muted"> · {{ totalProductos }} artículos </span>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <label for="ordenProductos" class="small text-muted text-nowrap"> Ordenar por: </label>
+
+            <select
+              id="ordenProductos"
+              class="form-select form-select-sm"
+              [(ngModel)]="ordernadoPor"
+              (change)="onOrdenamiento()"
+            >
+              <option value="destacados">Destacados</option>
+              <option value="menor-precio">Menor precio</option>
+              <option value="mayor-precio">Mayor precio</option>
+              <option value="mas-vendidos">Más vendidos</option>
+              <option value="nuevos">Nuevos</option>
+            </select>
+          </div>
+        </div>
+
+        @if (isLoading) {
+          <div class="text-center py-5">
+            <div class="spinner-border text-danger"></div>
+          </div>
+        }
+
+        @if (!isLoading) {
+          <div class="products-grid">
+            @for (producto of productosPaginados; track producto.id) {
+              <app-producto-card
+                [producto]="producto"
+                (agregarAlCarrito)="onAgregarCarrito($event)"
+                (agregarDeseados)="onAgregarDeseos($event)"
+                (compartir)="onCompartir($event)"
+              >
+              </app-producto-card>
+            }
+          </div>
+        }
+
         @if (totalPages > 1) {
           <nav class="d-flex justify-content-center mt-5" aria-label="Paginación de productos">
             <ul class="pagination mb-0">
